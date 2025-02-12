@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -210,6 +211,7 @@ class RemoteServices {
             : AppServer.getHttpHeadersWithToken());
     if (response.statusCode == 200) {
       final data = response.data;
+      log("somen ${jsonEncode(response.data)}");
       return Right(ProductModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
@@ -254,6 +256,7 @@ class RemoteServices {
 
     if (response.statusCode == 200) {
       final data = response.data;
+      log("somen fetchChildrenVariation ${jsonEncode(response.data)}");
       return Right(ChildrenVariationModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
