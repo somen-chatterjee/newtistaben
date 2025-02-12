@@ -38,6 +38,7 @@ class Datum {
     final int? discountPercentage;
     final String? sku;
     final int? stock;
+    int numOfItem;
 
     Datum({
         this.id,
@@ -53,6 +54,7 @@ class Datum {
         this.discountPercentage,
         this.sku,
         this.stock,
+        this.numOfItem = 0,
     });
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -69,6 +71,7 @@ class Datum {
         discountPercentage: json["discount_percentage"],
         sku: json["sku"],
         stock: json["stock"],
+        numOfItem: json["num_of_item"] ?? 0,
     );
 
     Map<String, dynamic> toJson() => {
@@ -85,5 +88,6 @@ class Datum {
         "discount_percentage": discountPercentage,
         "sku": sku,
         "stock": stock,
+        "num_of_item": numOfItem,
     };
 }

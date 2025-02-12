@@ -1279,382 +1279,391 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                                 /*old UI for select quantity*/
 
-                                CustomText(
-                                  text: "QUANTITY".tr,
-                                  size: 14.sp,
-                                  weight: FontWeight.w600,
-                                ),
-                                SizedBox(height: 8.h),
-                                Row(
+
+
+                              if((productDetailsController
+                                  .initialVariationModel.value.data ?? []).isEmpty)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      width: 99.w,
-                                      height: 36.h,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20.r),
-                                        color: AppColor.cartColor,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          GestureDetector(
-                                              onTap: () {
-                                                // Variation is not empty
-                                                if (productDetailsController
-                                                        .initialVariationModel
-                                                        .value
-                                                        .data!
-                                                        .isNotEmpty ||
-                                                    productDetailsController
-                                                            .initialVariationModel
-                                                            .value
-                                                            .data!.isNotEmpty) {
-                                                  if (productDetailsController
-                                                          .variationsStock
-                                                          .value <
-                                                      0) {
-                                                  } else {
-                                                    if (cartController
-                                                            .numOfItems.value >
-                                                        1) {
-                                                      cartController
-                                                          .numOfItems.value--;
-                                                    } else {}
-                                                  }
-                                                }
-                                                // Initial Variation null
-                                                else {
-                                                  if (productDetailsController
-                                                              .productModel
-                                                              .value
-                                                              .data!
-                                                              .stock! >
-                                                          1 &&
-                                                      cartController.numOfItems
-                                                              .value >
-                                                          1) {
-                                                    cartController
-                                                        .numOfItems.value--;
-                                                  } else {}
-                                                }
-                                              },
-                                              child:
-
-                                                  // Intial variation null
-                                                  productDetailsController
-                                                                  .initialVariationModel
-                                                                  .value
-                                                                  .data ==
-                                                              null ||
-                                                          productDetailsController
-                                                              .initialVariationModel
-                                                              .value
-                                                              .data!
-                                                              .isEmpty
-                                                      ? productDetailsController
-                                                                      .productModel
-                                                                      .value
-                                                                      .data!
-                                                                      .stock! >
-                                                                  1 &&
-                                                              cartController
-                                                                      .numOfItems
-                                                                      .value >
-                                                                  1
-                                                          ?
-                                                          // decrement active
-                                                          SvgPicture.asset(SvgIcon.decrement,
-                                                              color:
-                                                                  Colors.black,
-                                                              height: 20.h,
-                                                              width: 20.w)
-                                                          :
-
-                                                          // decrement inActive
-                                                          SvgPicture.asset(
-                                                              SvgIcon.decrement,
-                                                              color: Colors.grey,
-                                                              height: 20.h,
-                                                              width: 20.w)
-                                                      :
-
-                                                      // Intial variation Not null
-
-                                                      productDetailsController.variationsStock.value != -1
-                                                          ? cartController.numOfItems.value == 1 || productDetailsController.variationsStock.value == 1
-                                                              ? SvgPicture.asset(SvgIcon.decrement, color: Colors.grey, height: 20.h, width: 20.w)
-                                                              : SvgPicture.asset(SvgIcon.decrement, height: 20.h, width: 20.w)
-                                                          : SvgPicture.asset(SvgIcon.decrement, height: 20.h, width: 20.w, color: Colors.grey)),
-                                          Obx(
-                                            () => CustomText(
-                                                text: cartController
-                                                    .numOfItems.value
-                                                    .toString(),
-                                                size: 18.sp,
-                                                weight: FontWeight.w600),
+                                    CustomText(
+                                      text: "QUANTITY".tr,
+                                      size: 14.sp,
+                                      weight: FontWeight.w600,
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: 99.w,
+                                          height: 36.h,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20.r),
+                                            color: AppColor.cartColor,
                                           ),
-                                          GestureDetector(
-                                              onTap: () {
-                                                if (productDetailsController
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              GestureDetector(
+                                                  onTap: () {
+                                                    // Variation is not empty
+                                                    if (productDetailsController
                                                             .initialVariationModel
                                                             .value
-                                                            .data !=
-                                                        null ||
-                                                    productDetailsController
-                                                        .initialVariationModel
-                                                        .value
-                                                        .data!
-                                                        .isNotEmpty) {
-                                                  if (productDetailsController
-                                                          .variationsStock
-                                                          .value <
-                                                      0) {
-                                                  } else {
-                                                    if (cartController
-                                                            .numOfItems.value <
+                                                            .data!
+                                                            .isNotEmpty ||
                                                         productDetailsController
-                                                            .variationsStock
-                                                            .value) {
-                                                      // maximum product quantity null
+                                                                .initialVariationModel
+                                                                .value
+                                                                .data!.isNotEmpty) {
                                                       if (productDetailsController
-                                                              .productModel
-                                                              .value
-                                                              .data!
-                                                              .maximumPurchaseQuantity ==
-                                                          null) {
-                                                        cartController
-                                                            .numOfItems.value++;
+                                                              .variationsStock
+                                                              .value <
+                                                          0) {
                                                       } else {
                                                         if (cartController
-                                                                .numOfItems
-                                                                .value <
-                                                            productDetailsController
-                                                                .productModel
-                                                                .value
-                                                                .data!
-                                                                .maximumPurchaseQuantity!) {
+                                                                .numOfItems.value >
+                                                            1) {
                                                           cartController
-                                                              .numOfItems
-                                                              .value++;
-                                                        } else {
-                                                          customSnackbar(
-                                                              "INFO".tr,
-                                                              "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED"
-                                                                  .tr,
-                                                              AppColor
-                                                                  .redColor);
-                                                        }
+                                                              .numOfItems.value--;
+                                                        } else {}
                                                       }
-                                                    } else {}
-                                                  }
-                                                }
+                                                    }
+                                                    // Initial Variation null
+                                                    else {
+                                                      if (productDetailsController
+                                                                  .productModel
+                                                                  .value
+                                                                  .data!
+                                                                  .stock! >
+                                                              1 &&
+                                                          cartController.numOfItems
+                                                                  .value >
+                                                              1) {
+                                                        cartController
+                                                            .numOfItems.value--;
+                                                      } else {}
+                                                    }
+                                                  },
+                                                  child:
 
-                                                // initial variaiton null
-
-                                                if (productDetailsController
-                                                        .productModel
-                                                        .value
-                                                        .data!
-                                                        .stock! >
-                                                    0) {
-                                                  // If numOfitem is less than stock - Increment
-
-                                                  if (cartController
-                                                          .numOfItems.value <
+                                                      // Intial variation null
                                                       productDetailsController
-                                                          .productModel
-                                                          .value
-                                                          .data!
-                                                          .stock!) {
-                                                    // Maximum purchase quantity null
+                                                                      .initialVariationModel
+                                                                      .value
+                                                                      .data ==
+                                                                  null ||
+                                                              productDetailsController
+                                                                  .initialVariationModel
+                                                                  .value
+                                                                  .data!
+                                                                  .isEmpty
+                                                          ? productDetailsController
+                                                                          .productModel
+                                                                          .value
+                                                                          .data!
+                                                                          .stock! >
+                                                                      1 &&
+                                                                  cartController
+                                                                          .numOfItems
+                                                                          .value >
+                                                                      1
+                                                              ?
+                                                              // decrement active
+                                                              SvgPicture.asset(SvgIcon.decrement,
+                                                                  color:
+                                                                      Colors.black,
+                                                                  height: 20.h,
+                                                                  width: 20.w)
+                                                              :
+
+                                                              // decrement inActive
+                                                              SvgPicture.asset(
+                                                                  SvgIcon.decrement,
+                                                                  color: Colors.grey,
+                                                                  height: 20.h,
+                                                                  width: 20.w)
+                                                          :
+
+                                                          // Intial variation Not null
+
+                                                          productDetailsController.variationsStock.value != -1
+                                                              ? cartController.numOfItems.value == 1 || productDetailsController.variationsStock.value == 1
+                                                                  ? SvgPicture.asset(SvgIcon.decrement, color: Colors.grey, height: 20.h, width: 20.w)
+                                                                  : SvgPicture.asset(SvgIcon.decrement, height: 20.h, width: 20.w)
+                                                              : SvgPicture.asset(SvgIcon.decrement, height: 20.h, width: 20.w, color: Colors.grey)),
+                                              Obx(
+                                                () => CustomText(
+                                                    text: cartController
+                                                        .numOfItems.value
+                                                        .toString(),
+                                                    size: 18.sp,
+                                                    weight: FontWeight.w600),
+                                              ),
+                                              GestureDetector(
+                                                  onTap: () {
+                                                    if (productDetailsController
+                                                                .initialVariationModel
+                                                                .value
+                                                                .data !=
+                                                            null ||
+                                                        productDetailsController
+                                                            .initialVariationModel
+                                                            .value
+                                                            .data!
+                                                            .isNotEmpty) {
+                                                      if (productDetailsController
+                                                              .variationsStock
+                                                              .value <
+                                                          0) {
+                                                      } else {
+                                                        if (cartController
+                                                                .numOfItems.value <
+                                                            productDetailsController
+                                                                .variationsStock
+                                                                .value) {
+                                                          // maximum product quantity null
+                                                          if (productDetailsController
+                                                                  .productModel
+                                                                  .value
+                                                                  .data!
+                                                                  .maximumPurchaseQuantity ==
+                                                              null) {
+                                                            cartController
+                                                                .numOfItems.value++;
+                                                          } else {
+                                                            if (cartController
+                                                                    .numOfItems
+                                                                    .value <
+                                                                productDetailsController
+                                                                    .productModel
+                                                                    .value
+                                                                    .data!
+                                                                    .maximumPurchaseQuantity!) {
+                                                              cartController
+                                                                  .numOfItems
+                                                                  .value++;
+                                                            } else {
+                                                              customSnackbar(
+                                                                  "INFO".tr,
+                                                                  "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED"
+                                                                      .tr,
+                                                                  AppColor
+                                                                      .redColor);
+                                                            }
+                                                          }
+                                                        } else {}
+                                                      }
+                                                    }
+
+                                                    // initial variaiton null
+
                                                     if (productDetailsController
                                                             .productModel
                                                             .value
                                                             .data!
-                                                            .maximumPurchaseQuantity ==
-                                                        null) {
-                                                      cartController
-                                                          .numOfItems.value++;
-                                                    } else {
+                                                            .stock! >
+                                                        0) {
+                                                      // If numOfitem is less than stock - Increment
+
                                                       if (cartController
-                                                              .numOfItems
-                                                              .value <
+                                                              .numOfItems.value <
                                                           productDetailsController
                                                               .productModel
                                                               .value
                                                               .data!
-                                                              .maximumPurchaseQuantity!) {
-                                                        cartController
-                                                            .numOfItems.value++;
-                                                      } else {
-                                                        customSnackbar(
-                                                            "INFO".tr,
-                                                            "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED"
-                                                                .tr,
-                                                            AppColor.redColor);
+                                                              .stock!) {
+                                                        // Maximum purchase quantity null
+                                                        if (productDetailsController
+                                                                .productModel
+                                                                .value
+                                                                .data!
+                                                                .maximumPurchaseQuantity ==
+                                                            null) {
+                                                          cartController
+                                                              .numOfItems.value++;
+                                                        } else {
+                                                          if (cartController
+                                                                  .numOfItems
+                                                                  .value <
+                                                              productDetailsController
+                                                                  .productModel
+                                                                  .value
+                                                                  .data!
+                                                                  .maximumPurchaseQuantity!) {
+                                                            cartController
+                                                                .numOfItems.value++;
+                                                          } else {
+                                                            customSnackbar(
+                                                                "INFO".tr,
+                                                                "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED"
+                                                                    .tr,
+                                                                AppColor.redColor);
+                                                          }
+                                                        }
                                                       }
                                                     }
-                                                  }
-                                                }
-                                              },
-                                              child:
+                                                  },
+                                                  child:
 
-                                                  // Intial variation null
-                                                  productDetailsController.initialVariationModel.value.data == null ||
-                                                          productDetailsController
-                                                              .initialVariationModel
-                                                              .value
-                                                              .data!
-                                                              .isEmpty
-                                                      ? productDetailsController
-                                                                      .productModel
-                                                                      .value
-                                                                      .data!
-                                                                      .stock! >
-                                                                  1 &&
-                                                              cartController
-                                                                      .numOfItems
-                                                                      .value <
-                                                                  productDetailsController
-                                                                      .productModel
-                                                                      .value
-                                                                      .data!
-                                                                      .stock!
-                                                          ?
-                                                          // Iccrement active
-                                                          SvgPicture.asset(SvgIcon.increment,
-                                                              color: AppColor
-                                                                  .primaryColor,
-                                                              height: 20.h,
-                                                              width: 20.w)
-                                                          :
+                                                      // Intial variation null
+                                                      productDetailsController.initialVariationModel.value.data == null ||
+                                                              productDetailsController
+                                                                  .initialVariationModel
+                                                                  .value
+                                                                  .data!
+                                                                  .isEmpty
+                                                          ? productDetailsController
+                                                                          .productModel
+                                                                          .value
+                                                                          .data!
+                                                                          .stock! >
+                                                                      1 &&
+                                                                  cartController
+                                                                          .numOfItems
+                                                                          .value <
+                                                                      productDetailsController
+                                                                          .productModel
+                                                                          .value
+                                                                          .data!
+                                                                          .stock!
+                                                              ?
+                                                              // Iccrement active
+                                                              SvgPicture.asset(SvgIcon.increment,
+                                                                  color: AppColor
+                                                                      .primaryColor,
+                                                                  height: 20.h,
+                                                                  width: 20.w)
+                                                              :
 
-                                                          // Increment inActive
-                                                          SvgPicture.asset(
-                                                              SvgIcon.increment,
-                                                              height: 20.h,
-                                                              width: 20.w,
-                                                              color: Colors.grey)
-                                                      : productDetailsController.variationsStock.value != -1
-                                                          ? cartController.numOfItems.value == productDetailsController.variationsStock.value || productDetailsController.variationsStock.value == 0
-                                                              ? SvgPicture.asset(SvgIcon.increment, color: Colors.grey, height: 20.h, width: 20.w)
-                                                              : SvgPicture.asset(SvgIcon.increment, color: AppColor.primaryColor, height: 20.h, width: 20.w)
-                                                          : SvgPicture.asset(SvgIcon.increment, height: 20.h, width: 20.w, color: Colors.grey))
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: 8.w),
-                                    Obx(
-                                      () => productDetailsController
+                                                              // Increment inActive
+                                                              SvgPicture.asset(
+                                                                  SvgIcon.increment,
+                                                                  height: 20.h,
+                                                                  width: 20.w,
+                                                                  color: Colors.grey)
+                                                          : productDetailsController.variationsStock.value != -1
+                                                              ? cartController.numOfItems.value == productDetailsController.variationsStock.value || productDetailsController.variationsStock.value == 0
+                                                                  ? SvgPicture.asset(SvgIcon.increment, color: Colors.grey, height: 20.h, width: 20.w)
+                                                                  : SvgPicture.asset(SvgIcon.increment, color: AppColor.primaryColor, height: 20.h, width: 20.w)
+                                                              : SvgPicture.asset(SvgIcon.increment, height: 20.h, width: 20.w, color: Colors.grey))
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        Obx(
+                                          () => productDetailsController
+                                                          .initialVariationModel
+                                                          .value
+                                                          .data ==
+                                                      null ||
+                                                  productDetailsController
                                                       .initialVariationModel
                                                       .value
-                                                      .data ==
-                                                  null ||
-                                              productDetailsController
-                                                  .initialVariationModel
-                                                  .value
-                                                  .data!
-                                                  .isEmpty
-                                          ? productDetailsController
-                                                      .productModel
-                                                      .value
                                                       .data!
-                                                      .stock! >
-                                                  0
-                                              ? Row(
-                                                  children: [
-                                                    TextWidget(
-                                                      text: "Available:".tr,
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                    TextWidget(
-                                                        text:
-                                                            " (${productDetailsController.productModel.value.data?.stock}) ",
-                                                        fontSize: 16.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                    TextWidget(
-                                                      text:
-                                                          productDetailsController
-                                                              .productModel
-                                                              .value
-                                                              .data
-                                                              ?.unit
-                                                              ?.toLowerCase(),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 14.sp,
-                                                    )
-                                                  ],
-                                                )
-                                              : productDetailsController
+                                                      .isEmpty
+                                              ? productDetailsController
                                                           .productModel
                                                           .value
                                                           .data!
-                                                          .stock! ==
+                                                          .stock! >
                                                       0
-                                                  ? TextWidget(
-                                                      text: "Stock Out".tr,
-                                                      color: AppColor.redColor,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 14.sp,
+                                                  ? Row(
+                                                      children: [
+                                                        TextWidget(
+                                                          text: "Available:".tr,
+                                                          fontSize: 14.sp,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                        TextWidget(
+                                                            text:
+                                                                " (${productDetailsController.productModel.value.data?.stock}) ",
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight.w600),
+                                                        TextWidget(
+                                                          text:
+                                                              productDetailsController
+                                                                  .productModel
+                                                                  .value
+                                                                  .data
+                                                                  ?.unit
+                                                                  ?.toLowerCase(),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14.sp,
+                                                        )
+                                                      ],
                                                     )
-                                                  : const SizedBox()
-
-                                          // inital variation not null
-
-                                          : productDetailsController
-                                                      .variationsStock.value >
-                                                  0
-                                              ? Row(
-                                                  children: [
-                                                    TextWidget(
-                                                      text: "Available:".tr,
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                    TextWidget(
-                                                        text:
-                                                            " (${productDetailsController.variationsStock.value}) ",
-                                                        fontSize: 16.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                    TextWidget(
-                                                      text:
-                                                          productDetailsController
+                                                  : productDetailsController
                                                               .productModel
                                                               .value
-                                                              .data
-                                                              ?.unit
-                                                              ?.toLowerCase(),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 14.sp,
-                                                    )
-                                                  ],
-                                                )
+                                                              .data!
+                                                              .stock! ==
+                                                          0
+                                                      ? TextWidget(
+                                                          text: "Stock Out".tr,
+                                                          color: AppColor.redColor,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14.sp,
+                                                        )
+                                                      : const SizedBox()
+
+                                              // inital variation not null
+
                                               : productDetailsController
-                                                          .variationsStock
-                                                          .value ==
+                                                          .variationsStock.value >
                                                       0
-                                                  ? TextWidget(
-                                                      text: "Stock Out".tr,
-                                                      color: AppColor.redColor,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 14.sp,
+                                                  ? Row(
+                                                      children: [
+                                                        TextWidget(
+                                                          text: "Available:".tr,
+                                                          fontSize: 14.sp,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                        TextWidget(
+                                                            text:
+                                                                " (${productDetailsController.variationsStock.value}) ",
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight.w600),
+                                                        TextWidget(
+                                                          text:
+                                                              productDetailsController
+                                                                  .productModel
+                                                                  .value
+                                                                  .data
+                                                                  ?.unit
+                                                                  ?.toLowerCase(),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14.sp,
+                                                        )
+                                                      ],
                                                     )
-                                                  : const SizedBox(),
+                                                  : productDetailsController
+                                                              .variationsStock
+                                                              .value ==
+                                                          0
+                                                      ? TextWidget(
+                                                          text: "Stock Out".tr,
+                                                          color: AppColor.redColor,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14.sp,
+                                                        )
+                                                      : const SizedBox(),
+                                        ),
+                                      ],
                                     ),
+                                    SizedBox(height: 32.h),
                                   ],
                                 ),
-                                SizedBox(height: 32.h),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -1664,7 +1673,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         width: 165.w,
                                         icon: SvgIcon.bag,
                                         text: "ADD_TO_CART".tr,
-                                        buttonColor: productDetailsController
+                                        buttonColor: productDetailsController.hasItemsInCart()
+                                            ? AppColor.primaryColor
+                                            : AppColor.grayColor,
+                                        /*productDetailsController
                                                         .initialVariationModel
                                                         .value
                                                         .data ==
@@ -1689,8 +1701,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                         .variationsStock.value >
                                                     0
                                                 ? AppColor.primaryColor
-                                                : AppColor.grayColor,
-                                        onTap: () async {
+                                                : AppColor.grayColor,*/
+                                        onTap: () {
+                                          productDetailsController.getOrderDetails();
+                                        },
+                                      /*async {
                                           if (productDetailsController
                                                       .initialVariationModel
                                                       .value
@@ -1930,7 +1945,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               }
                                             } else {}
                                           }
-                                        }),
+                                        },*/
+                                    ),
                                     InkWell(
                                       onTap: () async {
                                         if (box.read('isLogedIn') != false) {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/cart/model/product_model.dart';
 import 'package:shopperz/app/modules/product_details/model/children_variation.dart';
@@ -174,4 +176,36 @@ class ProductDetailsController extends GetxController {
       finalVariationString = response.data["data"];
     }
   }
+
+  bool enableAddToCart =  false;
+
+  void incrementDecrementQty({required int index, required bool isIncrement}) {
+    childrenVariationModel1.update((model) {
+      if (model != null && model.data != null && index < model.data!.length) {
+        if (isIncrement) {
+          // Increase numOfItem but not exceed stock
+          if (model.data![index].numOfItem < model.data![index].stock!) {
+            model.data![index].numOfItem++;
+          }
+        } else {
+          // Decrease numOfItem but not go below 0
+          if (model.data![index].numOfItem > 0) {
+            model.data![index].numOfItem--;
+          }
+        }
+      }
+    });
+  }
+
+  bool hasItemsInCart() {
+    return childrenVariationModel1.value.data?.any((item) => item.numOfItem > 0) ?? false;
+  }
+
+  void getOrderDetails() {
+    print("somen ${jsonEncode(initialVariationModel.value.data![selectedIndex1.value])}");
+    print("somen ${jsonEncode(childrenVariationModel1.value.data!)}");
+
+  }
+
+
 }
