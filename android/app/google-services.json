@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "142323472",
+    "project_id": "tistabene-f58a4",
+    "storage_bucket": "tistabene-f58a4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142323472:android:fa6690e068dae663a23f95",
+        "android_client_info": {
+          "package_name": "com.inilabs.shopking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBevU1E54_Djbi-mcYAP9O_KIwtvJvKMxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
