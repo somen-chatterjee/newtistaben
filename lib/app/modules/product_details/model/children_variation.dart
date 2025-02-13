@@ -30,11 +30,11 @@ class Datum {
     final int? productAttributeOptionId;
     final String? productAttributeName;
     final String? productAttributeOptionName;
-    final int? price;
+    final dynamic price;
     final String? currencyPrice;
     final int? oldPrice;
     final String? oldCurrencyPrice;
-    final int? discount;
+    final dynamic discount;
     final int? discountPercentage;
     final String? sku;
     final int? stock;

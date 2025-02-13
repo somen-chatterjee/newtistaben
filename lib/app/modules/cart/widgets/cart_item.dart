@@ -53,7 +53,7 @@ class _CartWidgetState extends State<CartWidget> {
     return Column(
       children: [
         SizedBox(
-          height: 115.h,
+          height: 125.h,
           width: double.infinity,
           child: Row(
             children: [

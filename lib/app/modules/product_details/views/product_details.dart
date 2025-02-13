@@ -1673,7 +1673,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         width: 165.w,
                                         icon: SvgIcon.bag,
                                         text: "ADD_TO_CART".tr,
-                                        buttonColor: productDetailsController.hasItemsInCart()
+                                        buttonColor: productDetailsController.hasItemsForCart()
                                             ? AppColor.primaryColor
                                             : AppColor.grayColor,
                                         /*productDetailsController
@@ -1719,6 +1719,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             if (productDetailsController
                                                     .variationsStock.value >
                                                 0) {
+
+                                              // for finalVariationString
                                               await productDetailsController
                                                   .finalVariation(
                                                       id: productDetailsController
@@ -1759,11 +1761,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               }).toList();
 
                                               cartController.addItem(
-                                                  variationStock: productDetailsController.variationsStock.value
+                                                /*get*/ variationStock: productDetailsController.variationsStock.value
                                                       .toInt(),
                                                   product: productDetailsController
                                                       .productModel.value,
-                                                  variationId: productDetailsController.initialVariationModel.value.data == null ||
+                                                 /*get*/ variationId: productDetailsController.initialVariationModel.value.data == null ||
                                                           productDetailsController
                                                               .initialVariationModel
                                                               .value
@@ -1782,14 +1784,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                           .shipping!
                                                           .shippingCost,
                                                   finalVariation: productDetailsController.finalVariationString,
-                                                  sku: productDetailsController.variationsku.value,
+                                                 /*get*/ sku: productDetailsController.variationsku.value,
                                                   taxJson: taxMap,
-                                                  stock: productDetailsController.variationsStock.value,
+                                                  /*get*/ stock: productDetailsController.variationsStock.value,
                                                   shipping: productDetailsController.productModel.value.data?.shipping,
-                                                  productVariationPrice: productDetailsController.variationProductPrice.value,
-                                                  productVariationOldPrice: productDetailsController.variationProductOldPrice.value,
-                                                  productVariationCurrencyPrice: productDetailsController.variationProductCurrencyPrice.value,
-                                                  productVariationOldCurrencyPrice: productDetailsController.variationProductOldCurrencyPrice.value,
+                                                  /*get*/ productVariationPrice: productDetailsController.variationProductPrice.value,
+                                                  /*get*/ productVariationOldPrice: productDetailsController.variationProductOldPrice.value,
+                                                  /*get*/ productVariationCurrencyPrice: productDetailsController.variationProductCurrencyPrice.value,
+                                                  /*get*/ productVariationOldCurrencyPrice: productDetailsController.variationProductOldCurrencyPrice.value,
                                                   totalTax: cartController.totalIndividualProductTax,
                                                   flatShippingCost: authController.settingModel?.data?.shippingSetupFlatRateWiseCost.toString() ?? "0");
 

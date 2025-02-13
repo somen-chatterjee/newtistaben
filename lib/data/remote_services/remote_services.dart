@@ -256,7 +256,6 @@ class RemoteServices {
 
     if (response.statusCode == 200) {
       final data = response.data;
-      log("somen fetchChildrenVariation ${jsonEncode(response.data)}");
       return Right(ChildrenVariationModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
