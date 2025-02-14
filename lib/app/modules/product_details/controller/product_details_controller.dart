@@ -115,7 +115,7 @@ class ProductDetailsController extends GetxController {
       childrenVariationModel1.value = childrenData;
       productDetailsList.clear();
       childrenVariationModel1.value.data
-          ?.map((value) => productDetailsList.add(ProductDetails()))
+          ?.map((value) => productDetailsList.add(null))
           .toList();
     });
   }
@@ -235,9 +235,9 @@ class ProductDetailsController extends GetxController {
           }
         } else {
           // Decrease numOfItem but not go below 0
-          if (model.data![index].numOfItem > 1) {
+          if (model.data![index].numOfItem > 0) {
             model.data![index].numOfItem--;
-            // if(model.data![index].numOfItem == 0) {
+            if(model.data![index].numOfItem == 0) {
             //   variationProductId.value = '';
             //   variationProductPrice.value = '';
             //   variationProductCurrencyPrice.value = '';
@@ -245,8 +245,8 @@ class ProductDetailsController extends GetxController {
             //   variationProductOldCurrencyPrice.value = '';
             //   variationsku.value = '';
             //   variationsStock.value = -1;
-            //   productDetailsList.removeAt(index);
-            // }
+              productDetailsList[index] = null;
+            }
           }
         }
       }
@@ -259,7 +259,7 @@ class ProductDetailsController extends GetxController {
         false;
   }
 
-  List<ProductDetails> productDetailsList = [];
+  List<ProductDetails?> productDetailsList = [];
 
   void productCalculation(int index) async {
     final cartController = Get.find<CartController>();
@@ -322,39 +322,46 @@ class ProductDetailsController extends GetxController {
     final authController = Get.find<AuthController>();
 
     // print("somen getOrderDetails ${jsonEncode(initialVariationModel.value)}");
-    log("somen getOrderDetails ${jsonEncode(productDetailsList)}");
+    // log("somen getOrderDetails ${jsonEncode(productDetailsList)}");
 
+    // check items for further process.
     if (hasItemsForCart()) {
       for (var details in productDetailsList) {
-        cartController.addItem(
-          variationStock: details.variationStock,
-          product: details.product ?? ProductModel(),
-          variationId: details.variationId,
-          shippingAmount: details.shippingAmount,
-          finalVariation: details.finalVariation,
-          sku: details.sku,
-          taxJson: details.taxJson,
-          stock: details.stock,
-          shipping: details.shipping,
-          productVariationPrice: details.productVariationPrice,
-          productVariationOldPrice: details.productVariationOldPrice,
-          productVariationCurrencyPrice: details.productVariationCurrencyPrice,
-          productVariationOldCurrencyPrice:
-              details.productVariationOldCurrencyPrice,
-          totalTax: details.totalTax,
-          flatShippingCost: details.flatShippingCost,
-        );
+        if (details != null) {
+          cartController.numOfItems.value = details.numOfItems ?? 1;
 
-        cartController.calculateShippingCharge(
-            shippingMethodStatus: authController.shippingMethod,
-            shippingType:
-                details.product?.data?.shipping?.shippingType.toString() ?? "0",
-            isProductQntyMultiply: details
-                    .product?.data?.shipping?.isProductQuantityMultiply
-                    .toString() ??
-                "0",
-            flatShippingCharge: authController
-                .settingModel?.data?.shippingSetupFlatRateWiseCost);
+          // adding multiple items to cart
+          cartController.addItem(
+            variationStock: details.variationStock,
+            product: details.product ?? ProductModel(),
+            variationId: details.variationId,
+            shippingAmount: details.shippingAmount,
+            finalVariation: details.finalVariation,
+            sku: details.sku,
+            taxJson: details.taxJson,
+            stock: details.stock,
+            shipping: details.shipping,
+            productVariationPrice: details.productVariationPrice,
+            productVariationOldPrice: details.productVariationOldPrice,
+            productVariationCurrencyPrice: details
+                .productVariationCurrencyPrice,
+            productVariationOldCurrencyPrice:
+            details.productVariationOldCurrencyPrice,
+            totalTax: details.totalTax,
+            flatShippingCost: details.flatShippingCost,
+          );
+
+          cartController.calculateShippingCharge(
+              shippingMethodStatus: authController.shippingMethod,
+              shippingType:
+              details.product?.data?.shipping?.shippingType.toString() ?? "0",
+              isProductQntyMultiply: details
+                  .product?.data?.shipping?.isProductQuantityMultiply
+                  .toString() ??
+                  "0",
+              flatShippingCharge: authController
+                  .settingModel?.data?.shippingSetupFlatRateWiseCost);
+        }
       }
 
       if (cartController.isProductAdded) {

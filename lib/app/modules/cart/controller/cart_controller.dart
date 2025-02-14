@@ -197,7 +197,6 @@ class CartController extends GetxController {
       String? flatShippingCharge}) {
     productShippingCharge = 0;
     for (var item in cartItems) {
-      print("somen shipping ${item.flatShippingCharge}");
       if (shippingMethodStatus == "5") {
         shippingMethod = "5";
         if (item.product.data?.shipping?.shippingType == 10 &&
