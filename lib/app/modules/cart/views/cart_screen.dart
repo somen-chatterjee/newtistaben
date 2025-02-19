@@ -143,68 +143,68 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
               ),
-              Stack(
+              Container(
                 alignment: Alignment.bottomCenter,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const DeviderWidget(),
-                      SizedBox(height: 16.h),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextWidget(
-                              text: 'Subtotal'.tr,
+                color: AppColor.whiteColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const DeviderWidget(),
+                    SizedBox(height: 16.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextWidget(
+                            text: 'Subtotal'.tr,
+                            color: AppColor.textColor,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          Obx(
+                            () => TextWidget(
+                              text:
+                                  '${authController.currency}${cartController.totalPrice.toStringAsFixed(2)}',
                               color: AppColor.textColor,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
                             ),
-                            Obx(
-                              () => TextWidget(
-                                text:
-                                    '${authController.currency}${cartController.totalPrice.toStringAsFixed(2)}',
-                                color: AppColor.textColor,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
-                          ],
-                        ),
+                          )
+                        ],
                       ),
-                      SizedBox(height: 16.h),
-                      InkWell(
-                        onTap: () {
-                          if (cartController.cartItems.isEmpty) {
-                            customSnackbar(
-                              "ERROR".tr,
-                              "Your cart is empty",
-                              AppColor.error,
-                            );
-                          } else {
-                            Get.to(() => box.read("isLogedIn") != false
-                                ? const ShippingInformationScreen()
-                                : const SignInScreen());
-                          }
-                        },
-                        child: const PrimaryButton(
-                          text: 'Procced to Checkout',
-                        ),
+                    ),
+                    SizedBox(height: 16.h),
+                    InkWell(
+                      onTap: () {
+                        if (cartController.cartItems.isEmpty) {
+                          customSnackbar(
+                            "ERROR".tr,
+                            "Your cart is empty",
+                            AppColor.error,
+                          );
+                        } else {
+                          Get.to(() => box.read("isLogedIn") != false
+                              ? const ShippingInformationScreen()
+                              : const SignInScreen());
+                        }
+                      },
+                      child: const PrimaryButton(
+                        text: 'Procced to Checkout',
                       ),
-                      SizedBox(height: 12.h),
-                      TextWidget(
-                        text:
-                            'Shipping, Taxes & Discount Calculate at Checkout',
-                        color: AppColor.textColor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      SizedBox(height: 40.h),
-                    ],
-                  ),
-                ],
+                    ),
+                    SizedBox(height: 12.h),
+                    TextWidget(
+                      text:
+                          'Shipping, Taxes & Discount Calculate at Checkout',
+                      color: AppColor.textColor,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(height: 40.h),
+                  ],
+                ),
               )
             ],
           ),

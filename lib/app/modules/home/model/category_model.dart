@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:shopperz/app/modules/category/model/category_tree.dart';
+
 CategoryModel categoryModelFromJson(String str) =>
     CategoryModel.fromJson(json.decode(str));
 
@@ -39,6 +41,7 @@ class Datum {
   final int? parentId;
   final String? thumb;
   final String? cover;
+  final List<CategoryTreeModel>? children;
 
   Datum({
     this.id,
@@ -50,6 +53,7 @@ class Datum {
     this.parentId,
     this.thumb,
     this.cover,
+    this.children,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -62,6 +66,10 @@ class Datum {
         parentId: json["parent_id"],
         thumb: json["thumb"],
         cover: json["cover"],
+        children: json["children"] == null
+            ? []
+            : List<CategoryTreeModel>.from(
+            json["children"]!.map((x) => CategoryTreeModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -74,5 +82,8 @@ class Datum {
         "parent_id": parentId,
         "thumb": thumb,
         "cover": cover,
+        "children": children == null
+            ? []
+            : List<dynamic>.from(children!.map((x) => x.toJson())),
       };
 }
