@@ -27,6 +27,7 @@ class CategoryTreeModel {
   final dynamic depth;
   final String? path;
   final String? cover;
+  final String? thumb;
   final List<CategoryTreeModel>? children;
   final List<Media>? media;
 
@@ -46,6 +47,7 @@ class CategoryTreeModel {
     this.depth,
     this.path,
     this.cover,
+    this.thumb,
     this.children,
     this.media,
   });
@@ -71,6 +73,7 @@ class CategoryTreeModel {
         depth: json["depth"],
         path: json["path"],
         cover: json["cover"],
+        thumb: json["thumb"],
         children: json["children"] == null
             ? []
             : List<CategoryTreeModel>.from(
@@ -96,6 +99,7 @@ class CategoryTreeModel {
         "depth": depth,
         "path": path,
         "cover": cover,
+        "thumb": thumb,
         "children": children == null
             ? []
             : List<dynamic>.from(children!.map((x) => x.toJson())),

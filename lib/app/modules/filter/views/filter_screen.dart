@@ -34,8 +34,16 @@ class _FilterScreenState extends State<FilterScreen> {
   bool select = false;
 
   @override
+  void dispose() {
+    filterController.resetFilter();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final attributeKey = cateWiseProductController.variationsMap!.keys.toList();
+
+    print("sam $attributeKey");
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(

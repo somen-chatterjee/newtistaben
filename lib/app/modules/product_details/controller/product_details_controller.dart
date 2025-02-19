@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/auth/controller/auth_controler.dart';

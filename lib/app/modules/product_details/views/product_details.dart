@@ -427,7 +427,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   color: const Color(0xFFEFF0F6),
                                 ),
                                 SizedBox(height: 15.h),
-                              Variations(),
+                                Variations(),
 
 
                                  /*new Ui for bulk order*/

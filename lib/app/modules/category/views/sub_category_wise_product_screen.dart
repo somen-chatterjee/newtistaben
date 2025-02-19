@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:shopperz/app/modules/auth/views/sign_in.dart';
+import 'package:shopperz/app/modules/category/controller/sub_category_wise_product_controller.dart';
 import 'package:shopperz/app/modules/category/model/category_tree.dart';
 import 'package:shopperz/app/modules/category/views/category_wise_product_screen.dart';
 import 'package:shopperz/app/modules/filter/controller/filter_controller.dart';
@@ -24,10 +25,9 @@ import '../../../../utils/svg_icon.dart';
 import '../../../../widgets/textwidget.dart';
 import '../../filter/views/filter_screen.dart';
 import '../../product/widgets/product.dart';
-import '../controller/category_wise_product_controller.dart';
 
-class CategoryWiseProductSubCategory extends StatefulWidget {
-  const CategoryWiseProductSubCategory(
+class SubCategoryWiseProductScreen extends StatefulWidget {
+  const SubCategoryWiseProductScreen(
       {super.key, this.categoryTreeModel, this.categoryModel, this.brandName});
 
   final CategoryTreeModel? categoryTreeModel;
@@ -37,15 +37,15 @@ class CategoryWiseProductSubCategory extends StatefulWidget {
   final int length = 0;
 
   @override
-  State<CategoryWiseProductSubCategory> createState() =>
-      _CategoryWiseProductSubCategoryState();
+  State<SubCategoryWiseProductScreen> createState() =>
+      _SubCategoryWiseProductScreenState();
 }
 
-class _CategoryWiseProductSubCategoryState
-    extends State<CategoryWiseProductSubCategory> {
+class _SubCategoryWiseProductScreenState
+    extends State<SubCategoryWiseProductScreen> {
   final filterController = Get.put(FilterController());
   final productSearchController = Get.put(ProductSearchController());
-  final cateWiseProductController = Get.put(CategoryWiseProductController());
+  final cateWiseProductController = Get.put(SubCategoryWiseProductController());
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _CategoryWiseProductSubCategoryState
 
   @override
   Widget build(BuildContext context) {
-    final cateWiseProductController = Get.find<CategoryWiseProductController>();
+    final cateWiseProductController = Get.find<SubCategoryWiseProductController>();
     final wishlistController = Get.find<WishlistController>();
     final filterController = Get.put(FilterController());
 
@@ -167,7 +167,7 @@ class _CategoryWiseProductSubCategoryState
               ),
             ),
             Obx(() {
-              if(cateWiseProductController.isLaoding.value == false) {
+              if(!cateWiseProductController.isLaoding.value) {
                 return SizedBox(
                 height: 120.h,
                 width: double.infinity,
@@ -184,10 +184,34 @@ class _CategoryWiseProductSubCategoryState
                         padding: EdgeInsets.only(right: 12.w),
                         child: InkWell(
                           onTap: () {
-                            // Get.to(
-                            //       () => CategoryWiseProductScreen(
-                            //       categoryModel: category),
-                            // );
+                            Get.to(
+                              () => CategoryWiseProductScreen(
+                                categoryTreeModel: category.children![index],
+                              ),
+                            )!.then((_) {
+                              // for reset the filters
+                              if (filterController.homeBrands == null) {
+                                cateWiseProductController.resetState();
+                                cateWiseProductController.fetchCategoryWiseProduct(
+                                  categorySlug:
+                                  widget.categoryTreeModel?.slug ?? widget.categoryModel?.slug ?? '',
+                                  sortBy: filterController.selectedOption.value.trim(),
+                                  brands: filterController.brands,
+                                  variatons: filterController.encodeVaritionObject,
+                                  name: productSearchController.searchTextController.text.toString(),
+                                );
+                              } else {
+                                cateWiseProductController.resetState();
+                                cateWiseProductController.fetchCategoryWiseProduct(
+                                    categorySlug: widget.categoryTreeModel?.slug ??
+                                        widget.categoryModel?.slug ??
+                                        '',
+                                    sortBy: filterController.selectedOption.value.trim(),
+                                    brands: filterController.homeBrands,
+                                    variatons: filterController.encodeVaritionObject,
+                                    name: productSearchController.searchTextController.text.toString());
+                              }
+                            });
                           },
                           child: Container(
                             height: 85.h,
@@ -206,7 +230,7 @@ class _CategoryWiseProductSubCategoryState
                             child: Column(
                               children: [
                                 CachedNetworkImage(
-                                  imageUrl: category.children![index].cover
+                                  imageUrl: category.children![index].thumb
                                       .toString(),
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
@@ -255,7 +279,10 @@ class _CategoryWiseProductSubCategoryState
                 ),
               );
               } else {
-                return const CategoriesSectionShimmer();
+                return Padding(
+                  padding: EdgeInsets.only(top: 20.h,left: 16.w),
+                  child: const CategoriesSectionShimmer(),
+                );
               }
             }),
             Expanded(
