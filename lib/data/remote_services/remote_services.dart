@@ -108,7 +108,6 @@ class RemoteServices {
         endPoint: ApiList.productCategory, headers: AppServer.getAuthHeaders());
     if (response.statusCode == 200) {
       final data = response.data;
-      log("sam fetchCategory ${jsonEncode(data)}");
       return Right(CategoryModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
@@ -193,21 +192,8 @@ class RemoteServices {
           "page": page,
         });
 
-    log("sam fetchCategoryWiseProduct ${jsonEncode({
-      "category": category,
-      "brand": brands,
-      "status": 5,
-      "sort_by": sortBy ?? "",
-      "min_price": minPrice,
-      "max_price": maxPrice,
-      "name": name,
-      "variation": variations,
-      "page": page,
-    })}");
-
     if (response.statusCode == 200) {
       final data = response.data;
-      log("sam fetchCategoryWiseProduct ${jsonEncode(data)}");
       categoryWiseProductController.variationsMap = data["data"]["variations"];
       return Right(CategoryWiseProduct.fromJson(data));
     } else {

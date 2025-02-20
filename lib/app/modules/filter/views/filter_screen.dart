@@ -42,9 +42,6 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     final attributeKey = cateWiseProductController.variationsMap!.keys.toList();
-
-    print("sam $attributeKey");
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
