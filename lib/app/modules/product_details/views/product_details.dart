@@ -1703,6 +1703,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 ? AppColor.primaryColor
                                                 : AppColor.grayColor,*/
                                         onTap: () {
+                                          // need to check stocks and other things before adding to cart
                                           productDetailsController.getOrderDetails();
                                         },
                                       /*async {
