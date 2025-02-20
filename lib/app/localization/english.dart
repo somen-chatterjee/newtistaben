@@ -352,4 +352,5 @@ Map<String, String> english = {
   'COUNTRY':'Country',
   'STATE':'State',
   'CITY':'City',
+  'Reset':'Reset',
 };

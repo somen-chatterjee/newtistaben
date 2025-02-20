@@ -347,4 +347,5 @@ Map<String, String> bangla = {
   'COUNTRY': 'দেশ',
   'STATE': 'রাজ্য',
   'CITY': 'শহর',
+  'Reset': 'রিসেট',
 };

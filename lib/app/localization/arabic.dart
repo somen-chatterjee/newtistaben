@@ -350,4 +350,5 @@ Map<String, String> arabic = {
   'COUNTRY': 'بلد',
   'STATE': 'ولاية',
   'CITY': 'مدينة',
+  'Reset': 'إعادة ضبط',
 };

@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/auth/controller/auth_controler.dart';
 import 'package:shopperz/app/modules/cart/controller/cart_controller.dart';
@@ -230,6 +231,8 @@ class ProductDetailsController extends GetxController {
                 '';
 
             productCalculation(index);
+          } else {
+            debugPrint("Stock not available.");
           }
         } else {
           // Decrease numOfItem but not go below 0

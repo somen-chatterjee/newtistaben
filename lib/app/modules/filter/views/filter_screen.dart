@@ -8,6 +8,7 @@ import 'package:shopperz/app/modules/filter/widgets/brands_widget.dart';
 import 'package:shopperz/app/modules/filter/widgets/sort_by_widget.dart';
 import 'package:shopperz/utils/svg_icon.dart';
 import 'package:shopperz/widgets/custom_text.dart';
+import 'package:shopperz/widgets/primary_button.dart';
 import 'package:shopperz/widgets/textwidget.dart';
 import '../../../../config/theme/app_color.dart';
 import '../../../../widgets/devider.dart';
@@ -196,6 +197,35 @@ class _FilterScreenState extends State<FilterScreen> {
                 ),
               ],
             ),
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+          child: Row(
+            children: [
+              Expanded(
+                child: PrimaryButton(
+                  width: double.infinity,
+                  height: 48,
+                  text: 'Reset'.tr,
+                    onTap: () {
+                      filterController.resetFilter();
+                      setState(() {});
+                    }
+                ),
+              ),
+              SizedBox(width: 16.w),
+              Expanded(
+                child: PrimaryButton(
+                  width: double.infinity,
+                  height: 48,
+                  text: 'Apply'.tr,
+                  onTap: () {
+                    Get.back();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
