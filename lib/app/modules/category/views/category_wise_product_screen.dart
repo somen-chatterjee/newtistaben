@@ -137,13 +137,17 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.to(() => FilterScreen(
-                                cateWiseProductModel: cateWiseProductController
-                                    .categoryWiseProductModel.value.data,
-                              ))!
-                          .then((value) {
-                        setState(() {});
-                      });
+                      if(cateWiseProductController
+                          .categoryWiseProductModel.value.data != null) {
+                        Get.to(() =>
+                            FilterScreen(
+                              cateWiseProductModel: cateWiseProductController
+                                  .categoryWiseProductModel.value.data,
+                            ))!
+                            .then((value) {
+                              setState(() {});
+                            });
+                      }
                     },
                     child: SvgPicture.asset(
                       SvgIcon.filter,

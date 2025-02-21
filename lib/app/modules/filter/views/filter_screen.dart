@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/category/model/category_wise_product.dart';
 import 'package:shopperz/app/modules/filter/widgets/brands_widget.dart';
+import 'package:shopperz/app/modules/filter/widgets/price_range_widget.dart';
 import 'package:shopperz/app/modules/filter/widgets/sort_by_widget.dart';
 import 'package:shopperz/utils/svg_icon.dart';
 import 'package:shopperz/widgets/custom_text.dart';
@@ -89,7 +90,8 @@ class _FilterScreenState extends State<FilterScreen> {
               children: [
                 const SortByWidget(),
                 const DeviderWidget(),
-                BrandListWidget(cateWiseProduct: widget.cateWiseProductModel),
+                PriceRangeWidget(cateWiseProduct: widget.cateWiseProductModel),
+                // BrandListWidget(cateWiseProduct: widget.cateWiseProductModel),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -195,6 +197,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     );
                   },
                 ),
+                const DeviderWidget(),
+
               ],
             ),
           ),
