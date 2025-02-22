@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FilterController extends GetxController {
+class SubCategoryFilterController extends GetxController {
   final selectedOption = "".obs;
   final selectedBrandIndex = 0.obs;
   final brandIndexList = <String>[];
@@ -43,12 +43,12 @@ class FilterController extends GetxController {
 
   void addVariationObject(variationObject) {
     final int? incomingAttribute =
-    int.tryParse(variationObject['attribute'].toString());
+        int.tryParse(variationObject['attribute'].toString());
     final int? incomingOption =
-    int.tryParse(variationObject['option'].toString());
+        int.tryParse(variationObject['option'].toString());
 
     bool exists = variationObjectList.any((item) =>
-    item['attribute'] is int &&
+        item['attribute'] is int &&
         item['option'] is int &&
         item['attribute'] == incomingAttribute &&
         item['option'] == incomingOption);

@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/category/model/category_wise_product.dart';
+import 'package:shopperz/app/modules/home_sub_category/controller/sub_category_filter_controller.dart';
 
 import '../../../../config/theme/app_color.dart';
 import '../../../../utils/svg_icon.dart';
 import '../../../../widgets/devider.dart';
 import '../../../../widgets/textwidget.dart';
-import '../controller/filter_controller.dart';
 
 class PriceRangeWidget extends StatefulWidget {
   const PriceRangeWidget({super.key, this.cateWiseProduct});
@@ -20,7 +20,7 @@ class PriceRangeWidget extends StatefulWidget {
 }
 
 class _PriceRangeWidgetState extends State<PriceRangeWidget> {
-  final filterContrller = Get.put(FilterController());
+  final filterContrller = Get.put(SubCategoryFilterController());
   bool isExpanded = false;
   bool select = false;
 
@@ -40,8 +40,8 @@ class _PriceRangeWidgetState extends State<PriceRangeWidget> {
         var maxPrice = filterContrller.maxRange ?? widget.cateWiseProduct!.maxPrice!;
 
         filterContrller.currentRangeValues = RangeValues(
-          minPrice.toDouble(),
-          maxPrice.toDouble(),
+            minPrice.toDouble(),
+            maxPrice.toDouble(),
         );
 
         filterContrller.minPriceTextController.text = minPrice.toString();

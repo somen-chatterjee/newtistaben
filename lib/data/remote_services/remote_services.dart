@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/cart/model/product_model.dart';
 import 'package:shopperz/app/modules/category/controller/category_wise_product_controller.dart';
+import 'package:shopperz/app/modules/home_sub_category/controller/sub_category_wise_product_controller.dart';
 import 'package:shopperz/app/modules/category/model/category_tree.dart';
 import 'package:shopperz/app/modules/category/model/category_wise_product.dart';
 import 'package:shopperz/app/modules/coupon/model/apply_coupon.dart';
@@ -208,6 +209,59 @@ class RemoteServices {
       final data = response.data;
       log("sam fetchCategoryWiseProduct ${jsonEncode(data)}");
       categoryWiseProductController.variationsMap = data["data"]["variations"];
+      return Right(CategoryWiseProduct.fromJson(data));
+    } else {
+      return const Left("Something went wrong.");
+    }
+  }
+
+
+  final subCategoryWiseProductController =
+  Get.put(SubCategoryWiseProductController());
+  Future<Either<String, CategoryWiseProduct>> fetchSubCategoryWiseProduct({
+    final category,
+    String? brands,
+    status,
+    String? sortBy,
+    minPrice,
+    maxPrice,
+    String? name,
+    variations,
+    int? page,
+  }) async {
+    final response = await server.postRequest(
+        endPoint: ApiList.categoryWiseProduct,
+        headers: box.read('isLogedIn') == false
+            ? AppServer.getAuthHeaders()
+            : AppServer.getHttpHeadersWithToken(),
+        body: {
+          "category": category,
+          "brand": brands,
+          "status": 5,
+          "sort_by": sortBy ?? "",
+          "min_price": minPrice,
+          "max_price": maxPrice,
+          "name": name,
+          "variation": variations,
+          "page": page,
+        });
+
+    log("sam fetchSubCategoryWiseProduct ${{
+      "category": category,
+      "brand": brands,
+      "status": 5,
+      "sort_by": sortBy ?? "",
+      "min_price": minPrice,
+      "max_price": maxPrice,
+      "name": name,
+      "variation": variations,
+      "page": page,
+    }}");
+
+    if (response.statusCode == 200) {
+      final data = response.data;
+      log("sam fetchSubCategoryWiseProduct ${jsonEncode(data)}");
+      subCategoryWiseProductController.variationsMap = data["data"]["variations"];
       return Right(CategoryWiseProduct.fromJson(data));
     } else {
       return const Left("Something went wrong.");

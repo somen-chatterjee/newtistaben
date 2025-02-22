@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shopperz/app/modules/category/views/sub_category_wise_product_screen.dart';
+import 'package:shopperz/app/modules/home_sub_category/views/sub_category_wise_product_screen.dart';
 import 'package:shopperz/app/modules/home/controller/category_controller.dart';
 import 'package:shopperz/widgets/textwidget.dart';
 import '../../../../config/theme/app_color.dart';

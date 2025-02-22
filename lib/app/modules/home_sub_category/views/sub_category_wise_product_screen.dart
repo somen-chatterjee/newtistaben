@@ -7,11 +7,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:shopperz/app/modules/auth/views/sign_in.dart';
-import 'package:shopperz/app/modules/category/controller/sub_category_wise_product_controller.dart';
+import 'package:shopperz/app/modules/home_sub_category/controller/sub_category_wise_product_controller.dart';
 import 'package:shopperz/app/modules/category/model/category_tree.dart';
 import 'package:shopperz/app/modules/category/views/category_wise_product_screen.dart';
-import 'package:shopperz/app/modules/filter/controller/filter_controller.dart';
+import 'package:shopperz/app/modules/home_sub_category/controller/sub_category_filter_controller.dart';
 import 'package:shopperz/app/modules/home/model/category_model.dart';
+import 'package:shopperz/app/modules/home_sub_category/views/sub_category_filter_screen.dart';
 import 'package:shopperz/app/modules/search/controller/search_controller.dart';
 import 'package:shopperz/app/modules/wishlist/controller/wishlist_controller.dart';
 import 'package:shopperz/app/modules/product_details/views/product_details.dart';
@@ -23,7 +24,6 @@ import 'package:shopperz/widgets/shimmer/trendy_collections_shimmer.dart';
 import '../../../../config/theme/app_color.dart';
 import '../../../../utils/svg_icon.dart';
 import '../../../../widgets/textwidget.dart';
-import '../../filter/views/filter_screen.dart';
 import '../../product/widgets/product.dart';
 
 class SubCategoryWiseProductScreen extends StatefulWidget {
@@ -43,7 +43,7 @@ class SubCategoryWiseProductScreen extends StatefulWidget {
 
 class _SubCategoryWiseProductScreenState
     extends State<SubCategoryWiseProductScreen> {
-  final filterController = Get.put(FilterController());
+  final subCategoryFilterController = Get.put(SubCategoryFilterController());
   final productSearchController = Get.put(ProductSearchController());
   final cateWiseProductController = Get.put(SubCategoryWiseProductController());
 
@@ -59,7 +59,7 @@ class _SubCategoryWiseProductScreenState
 
   @override
   void dispose() {
-    filterController.resetFilter();
+    subCategoryFilterController.resetFilter();
     cateWiseProductController.resetState();
     super.dispose();
   }
@@ -68,7 +68,7 @@ class _SubCategoryWiseProductScreenState
   Widget build(BuildContext context) {
     final cateWiseProductController = Get.find<SubCategoryWiseProductController>();
     final wishlistController = Get.find<WishlistController>();
-    final filterController = Get.put(FilterController());
+    final filterController = Get.put(SubCategoryFilterController());
 
     if (filterController.homeBrands == null) {
       cateWiseProductController.resetState();
@@ -78,6 +78,8 @@ class _SubCategoryWiseProductScreenState
         sortBy: filterController.selectedOption.value.trim(),
         brands: filterController.brands,
         variatons: filterController.encodeVaritionObject,
+        minPrice: filterController.minRange,
+        maxPrice: filterController.maxRange,
         name: productSearchController.searchTextController.text.toString(),
       );
     } else {
@@ -89,6 +91,8 @@ class _SubCategoryWiseProductScreenState
           sortBy: filterController.selectedOption.value.trim(),
           brands: filterController.homeBrands,
           variatons: filterController.encodeVaritionObject,
+          minPrice: filterController.minRange,
+          maxPrice: filterController.maxRange,
           name: productSearchController.searchTextController.text.toString());
     }
 
@@ -151,7 +155,7 @@ class _SubCategoryWiseProductScreenState
                       if(cateWiseProductController
                           .categoryWiseProductModel.value.data != null) {
                         Get.to(() =>
-                            FilterScreen(
+                            SubCategoryFilterScreen(
                               cateWiseProductModel: cateWiseProductController
                                   .categoryWiseProductModel.value.data,
                             ))!
@@ -191,30 +195,31 @@ class _SubCategoryWiseProductScreenState
                               () => CategoryWiseProductScreen(
                                 categoryTreeModel: category.children![index],
                               ),
-                            )!.then((_) {
-                              // for reset the filters
-                              if (filterController.homeBrands == null) {
-                                cateWiseProductController.resetState();
-                                cateWiseProductController.fetchCategoryWiseProduct(
-                                  categorySlug:
-                                  widget.categoryTreeModel?.slug ?? widget.categoryModel?.slug ?? '',
-                                  sortBy: filterController.selectedOption.value.trim(),
-                                  brands: filterController.brands,
-                                  variatons: filterController.encodeVaritionObject,
-                                  name: productSearchController.searchTextController.text.toString(),
-                                );
-                              } else {
-                                cateWiseProductController.resetState();
-                                cateWiseProductController.fetchCategoryWiseProduct(
-                                    categorySlug: widget.categoryTreeModel?.slug ??
-                                        widget.categoryModel?.slug ??
-                                        '',
-                                    sortBy: filterController.selectedOption.value.trim(),
-                                    brands: filterController.homeBrands,
-                                    variatons: filterController.encodeVaritionObject,
-                                    name: productSearchController.searchTextController.text.toString());
-                              }
-                            });
+                            );
+                            //!.then((_) {
+                            //   // for reset the filters
+                            //   if (filterController.homeBrands == null) {
+                            //     cateWiseProductController.resetState();
+                            //     cateWiseProductController.fetchCategoryWiseProduct(
+                            //       categorySlug:
+                            //       widget.categoryTreeModel?.slug ?? widget.categoryModel?.slug ?? '',
+                            //       sortBy: filterController.selectedOption.value.trim(),
+                            //       brands: filterController.brands,
+                            //       variatons: filterController.encodeVaritionObject,
+                            //       name: productSearchController.searchTextController.text.toString(),
+                            //     );
+                            //   } else {
+                            //     cateWiseProductController.resetState();
+                            //     cateWiseProductController.fetchCategoryWiseProduct(
+                            //         categorySlug: widget.categoryTreeModel?.slug ??
+                            //             widget.categoryModel?.slug ??
+                            //             '',
+                            //         sortBy: filterController.selectedOption.value.trim(),
+                            //         brands: filterController.homeBrands,
+                            //         variatons: filterController.encodeVaritionObject,
+                            //         name: productSearchController.searchTextController.text.toString());
+                            //   }
+                            // });
                           },
                           child: Container(
                             height: 85.h,
@@ -301,6 +306,8 @@ class _SubCategoryWiseProductScreenState
                       sortBy: filterController.selectedOption.value.trim(),
                       brands: filterController.brands,
                       variatons: filterController.encodeVaritionObject,
+                      minPrice: filterController.minRange,
+                      maxPrice: filterController.maxRange,
                       name: productSearchController.searchTextController.text
                           .toString(),
                     );
@@ -313,6 +320,8 @@ class _SubCategoryWiseProductScreenState
                         sortBy: filterController.selectedOption.value.trim(),
                         brands: filterController.homeBrands,
                         variatons: filterController.encodeVaritionObject,
+                        minPrice: filterController.minRange,
+                        maxPrice: filterController.maxRange,
                         name: productSearchController.searchTextController.text
                             .toString());
                   }

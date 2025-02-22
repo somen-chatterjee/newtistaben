@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/data/remote_services/remote_services.dart';
 
-import '../model/category_wise_product.dart';
+import '../../category/model/category_wise_product.dart';
 
 class SubCategoryWiseProductController extends GetxController {
   ScrollController scrollController = ScrollController();
@@ -32,7 +32,7 @@ class SubCategoryWiseProductController extends GetxController {
     variatons,
   }) async {
     isLaoding(true);
-    final data = await RemoteServices().fetchCategoryWiseProduct(
+    final data = await RemoteServices().fetchSubCategoryWiseProduct(
       category: categorySlug,
       brands: brands,
       sortBy: sortBy,

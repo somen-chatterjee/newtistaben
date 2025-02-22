@@ -3,28 +3,28 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:shopperz/app/modules/home_sub_category/controller/sub_category_wise_product_controller.dart';
 import 'package:shopperz/app/modules/category/model/category_wise_product.dart';
-import 'package:shopperz/app/modules/filter/widgets/price_range_widget.dart';
-import 'package:shopperz/app/modules/filter/widgets/sort_by_widget.dart';
+import 'package:shopperz/app/modules/home_sub_category/widgets/price_range_widget.dart';
+import 'package:shopperz/app/modules/home_sub_category/widgets/sort_by_widget.dart';
+import 'package:shopperz/app/modules/home_sub_category/controller/sub_category_filter_controller.dart';
 import 'package:shopperz/utils/svg_icon.dart';
 import 'package:shopperz/widgets/custom_text.dart';
 import 'package:shopperz/widgets/primary_button.dart';
 import 'package:shopperz/widgets/textwidget.dart';
 import '../../../../config/theme/app_color.dart';
 import '../../../../widgets/devider.dart';
-import '../../category/controller/category_wise_product_controller.dart';
-import '../controller/filter_controller.dart';
 
-class FilterScreen extends StatefulWidget {
-  const FilterScreen({super.key, this.cateWiseProductModel});
+class SubCategoryFilterScreen extends StatefulWidget {
+  const SubCategoryFilterScreen({super.key, this.cateWiseProductModel});
   final Data? cateWiseProductModel;
   @override
-  State<FilterScreen> createState() => _FilterScreenState();
+  State<SubCategoryFilterScreen> createState() => _SubCategoryFilterScreenState();
 }
 
-class _FilterScreenState extends State<FilterScreen> {
-  final cateWiseProductController = Get.find<CategoryWiseProductController>();
-  final filterController = Get.find<FilterController>();
+class _SubCategoryFilterScreenState extends State<SubCategoryFilterScreen> {
+  final cateWiseProductController = Get.find<SubCategoryWiseProductController>();
+  final filterController = Get.find<SubCategoryFilterController>();
   var isExpanded = <int?>[];
 
 
@@ -76,13 +76,20 @@ class _FilterScreenState extends State<FilterScreen> {
                   var copyVariationIndexList = filterController.copyVariationIndexList;
                   var variationIndexList = filterController.variationIndexList;
 
+                  // print("sam $copyVariationIndexList");
+                  // print("sam $variationIndexList");
+
                   List<String> uncommonElements = (copyVariationIndexList.toSet().difference(variationIndexList.toSet()))
                       .union(variationIndexList.toSet().difference(copyVariationIndexList.toSet()))
                       .toList();
 
+                  // print("sam ${uncommonElements}");
+
                   for(var element in uncommonElements) {
                     filterController.variationIndexList.remove(element);
                   }
+                  // print("sam ${filterController.variationIndexList}");
+
 
                   Get.back();
                 },
@@ -117,7 +124,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       data: ThemeData()
                           .copyWith(dividerColor: Colors.transparent),
                       child: ExpansionTile(
-                          childrenPadding: EdgeInsets.zero,
+                        childrenPadding: EdgeInsets.zero,
                           tilePadding: EdgeInsets.zero,
                           onExpansionChanged: (value) {
                             if (isExpanded.contains(index)) {
@@ -170,7 +177,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                           // };
 
                                           filterController.addVariationId(value[
-                                          "product_attribute_option_id"]
+                                                  "product_attribute_option_id"]
                                               .toString());
 
                                           // filterController.addVariationObject(
@@ -178,9 +185,9 @@ class _FilterScreenState extends State<FilterScreen> {
                                         },
                                         child: SvgPicture.asset(
                                           filterController.variationIndexList
-                                              .contains(value[
-                                          "product_attribute_option_id"]
-                                              .toString())
+                                                  .contains(value[
+                                                          "product_attribute_option_id"]
+                                                      .toString())
                                               ? SvgIcon.checkActive
                                               : SvgIcon.check,
                                           height: 20.h,
@@ -221,9 +228,9 @@ class _FilterScreenState extends State<FilterScreen> {
             children: [
               Expanded(
                 child: PrimaryButton(
-                    width: double.infinity,
-                    height: 48,
-                    text: 'Reset'.tr,
+                  width: double.infinity,
+                  height: 48,
+                  text: 'Reset'.tr,
                     onTap: () {
                       filterController.resetFilter();
 
