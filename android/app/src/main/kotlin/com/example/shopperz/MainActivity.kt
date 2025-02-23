@@ -1,4 +1,4 @@
-package com.inilabs.shopking
+package com.mediabird.tistaben.wholesaler
 
 import io.flutter.embedding.android.FlutterActivity
 

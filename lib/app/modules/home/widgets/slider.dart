@@ -16,7 +16,7 @@ class SliderWidget extends StatelessWidget {
     final sliderController = Get.find<SliderController>();
 
     return Container(
-      height: 180.h,
+      height: 200.h,
       width: 328.w,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r)),
       child: Stack(
@@ -39,7 +39,7 @@ class SliderWidget extends StatelessWidget {
                 );
               },
               options: CarouselOptions(
-                height: 180.h,
+                height: 200.h,
                 viewportFraction: 1,
                 autoPlay: true,
                 enlargeCenterPage: true,

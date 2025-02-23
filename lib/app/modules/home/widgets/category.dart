@@ -15,7 +15,7 @@ class CategoryWidget extends StatelessWidget {
     final categoryController = Get.find<CategoryController>();
 
     return Container(
-      height: 120.h,
+      height: 140.h,
       width: double.infinity,
       color: AppColor.whiteColor, // white hobe
       child: Obx(() {
@@ -37,8 +37,8 @@ class CategoryWidget extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    height: 85.h,
-                    width: 72.w,
+                    height: 105.h,
+                    width: context.width/2 - 24.w,
                     decoration: BoxDecoration(
                       color: AppColor.whiteColor,
                       borderRadius: BorderRadius.circular(8.r),
@@ -55,7 +55,7 @@ class CategoryWidget extends StatelessWidget {
                         CachedNetworkImage(
                           imageUrl: category[index].thumb.toString(),
                           imageBuilder: (context, imageProvider) => Container(
-                            height: 50.h,
+                            height: 80.h,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
