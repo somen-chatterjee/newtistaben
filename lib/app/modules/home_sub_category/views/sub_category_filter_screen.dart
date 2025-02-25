@@ -31,6 +31,7 @@ class _SubCategoryFilterScreenState extends State<SubCategoryFilterScreen> {
   @override
   void initState() {
     super.initState();
+    filterController.updateVariationList();
   }
 
   bool select = false;
@@ -73,23 +74,22 @@ class _SubCategoryFilterScreenState extends State<SubCategoryFilterScreen> {
               child: InkWell(
                 onTap: () {
 
-                  var copyVariationIndexList = filterController.copyVariationIndexList;
-                  var variationIndexList = filterController.variationIndexList;
-
-                  // print("sam $copyVariationIndexList");
-                  // print("sam $variationIndexList");
-
-                  List<String> uncommonElements = (copyVariationIndexList.toSet().difference(variationIndexList.toSet()))
-                      .union(variationIndexList.toSet().difference(copyVariationIndexList.toSet()))
-                      .toList();
-
-                  // print("sam ${uncommonElements}");
-
-                  for(var element in uncommonElements) {
-                    filterController.variationIndexList.remove(element);
-                  }
-                  // print("sam ${filterController.variationIndexList}");
-
+                  // var copyVariationIndexList = filterController.copyVariationIndexList;
+                  // var variationIndexList = filterController.variationIndexList;
+                  //
+                  // // print("sam $copyVariationIndexList");
+                  // // print("sam $variationIndexList");
+                  //
+                  // List<String> uncommonElements = (copyVariationIndexList.toSet().difference(variationIndexList.toSet()))
+                  //     .union(variationIndexList.toSet().difference(copyVariationIndexList.toSet()))
+                  //     .toList();
+                  //
+                  // // print("sam ${uncommonElements}");
+                  //
+                  // for(var element in uncommonElements) {
+                  //   filterController.variationIndexList.remove(element);
+                  // }
+                  // // print("sam ${filterController.variationIndexList}");
 
                   Get.back();
                 },
@@ -167,27 +167,33 @@ class _SubCategoryFilterScreenState extends State<SubCategoryFilterScreen> {
                                     children: [
                                       InkWell(
                                         onTap: () {
+
+                                          var variationObject = {
+                                            "attribute":
+                                                value["product_attribute_id"],
+                                            "option": value[
+                                                "product_attribute_option_id"],
+                                          };
+
+                                          // filterController.addVariationId(variationObject);
+
+                                          // filterController.addVariationId(value[
+                                          //         "product_attribute_option_id"]
+                                          //     .toString());
+
+                                          filterController.addVariationObject(
+                                              variationObject);
+
                                           setState(() {});
 
-                                          // var variationObject = {
-                                          //   "attribute":
-                                          //       value["product_attribute_id"],
-                                          //   "option": value[
-                                          //       "product_attribute_option_id"],
-                                          // };
-
-                                          filterController.addVariationId(value[
-                                                  "product_attribute_option_id"]
-                                              .toString());
-
-                                          // filterController.addVariationObject(
-                                          //     variationObject);
                                         },
                                         child: SvgPicture.asset(
-                                          filterController.variationIndexList
-                                                  .contains(value[
-                                                          "product_attribute_option_id"]
-                                                      .toString())
+                                          filterController.checkVariationId({
+                                            "attribute":
+                                            value["product_attribute_id"],
+                                            "option": value[
+                                            "product_attribute_option_id"],
+                                          })
                                               ? SvgIcon.checkActive
                                               : SvgIcon.check,
                                           height: 20.h,
@@ -245,33 +251,39 @@ class _SubCategoryFilterScreenState extends State<SubCategoryFilterScreen> {
                   height: 48,
                   text: 'Apply'.tr,
                   onTap: () {
-                    filterController.variationObjectList.clear();
-                    filterController.copyVariationIndexList.clear();
-
-                    // loop for set filter data
-                    for (int i = 0; i < attributeKey.length; i++) {
-                      final attributeOptions = cateWiseProductController
-                          .variationsMap![attributeKey[i]] as List<dynamic>;
-
-                      for (var variation in attributeOptions) {
-                        var productAttributeId = variation["product_attribute_id"];
-                        var productAttributeOptionId = variation['product_attribute_option_id'];
-
-
-                        if (filterController.variationIndexList.contains(
-                            productAttributeOptionId.toString())) {
-                          var variationObject = {
-                            "attribute": productAttributeId,
-                            "option": productAttributeOptionId,
-                          };
-
-                          filterController.addVariationObject(variationObject);
-
-                        }
-                      }
+                    if(filterController.variationObjectList.isNotEmpty) {
+                      filterController.setVariations();
                     }
 
-                    filterController.setRange();
+                    // filterController.variationObjectList.clear();
+                    // filterController.copyVariationIndexList.clear();
+                    //
+                    // // loop for set filter data
+                    // for (int i = 0; i < attributeKey.length; i++) {
+                    //   final attributeOptions = cateWiseProductController
+                    //       .variationsMap![attributeKey[i]] as List<dynamic>;
+                    //
+                    //   for (var variation in attributeOptions) {
+                    //     var productAttributeId = variation["product_attribute_id"];
+                    //     var productAttributeOptionId = variation['product_attribute_option_id'];
+                    //
+                    //
+                    //     if (filterController.variationIndexList.contains(
+                    //         productAttributeOptionId.toString())) {
+                    //       var variationObject = {
+                    //         "attribute": productAttributeId,
+                    //         "option": productAttributeOptionId,
+                    //       };
+                    //
+                    //       filterController.addVariationObject(variationObject);
+                    //
+                    //     }
+                    //   }
+                    // }
+
+                    if((filterController.currentRangeValues.start > 0 || filterController.currentRangeValues.end.round() < widget.cateWiseProductModel!.maxPrice!)) {
+                      filterController.setRange();
+                    }
 
                     Get.back();
                   },
