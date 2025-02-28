@@ -1,4 +1,4 @@
-package com.mediabird.tistaben.wholesaler
+package com.tistabene.wholesaler
 
 import io.flutter.embedding.android.FlutterActivity
 
