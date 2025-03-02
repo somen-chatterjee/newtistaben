@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/auth/controller/otp_controller.dart';
 import 'package:shopperz/app/modules/auth/views/forget_otp_screen.dart';
@@ -18,6 +19,7 @@ import 'package:shopperz/data/remote_services/remote_services.dart';
 import 'package:shopperz/main.dart';
 import 'package:shopperz/utils/api_list.dart';
 import 'package:shopperz/widgets/custom_snackbar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../data/server/app_server.dart';
 
 class AuthController extends GetxController {
@@ -590,5 +592,45 @@ class AuthController extends GetxController {
     }
     isLoading(false);
     update();
+  }
+
+  Widget whatAppIcon() {
+    return GestureDetector(
+      onTap: () {
+        if ((settingModel?.data?.companyCallingCode?.toString() ?? "")
+                .isNotEmpty &&
+            (settingModel?.data?.companyPhone?.toString() ?? "").isNotEmpty) {
+          openWhatsApp(
+              phoneNumber:
+                  "${settingModel?.data?.companyCallingCode}${settingModel?.data?.companyPhone}");
+        }
+      },
+      child: Image.asset(
+        "assets/images/whatsapp_icon.png",
+        width: 56.w,
+        height: 56.h,
+      ),
+    );
+  }
+
+  void openWhatsApp({required String phoneNumber, String? message}) async {
+    String url = "https://wa.me/$phoneNumber";
+
+    if (message != null && message.isNotEmpty) {
+      url = "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+    }
+
+    Uri uri = Uri.parse(url);
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint("Could not launch WhatsApp");
+      customSnackbar(
+        "ERROR".tr,
+        "Failed to launch WhatsApp. Try again later.",
+        AppColor.error,
+      );
+    }
   }
 }

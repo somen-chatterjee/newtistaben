@@ -44,6 +44,8 @@ class ApiList {
       "$baseUrl/api/frontend/product-category/tree?status=5";
   static const categoryWiseProduct =
       "$baseUrl/api/frontend/product/category-wise-products";
+  static const productsPdf =
+      "$baseUrl/api/frontend/product/products-pdf";
   static const aboutUs = "$baseUrl/api/frontend/page";
   static const productDetails = "$baseUrl/api/frontend/product/show/";
   static const flashSale = "$baseUrl/api/frontend/product/flash-sale-products";

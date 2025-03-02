@@ -59,7 +59,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   searchController.searchFromAllProduct(search);
                 },
                 onSubmitted: (value) {
-                  Get.to(() => const CategoryWiseProductScreen());
+                  if(value.isNotEmpty) {
+                    Get.to(() => const CategoryWiseProductScreen());
+                  }
                 },
                 decoration: InputDecoration(
                   contentPadding:

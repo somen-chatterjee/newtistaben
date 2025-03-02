@@ -7,3 +7,5 @@ const sortByList = [
   "Price High To Low",
   "Top Rated",
 ];
+
+const String subCategory = "sub-category";

@@ -193,21 +193,8 @@ class RemoteServices {
           "page": page,
         });
 
-    log("sam fetchCategoryWiseProduct ${{
-      "category": category,
-      "brand": brands,
-      "status": 5,
-      "sort_by": sortBy ?? "",
-      "min_price": minPrice,
-      "max_price": maxPrice,
-      "name": name,
-      "variation": variations,
-      "page": page,
-    }}");
-
     if (response.statusCode == 200) {
       final data = response.data;
-      log("sam fetchCategoryWiseProduct ${jsonEncode(data)}");
       categoryWiseProductController.variationsMap = data["data"]["variations"];
       return Right(CategoryWiseProduct.fromJson(data));
     } else {
@@ -246,7 +233,44 @@ class RemoteServices {
           "page": page,
         });
 
-    log("sam fetchSubCategoryWiseProduct ${{
+    if (response.statusCode == 200) {
+      final data = response.data;
+      subCategoryWiseProductController.variationsMap = data["data"]["variations"];
+      return Right(CategoryWiseProduct.fromJson(data));
+    } else {
+      return const Left("Something went wrong.");
+    }
+  }
+
+  Future<String> getProductsPdf({
+    final category,
+    String? brands,
+    status,
+    String? sortBy,
+    minPrice,
+    maxPrice,
+    String? name,
+    variations,
+    int? page,
+  }) async {
+    final response = await server.postRequest(
+        endPoint: ApiList.productsPdf,
+        headers: box.read('isLogedIn') == false
+            ? AppServer.getAuthHeaders()
+            : AppServer.getHttpHeadersWithToken(),
+        body: {
+          "category": category,
+          "brand": brands,
+          "status": 5,
+          "sort_by": sortBy ?? "",
+          "min_price": minPrice,
+          "max_price": maxPrice,
+          "name": name,
+          "variation": variations,
+          "page": page,
+        });
+
+    log("sam getProductsPdf ${{
       "category": category,
       "brand": brands,
       "status": 5,
@@ -260,11 +284,10 @@ class RemoteServices {
 
     if (response.statusCode == 200) {
       final data = response.data;
-      log("sam fetchSubCategoryWiseProduct ${jsonEncode(data)}");
-      subCategoryWiseProductController.variationsMap = data["data"]["variations"];
-      return Right(CategoryWiseProduct.fromJson(data));
+      log("sam getProductsPdf ${jsonEncode(data)}");
+      return data["pdf"];
     } else {
-      return const Left("Something went wrong.");
+      return "";
     }
   }
 

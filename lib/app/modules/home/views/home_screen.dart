@@ -765,6 +765,15 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            authController.whatAppIcon(),
+            SizedBox(
+              height: 80,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2230,6 +2230,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
             ),
+            floatingActionButton: authController.whatAppIcon(),
           );
         },
       ),
