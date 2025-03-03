@@ -26,6 +26,7 @@ import '../controller/category_wise_product_controller.dart';
 class CategoryWiseProductScreen extends StatefulWidget {
   const CategoryWiseProductScreen(
       {super.key, this.categoryTreeModel, this.categoryModel, this.brandName});
+
   final CategoryTreeModel? categoryTreeModel;
   final Datum? categoryModel;
   final String? brandName;
@@ -41,13 +42,15 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
   final filterController = Get.put(FilterController());
   final productSearchController = Get.put(ProductSearchController());
   final cateWiseProductController = Get.put(CategoryWiseProductController());
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       cateWiseProductController.resetState();
       cateWiseProductController.loadMoreData(
-          categorySlug:
-          widget.categoryTreeModel?.slug ?? widget.categoryModel?.slug ?? "");
+          categorySlug: widget.categoryTreeModel?.slug ??
+              widget.categoryModel?.slug ??
+              "");
     });
     super.initState();
   }
@@ -97,7 +100,23 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
       ),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBarWidget4(text: ''),
+        appBar: AppBarWidget4(
+          text: '',
+          showDownload: productSearchController.searchTextController.text
+              .toString()
+              .isNotEmpty,
+          onTap: () {
+            cateWiseProductController.getSearchProductPdf(
+              categorySlug: widget.categoryTreeModel?.slug ??
+                  widget.categoryModel?.slug ??
+                  '',
+              sortBy: filterController.selectedOption.value.trim(),
+              brands: filterController.homeBrands,
+              variations: filterController.encodeVaritionObject,
+              name: productSearchController.searchTextController.text.toString(),
+            );
+          },
+        ),
         body: Stack(
           children: [
             Column(
@@ -140,16 +159,19 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          if(cateWiseProductController
-                              .categoryWiseProductModel.value.data != null) {
-                            Get.to(() =>
-                                FilterScreen(
-                                  cateWiseProductModel: cateWiseProductController
-                                      .categoryWiseProductModel.value.data,
-                                ))!
+                          if (cateWiseProductController
+                                  .categoryWiseProductModel.value.data !=
+                              null) {
+                            Get.to(() => FilterScreen(
+                                      cateWiseProductModel:
+                                          cateWiseProductController
+                                              .categoryWiseProductModel
+                                              .value
+                                              .data,
+                                    ))!
                                 .then((value) {
-                                  setState(() {});
-                                });
+                              setState(() {});
+                            });
                           }
                         },
                         child: SvgPicture.asset(
@@ -174,7 +196,8 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                           sortBy: filterController.selectedOption.value.trim(),
                           brands: filterController.brands,
                           variatons: filterController.encodeVaritionObject,
-                          name: productSearchController.searchTextController.text
+                          name: productSearchController
+                              .searchTextController.text
                               .toString(),
                         );
                       } else {
@@ -183,10 +206,12 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                             categorySlug: widget.categoryTreeModel?.slug ??
                                 widget.categoryModel?.slug ??
                                 '',
-                            sortBy: filterController.selectedOption.value.trim(),
+                            sortBy:
+                                filterController.selectedOption.value.trim(),
                             brands: filterController.homeBrands,
                             variatons: filterController.encodeVaritionObject,
-                            name: productSearchController.searchTextController.text
+                            name: productSearchController
+                                .searchTextController.text
                                 .toString());
                       }
                     },
@@ -221,14 +246,16 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                       shrinkWrap: true,
                                       itemCount: cateWiseProductController
                                               .categoryWiseProductList.length +
-                                          (cateWiseProductController.hasMoreData ==
+                                          (cateWiseProductController
+                                                      .hasMoreData ==
                                                   true
                                               ? 1
                                               : 0),
                                       itemBuilder: (context, i) {
                                         if (i ==
                                             cateWiseProductController
-                                                .categoryWiseProductList.length) {
+                                                .categoryWiseProductList
+                                                .length) {
                                           return Shimmer.fromColors(
                                             baseColor: Colors.grey[200]!,
                                             highlightColor: Colors.grey[300]!,
@@ -240,7 +267,8 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                                     BorderRadius.circular(16.r),
                                                 color: Colors.white,
                                                 border: Border.all(
-                                                    color: AppColor.borderColor),
+                                                    color:
+                                                        AppColor.borderColor),
                                               ),
                                             ),
                                           );
@@ -295,11 +323,12 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                                             .id!);
                                                   }
                                                 } else {
-                                                  Get.to(
-                                                      () => const SignInScreen());
+                                                  Get.to(() =>
+                                                      const SignInScreen());
                                                 }
                                               },
-                                              wishlist: wishlistController.favList
+                                              wishlist: wishlistController
+                                                          .favList
                                                           .contains(
                                                               cateWiseProductController
                                                                   .categoryWiseProductList[
@@ -314,28 +343,36 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                                   : false,
                                               productImage:
                                                   cateWiseProductController
-                                                      .categoryWiseProductList[i]
+                                                      .categoryWiseProductList[
+                                                          i]
                                                       .cover
                                                       .toString(),
                                               title: cateWiseProductController
-                                                  .categoryWiseProductList[i].name,
+                                                  .categoryWiseProductList[i]
+                                                  .name,
                                               currentPrice:
                                                   cateWiseProductController
-                                                      .categoryWiseProductList[i]
+                                                      .categoryWiseProductList[
+                                                          i]
                                                       .currencyPrice,
                                               discountPrice:
                                                   cateWiseProductController
-                                                      .categoryWiseProductList[i]
+                                                      .categoryWiseProductList[
+                                                          i]
                                                       .discountedPrice,
                                               rating: cateWiseProductController
                                                   .categoryWiseProductList[i]
                                                   .ratingStar,
-                                              textRating: cateWiseProductController
-                                                  .categoryWiseProductList[i]
-                                                  .ratingStarCount,
-                                              flashSale: cateWiseProductController
-                                                  .categoryWiseProductList[i]
-                                                  .flashSale!,
+                                              textRating:
+                                                  cateWiseProductController
+                                                      .categoryWiseProductList[
+                                                          i]
+                                                      .ratingStarCount,
+                                              flashSale:
+                                                  cateWiseProductController
+                                                      .categoryWiseProductList[
+                                                          i]
+                                                      .flashSale!,
                                               isOffer: cateWiseProductController
                                                   .categoryWiseProductList[i]
                                                   .isOffer!,
@@ -349,77 +386,21 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
               ],
             ),
             Obx(() {
-                return cateWiseProductController.pdfLoading.value
-                    ? Container(
-                  color: AppColor.whiteColor.withValues(alpha: 0.5),
-                  child: Center(
-                    child: Image.asset(
-                      AppImages.loading,
-                      height: 35.h,
-                      width: 35.w,
-                    ),
-                  ),
-                )
-                : SizedBox();
+              return cateWiseProductController.pdfLoading.value
+                  ? Container(
+                      color: AppColor.whiteColor.withValues(alpha: 0.5),
+                      child: Center(
+                        child: Image.asset(
+                          AppImages.loading,
+                          height: 35.h,
+                          width: 35.w,
+                        ),
+                      ),
+                    )
+                  : SizedBox();
             })
           ],
         ),
-        floatingActionButton: productSearchController.searchTextController.text.toString().isNotEmpty 
-            ? Obx(() {
-                return !cateWiseProductController.pdfLoading.value
-                    ? Container(
-                          decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(50.r)),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColor.primaryColor.withOpacity(0.3),
-                    offset: const Offset(
-                      0.0,
-                      5.0,
-                    ),
-                    blurRadius: 10.r,
-                    spreadRadius: 2.r,
-                  ),
-                ],
-                          ),
-                          child: InkWell(
-                borderRadius: BorderRadius.circular(52.r),
-                onTap: () {
-                  cateWiseProductController.getSearchProductPdf(
-                      categorySlug: widget.categoryTreeModel?.slug ??
-                          widget.categoryModel?.slug ??
-                          '',
-                      sortBy: filterController.selectedOption.value.trim(),
-                      brands: filterController.homeBrands,
-                      variations: filterController.encodeVaritionObject,
-                      name: productSearchController.searchTextController.text.toString(),
-                  );
-                },
-                child: Container(
-                  height: 56.h,
-                  width: 56.w,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(18.h),
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    color: AppColor.primaryColor,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                        BoxShadow(
-                            color: AppColor.primaryColor.withOpacity(0.34),
-                            blurRadius: 10.r,
-                            offset: Offset(0, 6))
-                      ],
-                  ),
-                  child: SvgPicture.asset(
-                      "assets/icons/download.svg",
-                  ),
-                ),
-                          ),
-                        )
-                : SizedBox();
-            })
-        : SizedBox(),
       ),
     );
   }

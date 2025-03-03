@@ -155,6 +155,7 @@ class _ApplyCouponScreenState extends State<ApplyCouponScreen> {
                                 code:
                                     couponController.couponTextController.text,
                                 total: cartController.totalPrice.toString());
+
                             Get.back();
                           }
                         },

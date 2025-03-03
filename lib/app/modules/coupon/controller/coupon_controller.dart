@@ -46,6 +46,7 @@ class CouponController extends GetxController {
       applyCouponStatus.value = box.read("applyCoupon");
       customSnackbar("ERROR".tr, error, AppColor.error);
     }, (applyCoupon) {
+      print("Coupon response = ${applyCoupon.data!.code!}");
       applyCouponStatus.value = box.read("applyCoupon");
 
       couponSubmitLoader(false);

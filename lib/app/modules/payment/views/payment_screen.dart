@@ -6,6 +6,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/auth/controller/auth_controler.dart';
+import 'package:shopperz/app/modules/cart/model/cart_model.dart';
+import 'package:shopperz/app/modules/cart/model/product_model.dart';
 import 'package:shopperz/app/modules/payment/controller/payment_controller.dart';
 import 'package:shopperz/app/modules/payment/widgets/payment.dart';
 import 'package:shopperz/app/modules/profile/controller/profile_controller.dart';
@@ -304,6 +306,42 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "Please select payment method.".tr,
                                 AppColor.error);
                           } else {
+
+                            print("somen applyCouponStatus ${couponController.applyCouponStatus.value}");
+                            print("somen applyCouponModel ${couponController.applyCouponModel.value.data!.product!.name}");
+
+                            if(couponController.applyCouponStatus.value && couponController.applyCouponModel.value.data?.product != null) {
+                              var product = couponController.applyCouponModel.value.data?.product;
+                                cartController.cartItems.add(
+                                  CartModel(
+                                      product: ProductModel(
+                                        data: Data(
+                                          name: product?.name,
+                                          id: product?.id,
+                                          image: product?.image,
+                                          discount: product?.discount,
+                                        ),
+                                      ),
+                                      variationId: product?.variationId ?? 0,
+                                      quantity: product?.quantity ?? 0,
+                                      shippingCharge: product?.shipping?.shippingCost ?? "0.0",
+                                      finalVariationString: product?.variationNames ??
+                                          "null",
+                                      sku: product?.sku ?? "null",
+                                      taxObject: null,
+                                      stock: product?.stock,
+                                      variationPrice: double.parse((product?.price ?? 0.0).toString()),
+                                      variationOldPrice: product?.oldPrice,
+                                      variationCurrencyPrice: null,
+                                      variationOldCurrencyPrice: null,
+                                      shippingObject: product?.shipping,
+                                      totalProductTax: double.parse((product?.totalTax ?? 0.0).toString()),
+                                      flatShippingCharge: product?.shipping?.shippingCost ?? "0.0",
+                                      variationStock: 0,
+                                  ),
+                                );
+                            }
+
                             var confirmJsonData =
                                 cartController.cartItems.map((e) {
                               return {

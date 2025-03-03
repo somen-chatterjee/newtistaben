@@ -109,6 +109,13 @@ class CategoryWiseProductController extends GetxController {
       openPdf(url: data);
 
     } catch (e) {
+
+      customSnackbar(
+        "ERROR".tr,
+        "Failed to load the catalogue. Try again later.",
+        AppColor.error,
+      );
+
       debugPrint("sam $e");
       pdfLoading(false);
     }
@@ -126,7 +133,7 @@ class CategoryWiseProductController extends GetxController {
       debugPrint("Could not launch pdf");
       customSnackbar(
           "ERROR".tr,
-          "Failed to load the document. Try again later.",
+          "Failed to load the catalogue. Try again later.",
           AppColor.error,
       );
     }

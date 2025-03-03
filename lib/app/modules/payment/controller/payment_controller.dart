@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/auth/controller/auth_controler.dart';
+import 'package:shopperz/app/modules/cart/controller/cart_controller.dart';
+import 'package:shopperz/app/modules/coupon/controller/coupon_controller.dart';
 import 'package:shopperz/app/modules/payment/model/paymet_method.dart';
 import 'package:shopperz/app/modules/payment/views/payment_gateway_screen.dart';
 import 'package:shopperz/config/theme/app_color.dart';
@@ -15,6 +17,8 @@ class PaymentControllr extends GetxController {
   final isLoading = false.obs;
 
   final authController = Get.put(AuthController());
+  final couponController = Get.find<CouponController>();
+  final cartController = Get.find<CartController>();
 
   Future<void> fetchPaymentMethods() async {
     final result = await RemoteServices().fetchPaymentMethods();
@@ -116,6 +120,10 @@ class PaymentControllr extends GetxController {
         ));
 
       } else {
+        if(couponController.applyCouponStatus.value){
+          cartController.cartItems.removeLast();
+        }
+
         isLoading(false);
         Get.back();
         Future.delayed(const Duration(milliseconds: 10), () {
