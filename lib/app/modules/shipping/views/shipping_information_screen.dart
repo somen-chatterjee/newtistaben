@@ -715,7 +715,7 @@ class _ShippingInformationScreenState extends State<ShippingInformationScreen> {
                     },
                     child: Obx(
                       () => Container(
-                        height: 67.h,
+                        // height: 90.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: AppColor.whiteColor,
@@ -733,68 +733,86 @@ class _ShippingInformationScreenState extends State<ShippingInformationScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      SvgIcon.coupon,
-                                      color: couponController
-                                                  .applyCouponStatus.value ==
-                                              true
-                                          ? AppColor.greenColor
-                                          : null,
-                                      height: 24.h,
-                                      width: 24.h,
-                                    ),
-                                    SizedBox(
-                                      width: 12.w,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        couponController
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        SvgIcon.coupon,
+                                        color: couponController
                                                     .applyCouponStatus.value ==
-                                                false
-                                            ? TextWidget(
-                                                text:
-                                                    'Apply Promo, Coupon or Voucher'
-                                                        .tr,
-                                                color: AppColor.blueBorderColor,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w600,
-                                              )
-                                            : TextWidget(
-                                                text: 'Coupon Applied'.tr,
-                                                color: AppColor.greenColor,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                        SizedBox(
-                                          height: 4.h,
+                                                true
+                                            ? AppColor.greenColor
+                                            : null,
+                                        height: 24.h,
+                                        width: 24.h,
+                                      ),
+                                      SizedBox(
+                                        width: 12.w,
+                                      ),
+                                      Flexible(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            couponController
+                                                        .applyCouponStatus.value ==
+                                                    false
+                                                ? TextWidget(
+                                                    text:
+                                                        'Apply Promo, Coupon or Voucher'
+                                                            .tr,
+                                                    color: AppColor.blueBorderColor,
+                                                    fontSize: 14.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                  )
+                                                : TextWidget(
+                                                    text: 'Coupon Applied'.tr,
+                                                    color: AppColor.greenColor,
+                                                    fontSize: 14.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                            SizedBox(
+                                              height: 4.h,
+                                            ),
+                                            couponController
+                                                        .applyCouponStatus.value ==
+                                                    false
+                                                ? TextWidget(
+                                                    text:
+                                                        'Get discount with your order'
+                                                            .tr,
+                                                    color: AppColor.textColor,
+                                                    fontSize: 12.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                  )
+                                                : Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    TextWidget(
+                                                        text:
+                                                            '${'You saved'.tr} ${authController.settingModel!.data!.siteDefaultCurrencySymbol.toString()}${couponController.applyCouponModel.value.data?.convertDiscount!.toStringAsFixed(int.parse(authController.settingModel!.data!.siteDigitAfterDecimalPoint.toString())) ?? 0.0}',
+                                                        color: AppColor.textColor,
+                                                        fontSize: 12.sp,
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
+                                                    if(couponController.applyCouponModel.value.data?.product != null)
+                                                      TextWidget(
+                                                        text:
+                                                        '${couponController.applyCouponModel.value.data?.product?.name ?? ""} has been added',
+                                                        color: AppColor.textColor,
+                                                        fontSize: 12.sp,
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
+                                                  ],
+                                                ),
+                                          ],
                                         ),
-                                        couponController
-                                                    .applyCouponStatus.value ==
-                                                false
-                                            ? TextWidget(
-                                                text:
-                                                    'Get discount with your order'
-                                                        .tr,
-                                                color: AppColor.textColor,
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w400,
-                                              )
-                                            : TextWidget(
-                                                text:
-                                                    '${'You saved'.tr} ${authController.settingModel!.data!.siteDefaultCurrencySymbol.toString()}${couponController.applyCouponModel.value.data?.convertDiscount!.toStringAsFixed(int.parse(authController.settingModel!.data!.siteDigitAfterDecimalPoint.toString())) ?? 0.0}',
-                                                color: AppColor.textColor,
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 couponController.applyCouponStatus.value ==
                                         false

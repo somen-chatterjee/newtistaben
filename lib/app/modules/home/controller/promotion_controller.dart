@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/home/model/promotion_model.dart';
 import 'package:shopperz/app/modules/promotion/model/promotion_wise_product.dart';
+import 'package:shopperz/config/theme/app_color.dart';
 import 'package:shopperz/data/remote_services/remote_services.dart';
+import 'package:shopperz/widgets/custom_snackbar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PromotionalController extends GetxController {
   ScrollController scrollController = ScrollController();
@@ -65,6 +68,51 @@ class PromotionalController extends GetxController {
 
       promotionProductModel.value += data.data!;
     });
+  }
+
+  var pdfLoading = false.obs;
+
+  getPromotionProductPdf({required String promotionSlug}) async {
+    pdfLoading(true);
+    try {
+      final data = await RemoteServices().fetchPromotionPdfProduct(
+          promotionSlug: promotionSlug,
+          page: page.value,
+          paginate: paginate,
+          perPage: itemPerPage.value
+      );
+
+      openPdf(url: data);
+
+    } catch (e) {
+
+      customSnackbar(
+        "ERROR".tr,
+        "Failed to load the catalogue. Try again later.",
+        AppColor.error,
+      );
+
+      debugPrint("sam $e");
+      pdfLoading(false);
+    }
+
+    pdfLoading(false);
+  }
+
+  void openPdf({required String url}) async {
+
+    Uri uri = Uri.parse(url);
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint("Could not launch pdf");
+      customSnackbar(
+        "ERROR".tr,
+        "Failed to load the catalogue. Try again later.",
+        AppColor.error,
+      );
+    }
   }
 
   void loadMoreData({

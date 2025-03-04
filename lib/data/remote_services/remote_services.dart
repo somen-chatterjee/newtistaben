@@ -216,6 +216,18 @@ class RemoteServices {
     variations,
     int? page,
   }) async {
+    log("sam fetchSubCategoryWiseProduct ${jsonEncode({
+      "category": category,
+      "brand": brands,
+      "status": 5,
+      "sort_by": sortBy ?? "",
+      "min_price": minPrice,
+      "max_price": maxPrice,
+      "name": name,
+      "variation": variations,
+      "page": page,
+    })}");
+
     final response = await server.postRequest(
         endPoint: ApiList.categoryWiseProduct,
         headers: box.read('isLogedIn') == false
@@ -233,8 +245,12 @@ class RemoteServices {
           "page": page,
         });
 
+
+
     if (response.statusCode == 200) {
       final data = response.data;
+      log("sam fetchSubCategoryWiseProduct ${jsonEncode(data)}");
+
       subCategoryWiseProductController.variationsMap = data["data"]["variations"];
       return Right(CategoryWiseProduct.fromJson(data));
     } else {
@@ -253,6 +269,18 @@ class RemoteServices {
     variations,
     int? page,
   }) async {
+    log("sam getProductsPdf ${{
+      "category": category,
+      "brand": brands,
+      "status": 5,
+      "sort_by": sortBy ?? "",
+      "min_price": minPrice,
+      "max_price": maxPrice,
+      "name": name,
+      "variation": variations,
+      "page": page,
+    }}");
+
     final response = await server.postRequest(
         endPoint: ApiList.productsPdf,
         headers: box.read('isLogedIn') == false
@@ -269,18 +297,6 @@ class RemoteServices {
           "variation": variations,
           "page": page,
         });
-
-    log("sam getProductsPdf ${{
-      "category": category,
-      "brand": brands,
-      "status": 5,
-      "sort_by": sortBy ?? "",
-      "min_price": minPrice,
-      "max_price": maxPrice,
-      "name": name,
-      "variation": variations,
-      "page": page,
-    }}");
 
     if (response.statusCode == 200) {
       final data = response.data;
@@ -528,6 +544,43 @@ class RemoteServices {
       }
     } catch (e) {
       return Left(e.toString());
+    }
+  }
+
+  Future<String> fetchPromotionPdfProduct(
+      {required String promotionSlug,
+      required int paginate,
+      required int page,
+      required int perPage}) async {
+    try {
+      log("sam fetchPromotionPdfProduct ${jsonEncode({
+        "promotionSlug": promotionSlug,
+        "perPage": perPage,
+        "paginate": paginate,
+        "page": page,
+      })}");
+
+      final response = await server.postRequest(
+          endPoint: ApiList.productsPdf,
+          headers: box.read('isLogedIn') == false
+              ? AppServer.getAuthHeaders()
+              : AppServer.getHttpHeadersWithToken(),
+          body: {
+            "promotionSlug": promotionSlug,
+            "perPage": perPage,
+            "paginate": paginate,
+            "page": page,
+          });
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        log("sam getProductsPdf ${jsonEncode(data)}");
+        return data["pdf"];
+      } else {
+        return "";
+      }
+    } catch (e) {
+      return '';
     }
   }
 

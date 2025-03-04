@@ -6,6 +6,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:shopperz/app/modules/home/controller/promotion_controller.dart';
 import 'package:shopperz/app/modules/home/model/promotion_model.dart';
 import 'package:shopperz/app/modules/wishlist/controller/wishlist_controller.dart';
+import 'package:shopperz/utils/images.dart';
 import '../../../../config/theme/app_color.dart';
 import '../../../../main.dart';
 import '../../../../widgets/appbar4.dart';
@@ -46,133 +47,162 @@ class _PromotionWiseProductScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBarWidget4(text: ''),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10.h),
-          Padding(
-            padding: EdgeInsets.only(left: 16.w, right: 16.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextWidget(
-                  text: widget.promotion.name.toString(),
-                  color: AppColor.textColor,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                Obx(
-                  () => Row(
-                    children: [
-                      TextWidget(
-                        text:
-                            '(${promotionController.promotionProductModel.length} Products Found)',
-                        color: AppColor.textColor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+    return Obx(() {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBarWidget4(
+            text: '',
+            showDownload: promotionController.promotionProductModel.isNotEmpty,
+            onTap: () {
+              promotionController.getPromotionProductPdf(
+                promotionSlug: widget.promotion.slug ?? "",
+              );
+            },
           ),
-          SizedBox(height: 24.h),
-          Obx(
-            () => promotionController.promotionProductLoader.value
-                ? const TrendyCollectionShimmer()
-                : Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: MasonryGridView.count(
-                          controller: promotionController.scrollController,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 16.h,
-                          crossAxisSpacing: 16.w,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: promotionController
-                                  .promotionProductModel.length +
-                              (promotionController.hasMoreData == true ? 1 : 0),
-                          itemBuilder: (context, index) {
-                            if (index ==
-                                promotionController
-                                    .promotionProductModel.length) {
-                              return Shimmer.fromColors(
-                                baseColor: Colors.grey[200]!,
-                                highlightColor: Colors.grey[300]!,
-                                child: Container(
-                                  height: 207.h,
-                                  width: 156.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                    color: Colors.white,
-                                    border:
-                                        Border.all(color: AppColor.borderColor),
-                                  ),
-                                ),
-                              );
-                            }
-                            final data =
-                                promotionController.promotionProductModel;
-                            return GestureDetector(
-                              onTap: () {
-                                Get.to(() =>
-                                    ProductDetailsScreen(data: data[index]));
-                              },
-                              child: Obx(
-                                () => ProductWidget(
-                                  favTap: () async {
-                                    if (box.read('isLogedIn') != false) {
-                                      if (data[index].wishlist == true) {
-                                        await wishlistController
-                                            .toggleFavoriteFalse(
-                                                data[index].id!);
-                                        wishlistController
-                                            .showFavorite(data[index].id!);
-                                      }
-                                      if (data[index].wishlist == false) {
-                                        await wishlistController
-                                            .toggleFavoriteTrue(
-                                                data[index].id!);
-                                        wishlistController
-                                            .showFavorite(data[index].id!);
-                                      }
-                                    } else {
-                                      Get.to(() => const SignInScreen());
-                                    }
-                                  },
-                                  wishlist: wishlistController.favList
-                                              .contains(data[index].id!) ||
-                                          promotionController
-                                                  .promotionProductModel[index]
-                                                  .wishlist ==
-                                              true
-                                      ? true
-                                      : false,
-                                  productImage: data[index].cover.toString(),
-                                  title: data[index].name,
-                                  currentPrice: data[index].currencyPrice,
-                                  discountPrice: data[index].discountedPrice,
-                                  rating: data[index].ratingStar,
-                                  textRating: data[index].ratingStarCount,
-                                  flashSale: data[index].flashSale!,
-                                  isOffer: data[index].isOffer!,
-                                ),
+          body: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(
+                          text: widget.promotion.name.toString(),
+                          color: AppColor.textColor,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Obx(
+                          () => Row(
+                            children: [
+                              TextWidget(
+                                text:
+                                    '(${promotionController.promotionProductModel.length} Products Found)',
+                                color: AppColor.textColor,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
                               ),
-                            );
-                          }),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                  SizedBox(height: 24.h),
+                  Obx(
+                    () => promotionController.promotionProductLoader.value
+                        ? const TrendyCollectionShimmer()
+                        : Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: MasonryGridView.count(
+                                  controller: promotionController.scrollController,
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 16.h,
+                                  crossAxisSpacing: 16.w,
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: promotionController
+                                          .promotionProductModel.length +
+                                      (promotionController.hasMoreData == true ? 1 : 0),
+                                  itemBuilder: (context, index) {
+                                    if (index ==
+                                        promotionController
+                                            .promotionProductModel.length) {
+                                      return Shimmer.fromColors(
+                                        baseColor: Colors.grey[200]!,
+                                        highlightColor: Colors.grey[300]!,
+                                        child: Container(
+                                          height: 207.h,
+                                          width: 156.w,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(16.r),
+                                            color: Colors.white,
+                                            border:
+                                                Border.all(color: AppColor.borderColor),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    final data =
+                                        promotionController.promotionProductModel;
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Get.to(() =>
+                                            ProductDetailsScreen(data: data[index]));
+                                      },
+                                      child: Obx(
+                                        () => ProductWidget(
+                                          favTap: () async {
+                                            if (box.read('isLogedIn') != false) {
+                                              if (data[index].wishlist == true) {
+                                                await wishlistController
+                                                    .toggleFavoriteFalse(
+                                                        data[index].id!);
+                                                wishlistController
+                                                    .showFavorite(data[index].id!);
+                                              }
+                                              if (data[index].wishlist == false) {
+                                                await wishlistController
+                                                    .toggleFavoriteTrue(
+                                                        data[index].id!);
+                                                wishlistController
+                                                    .showFavorite(data[index].id!);
+                                              }
+                                            } else {
+                                              Get.to(() => const SignInScreen());
+                                            }
+                                          },
+                                          wishlist: wishlistController.favList
+                                                      .contains(data[index].id!) ||
+                                                  promotionController
+                                                          .promotionProductModel[index]
+                                                          .wishlist ==
+                                                      true
+                                              ? true
+                                              : false,
+                                          productImage: data[index].cover.toString(),
+                                          title: data[index].name,
+                                          currentPrice: data[index].currencyPrice,
+                                          discountPrice: data[index].discountedPrice,
+                                          rating: data[index].ratingStar,
+                                          textRating: data[index].ratingStarCount,
+                                          flashSale: data[index].flashSale!,
+                                          isOffer: data[index].isOffer!,
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                  ),
+                ],
+              ),
+              Obx(() {
+                return promotionController.pdfLoading.value
+                    ? Container(
+                  color: AppColor.whiteColor.withValues(alpha: 0.5),
+                  child: Center(
+                    child: Image.asset(
+                      AppImages.loading,
+                      height: 35.h,
+                      width: 35.w,
+                    ),
+                  ),
+                )
+                    : SizedBox();
+              }),
+            ],
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 }

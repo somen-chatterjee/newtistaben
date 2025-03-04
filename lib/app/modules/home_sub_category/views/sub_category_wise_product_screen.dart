@@ -104,390 +104,425 @@ class _SubCategoryWiseProductScreenState
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.dark,
       ),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBarWidget4(text: ''),
-        body: Column(
-          children: [
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextWidget(
-                        text: widget.categoryModel?.name ??
-                            widget.categoryTreeModel?.name
-                                .toString()
-                                .tr ??
-                            widget.brandName ??
-                            'Search Results'.tr,
-                        color: AppColor.textColor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Obx(
-                            () =>
-                            Row(
-                              children: [
-                                TextWidget(
-                                  text:
-                                  '(${cateWiseProductController
-                                      .categoryWiseProductList
-                                      .length} Products Found)',
-                                  color: AppColor.textColor,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ],
-                            ),
-                      ),
-                    ],
-                  ),
-                  InkWell(
-                    onTap: () {
-                      if(cateWiseProductController
-                          .categoryWiseProductModel.value.data != null) {
-                        Get.to(() =>
-                            SubCategoryFilterScreen(
-                              cateWiseProductModel: cateWiseProductController
-                                  .categoryWiseProductModel.value.data,
-                            ))!
-                            .then((value) {
-                          setState(() {});
-                        });
-                      }
-                    },
-                    child: SvgPicture.asset(
-                      SvgIcon.filter,
-                      height: 24.h,
-                      width: 24.w,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Obx(() {
-              if(!cateWiseProductController.isLaoding.value) {
-                return SizedBox(
-                height: 120.h,
-                width: double.infinity,
-                // color: AppColor.whiteColor, // white hobe
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  shrinkWrap: true,
-                  itemCount: widget.categoryModel?.children?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    final category = widget.categoryModel!;
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 12.w),
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(
-                              () => CategoryWiseProductScreen(
-                                categoryTreeModel: category.children![index],
+      child: Obx(() {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBarWidget4(
+            text: '' ,
+            showDownload: cateWiseProductController.categoryWiseProductList
+                .isNotEmpty,
+            onTap: () {
+              cateWiseProductController.getSearchProductPdf(
+                categorySlug: widget.categoryTreeModel?.slug ??
+                    widget.categoryModel?.slug ??
+                    '',
+                sortBy: filterController.selectedOption.value.trim(),
+                brands: filterController.homeBrands,
+                variations: filterController.encodeVaritionObject,
+                name: productSearchController.searchTextController.text.toString(),
+              );
+            },
+          ),
+          body: Stack(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextWidget(
+                                text: widget.categoryModel?.name ??
+                                    widget.categoryTreeModel?.name
+                                        .toString()
+                                        .tr ??
+                                    widget.brandName ??
+                                    'Search Results'.tr,
+                                color: AppColor.textColor,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w700,
                               ),
-                            );
-                            //!.then((_) {
-                            //   // for reset the filters
-                            //   if (filterController.homeBrands == null) {
-                            //     cateWiseProductController.resetState();
-                            //     cateWiseProductController.fetchCategoryWiseProduct(
-                            //       categorySlug:
-                            //       widget.categoryTreeModel?.slug ?? widget.categoryModel?.slug ?? '',
-                            //       sortBy: filterController.selectedOption.value.trim(),
-                            //       brands: filterController.brands,
-                            //       variatons: filterController.encodeVaritionObject,
-                            //       name: productSearchController.searchTextController.text.toString(),
-                            //     );
-                            //   } else {
-                            //     cateWiseProductController.resetState();
-                            //     cateWiseProductController.fetchCategoryWiseProduct(
-                            //         categorySlug: widget.categoryTreeModel?.slug ??
-                            //             widget.categoryModel?.slug ??
-                            //             '',
-                            //         sortBy: filterController.selectedOption.value.trim(),
-                            //         brands: filterController.homeBrands,
-                            //         variatons: filterController.encodeVaritionObject,
-                            //         name: productSearchController.searchTextController.text.toString());
-                            //   }
-                            // });
-                          },
-                          child: Container(
-                            height: 85.h,
-                            width: 72.w,
-                            decoration: BoxDecoration(
-                              color: AppColor.whiteColor,
-                              borderRadius: BorderRadius.circular(8.r),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.04),
-                                    offset: const Offset(0, 0),
-                                    blurRadius: 32.r,
-                                    spreadRadius: 0)
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                CachedNetworkImage(
-                                  imageUrl: category.children![index].thumb
-                                      .toString(),
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                        height: 50.h,
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(8.r),
-                                              topRight: Radius.circular(8.r)),
-                                          image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover,
-                                          ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              Obx(
+                                    () =>
+                                    Row(
+                                      children: [
+                                        TextWidget(
+                                          text:
+                                          '(${cateWiseProductController
+                                              .categoryWiseProductList
+                                              .length} Products Found)',
+                                          color: AppColor.textColor,
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w500,
                                         ),
+                                      ],
+                                    ),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () {
+                              if(cateWiseProductController
+                                  .categoryWiseProductModel.value.data != null) {
+                                Get.to(() =>
+                                    SubCategoryFilterScreen(
+                                      cateWiseProductModel: cateWiseProductController
+                                          .categoryWiseProductModel.value.data,
+                                    ))!
+                                    .then((value) {
+                                  setState(() {});
+                                });
+                              }
+                            },
+                            child: SvgPicture.asset(
+                              SvgIcon.filter,
+                              height: 24.h,
+                              width: 24.w,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Obx(() {
+                      if(!cateWiseProductController.isLaoding.value) {
+                        return SizedBox(
+                        height: 120.h,
+                        width: double.infinity,
+                        // color: AppColor.whiteColor, // white hobe
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          shrinkWrap: true,
+                          itemCount: widget.categoryModel?.children?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final category = widget.categoryModel!;
+                            return Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 12.w),
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                      () => CategoryWiseProductScreen(
+                                        categoryTreeModel: category.children![index],
                                       ),
-                                ),
-                                Expanded(
+                                    );
+                                    //!.then((_) {
+                                    //   // for reset the filters
+                                    //   if (filterController.homeBrands == null) {
+                                    //     cateWiseProductController.resetState();
+                                    //     cateWiseProductController.fetchCategoryWiseProduct(
+                                    //       categorySlug:
+                                    //       widget.categoryTreeModel?.slug ?? widget.categoryModel?.slug ?? '',
+                                    //       sortBy: filterController.selectedOption.value.trim(),
+                                    //       brands: filterController.brands,
+                                    //       variatons: filterController.encodeVaritionObject,
+                                    //       name: productSearchController.searchTextController.text.toString(),
+                                    //     );
+                                    //   } else {
+                                    //     cateWiseProductController.resetState();
+                                    //     cateWiseProductController.fetchCategoryWiseProduct(
+                                    //         categorySlug: widget.categoryTreeModel?.slug ??
+                                    //             widget.categoryModel?.slug ??
+                                    //             '',
+                                    //         sortBy: filterController.selectedOption.value.trim(),
+                                    //         brands: filterController.homeBrands,
+                                    //         variatons: filterController.encodeVaritionObject,
+                                    //         name: productSearchController.searchTextController.text.toString());
+                                    //   }
+                                    // });
+                                  },
                                   child: Container(
-                                    height: 22.h,
-                                    width: double.infinity,
+                                    height: 85.h,
+                                    width: 72.w,
                                     decoration: BoxDecoration(
                                       color: AppColor.whiteColor,
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(8.r),
-                                        bottomRight: Radius.circular(8.r),
-                                      ),
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black.withOpacity(0.04),
+                                            offset: const Offset(0, 0),
+                                            blurRadius: 32.r,
+                                            spreadRadius: 0)
+                                      ],
                                     ),
-                                    child: Center(
-                                      child: TextWidget(
-                                        text: category.children![index].name,
-                                        textAlign: TextAlign.center,
-                                        color: AppColor.titleTextColor,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                    child: Column(
+                                      children: [
+                                        CachedNetworkImage(
+                                          imageUrl: category.children![index].thumb
+                                              .toString(),
+                                          imageBuilder: (context, imageProvider) =>
+                                              Container(
+                                                height: 50.h,
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(
+                                                      topLeft: Radius.circular(8.r),
+                                                      topRight: Radius.circular(8.r)),
+                                                  image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: 22.h,
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              color: AppColor.whiteColor,
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(8.r),
+                                                bottomRight: Radius.circular(8.r),
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: TextWidget(
+                                                text: category.children![index].name,
+                                                textAlign: TextAlign.center,
+                                                color: AppColor.titleTextColor,
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      ),
-                    );
-                  },
-                ),
-              );
-              } else {
-                return Padding(
-                  padding: EdgeInsets.only(top: 20.h,left: 16.w),
-                  child: const CategoriesSectionShimmer(),
-                );
-              }
-            }),
-            Expanded(
-              child: RefreshIndicator(
-                color: AppColor.primaryColor,
-                onRefresh: () async {
-                  if (filterController.homeBrands == null) {
-                    cateWiseProductController.resetState();
-                    cateWiseProductController.fetchCategoryWiseProduct(
-                      categorySlug: widget.categoryTreeModel?.slug ??
-                          widget.categoryModel?.slug ??
-                          '',
-                      sortBy: filterController.selectedOption.value.trim(),
-                      brands: filterController.brands,
-                      variatons: filterController.encodeVaritionObject,
-                      minPrice: filterController.minRange,
-                      maxPrice: filterController.maxRange,
-                      name: productSearchController.searchTextController.text
-                          .toString(),
-                    );
-                  } else {
-                    cateWiseProductController.resetState();
-                    cateWiseProductController.fetchCategoryWiseProduct(
-                        categorySlug: widget.categoryTreeModel?.slug ??
-                            widget.categoryModel?.slug ??
-                            '',
-                        sortBy: filterController.selectedOption.value.trim(),
-                        brands: filterController.homeBrands,
-                        variatons: filterController.encodeVaritionObject,
-                        minPrice: filterController.minRange,
-                        maxPrice: filterController.maxRange,
-                        name: productSearchController.searchTextController.text
-                            .toString());
-                  }
-                },
-                child: Obx(
-                      () =>
-                  cateWiseProductController.isLaoding.value == true
-                      ? const TrendyCollectionShimmer()
-                      : cateWiseProductController
-                      .categoryWiseProductList.isEmpty
-                      ? Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 120.h),
-                      child: Center(
-                        child: Image.asset(
-                          AppImages.emptyIcon,
-                          height: 300.h,
-                          width: 300.w,
+                      );
+                      } else {
+                        return Padding(
+                          padding: EdgeInsets.only(top: 20.h,left: 16.w),
+                          child: const CategoriesSectionShimmer(),
+                        );
+                      }
+                    }),
+                    Expanded(
+                      child: RefreshIndicator(
+                        color: AppColor.primaryColor,
+                        onRefresh: () async {
+                          if (filterController.homeBrands == null) {
+                            cateWiseProductController.resetState();
+                            cateWiseProductController.fetchCategoryWiseProduct(
+                              categorySlug: widget.categoryTreeModel?.slug ??
+                                  widget.categoryModel?.slug ??
+                                  '',
+                              sortBy: filterController.selectedOption.value.trim(),
+                              brands: filterController.brands,
+                              variatons: filterController.encodeVaritionObject,
+                              minPrice: filterController.minRange,
+                              maxPrice: filterController.maxRange,
+                              name: productSearchController.searchTextController.text
+                                  .toString(),
+                            );
+                          } else {
+                            cateWiseProductController.resetState();
+                            cateWiseProductController.fetchCategoryWiseProduct(
+                                categorySlug: widget.categoryTreeModel?.slug ??
+                                    widget.categoryModel?.slug ??
+                                    '',
+                                sortBy: filterController.selectedOption.value.trim(),
+                                brands: filterController.homeBrands,
+                                variatons: filterController.encodeVaritionObject,
+                                minPrice: filterController.minRange,
+                                maxPrice: filterController.maxRange,
+                                name: productSearchController.searchTextController.text
+                                    .toString());
+                          }
+                        },
+                        child: Obx(
+                              () =>
+                          cateWiseProductController.isLaoding.value == true
+                              ? const TrendyCollectionShimmer()
+                              : cateWiseProductController
+                              .categoryWiseProductList.isEmpty
+                              ? Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 120.h),
+                              child: Center(
+                                child: Image.asset(
+                                  AppImages.emptyIcon,
+                                  height: 300.h,
+                                  width: 300.w,
+                                ),
+                              ),
+                            ),
+                          )
+                              : Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w, vertical: 16.h),
+                              child: MasonryGridView.count(
+                                  controller: cateWiseProductController
+                                      .scrollController,
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 16.h,
+                                  crossAxisSpacing: 16.w,
+                                  physics:
+                                  const AlwaysScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: cateWiseProductController
+                                      .categoryWiseProductList.length +
+                                      (cateWiseProductController.hasMoreData ==
+                                          true
+                                          ? 1
+                                          : 0),
+                                  itemBuilder: (context, i) {
+                                    if (i ==
+                                        cateWiseProductController
+                                            .categoryWiseProductList.length) {
+                                      return Shimmer.fromColors(
+                                        baseColor: Colors.grey[200]!,
+                                        highlightColor: Colors.grey[300]!,
+                                        child: Container(
+                                          height: 207.h,
+                                          width: 156.w,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(16.r),
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: AppColor.borderColor),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Get.to(() =>
+                                            ProductDetailsScreen(
+                                                categoryWiseProduct:
+                                                cateWiseProductController
+                                                    .categoryWiseProductList[
+                                                i]));
+                                      },
+                                      child: Obx(
+                                            () =>
+                                            ProductWidget(
+                                              favTap: () async {
+                                                if (box.read('isLogedIn') !=
+                                                    false) {
+                                                  if (cateWiseProductController
+                                                      .categoryWiseProductList[
+                                                  i]
+                                                      .wishlist ==
+                                                      true) {
+                                                    await wishlistController
+                                                        .toggleFavoriteFalse(
+                                                        cateWiseProductController
+                                                            .categoryWiseProductList[
+                                                        i]
+                                                            .id!);
+
+                                                    wishlistController.showFavorite(
+                                                        cateWiseProductController
+                                                            .categoryWiseProductList[
+                                                        i]
+                                                            .id!);
+                                                  }
+                                                  if (cateWiseProductController
+                                                      .categoryWiseProductList[
+                                                  i]
+                                                      .wishlist ==
+                                                      false) {
+                                                    await wishlistController
+                                                        .toggleFavoriteTrue(
+                                                        cateWiseProductController
+                                                            .categoryWiseProductList[
+                                                        i]
+                                                            .id!);
+
+                                                    wishlistController.showFavorite(
+                                                        cateWiseProductController
+                                                            .categoryWiseProductList[
+                                                        i]
+                                                            .id!);
+                                                  }
+                                                } else {
+                                                  Get.to(
+                                                          () => const SignInScreen());
+                                                }
+                                              },
+                                              wishlist: wishlistController.favList
+                                                  .contains(
+                                                  cateWiseProductController
+                                                      .categoryWiseProductList[
+                                                  i]
+                                                      .id!) ||
+                                                  cateWiseProductController
+                                                      .categoryWiseProductList[
+                                                  i]
+                                                      .wishlist ==
+                                                      true
+                                                  ? true
+                                                  : false,
+                                              productImage:
+                                              cateWiseProductController
+                                                  .categoryWiseProductList[i]
+                                                  .cover
+                                                  .toString(),
+                                              title: cateWiseProductController
+                                                  .categoryWiseProductList[i].name,
+                                              currentPrice:
+                                              cateWiseProductController
+                                                  .categoryWiseProductList[i]
+                                                  .currencyPrice,
+                                              discountPrice:
+                                              cateWiseProductController
+                                                  .categoryWiseProductList[i]
+                                                  .discountedPrice,
+                                              rating: cateWiseProductController
+                                                  .categoryWiseProductList[i]
+                                                  .ratingStar,
+                                              textRating: cateWiseProductController
+                                                  .categoryWiseProductList[i]
+                                                  .ratingStarCount,
+                                              flashSale: cateWiseProductController
+                                                  .categoryWiseProductList[i]
+                                                  .flashSale!,
+                                              isOffer: cateWiseProductController
+                                                  .categoryWiseProductList[i]
+                                                  .isOffer!,
+                                            ),
+                                      ),
+                                    );
+                                  })),
                         ),
                       ),
                     ),
-                  )
-                      : Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 16.h),
-                      child: MasonryGridView.count(
-                          controller: cateWiseProductController
-                              .scrollController,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 16.h,
-                          crossAxisSpacing: 16.w,
-                          physics:
-                          const AlwaysScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: cateWiseProductController
-                              .categoryWiseProductList.length +
-                              (cateWiseProductController.hasMoreData ==
-                                  true
-                                  ? 1
-                                  : 0),
-                          itemBuilder: (context, i) {
-                            if (i ==
-                                cateWiseProductController
-                                    .categoryWiseProductList.length) {
-                              return Shimmer.fromColors(
-                                baseColor: Colors.grey[200]!,
-                                highlightColor: Colors.grey[300]!,
-                                child: Container(
-                                  height: 207.h,
-                                  width: 156.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(16.r),
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        color: AppColor.borderColor),
-                                  ),
-                                ),
-                              );
-                            }
-                            return GestureDetector(
-                              onTap: () {
-                                Get.to(() =>
-                                    ProductDetailsScreen(
-                                        categoryWiseProduct:
-                                        cateWiseProductController
-                                            .categoryWiseProductList[
-                                        i]));
-                              },
-                              child: Obx(
-                                    () =>
-                                    ProductWidget(
-                                      favTap: () async {
-                                        if (box.read('isLogedIn') !=
-                                            false) {
-                                          if (cateWiseProductController
-                                              .categoryWiseProductList[
-                                          i]
-                                              .wishlist ==
-                                              true) {
-                                            await wishlistController
-                                                .toggleFavoriteFalse(
-                                                cateWiseProductController
-                                                    .categoryWiseProductList[
-                                                i]
-                                                    .id!);
-
-                                            wishlistController.showFavorite(
-                                                cateWiseProductController
-                                                    .categoryWiseProductList[
-                                                i]
-                                                    .id!);
-                                          }
-                                          if (cateWiseProductController
-                                              .categoryWiseProductList[
-                                          i]
-                                              .wishlist ==
-                                              false) {
-                                            await wishlistController
-                                                .toggleFavoriteTrue(
-                                                cateWiseProductController
-                                                    .categoryWiseProductList[
-                                                i]
-                                                    .id!);
-
-                                            wishlistController.showFavorite(
-                                                cateWiseProductController
-                                                    .categoryWiseProductList[
-                                                i]
-                                                    .id!);
-                                          }
-                                        } else {
-                                          Get.to(
-                                                  () => const SignInScreen());
-                                        }
-                                      },
-                                      wishlist: wishlistController.favList
-                                          .contains(
-                                          cateWiseProductController
-                                              .categoryWiseProductList[
-                                          i]
-                                              .id!) ||
-                                          cateWiseProductController
-                                              .categoryWiseProductList[
-                                          i]
-                                              .wishlist ==
-                                              true
-                                          ? true
-                                          : false,
-                                      productImage:
-                                      cateWiseProductController
-                                          .categoryWiseProductList[i]
-                                          .cover
-                                          .toString(),
-                                      title: cateWiseProductController
-                                          .categoryWiseProductList[i].name,
-                                      currentPrice:
-                                      cateWiseProductController
-                                          .categoryWiseProductList[i]
-                                          .currencyPrice,
-                                      discountPrice:
-                                      cateWiseProductController
-                                          .categoryWiseProductList[i]
-                                          .discountedPrice,
-                                      rating: cateWiseProductController
-                                          .categoryWiseProductList[i]
-                                          .ratingStar,
-                                      textRating: cateWiseProductController
-                                          .categoryWiseProductList[i]
-                                          .ratingStarCount,
-                                      flashSale: cateWiseProductController
-                                          .categoryWiseProductList[i]
-                                          .flashSale!,
-                                      isOffer: cateWiseProductController
-                                          .categoryWiseProductList[i]
-                                          .isOffer!,
-                                    ),
-                              ),
-                            );
-                          })),
+                  ],
                 ),
-              ),
+                Obx(() {
+                  return cateWiseProductController.pdfLoading.value
+                      ? Container(
+                    color: AppColor.whiteColor.withValues(alpha: 0.5),
+                    child: Center(
+                      child: Image.asset(
+                        AppImages.loading,
+                        height: 35.h,
+                        width: 35.w,
+                      ),
+                    ),
+                  )
+                      : SizedBox();
+                }),
+              ],
             ),
-          ],
-        ),
-      ),
+        );
+      }),
     );
   }
 }
