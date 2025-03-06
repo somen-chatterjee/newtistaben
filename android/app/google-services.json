@@ -1,51 +1,13 @@
 {
   "project_info": {
-    "project_number": "142323472",
-    "project_id": "tistabene-f58a4",
-    "storage_bucket": "tistabene-f58a4.firebasestorage.app"
+    "project_number": "575149452507",
+    "project_id": "tistabenewholesale",
+    "storage_bucket": "tistabenewholesale.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:142323472:android:fa6690e068dae663a23f95",
-        "android_client_info": {
-          "package_name": "com.inilabs.shopking"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBevU1E54_Djbi-mcYAP9O_KIwtvJvKMxA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:142323472:android:bb0719715453cb1da23f95",
-        "android_client_info": {
-          "package_name": "com.mediabird.tistaben.wholesaler"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBevU1E54_Djbi-mcYAP9O_KIwtvJvKMxA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:142323472:android:cf347d543da77ed0a23f95",
+        "mobilesdk_app_id": "1:575149452507:android:5cfc77bd47e7d906baf0fe",
         "android_client_info": {
           "package_name": "com.tistabene.wholesaler"
         }
@@ -53,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBevU1E54_Djbi-mcYAP9O_KIwtvJvKMxA"
+          "current_key": "AIzaSyA1yt-yt3yUWXl1qAhXRyUMNCCmBkVVJtw"
         }
       ],
       "services": {

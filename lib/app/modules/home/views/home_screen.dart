@@ -770,7 +770,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             authController.whatAppIcon(),
             SizedBox(
-              height: 80,
+              height: 80.h,
             ),
           ],
         ),
