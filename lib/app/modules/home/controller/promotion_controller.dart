@@ -92,7 +92,7 @@ class PromotionalController extends GetxController {
         AppColor.error,
       );
 
-      debugPrint("sam $e");
+      // debugPrint("sam $e");
       pdfLoading(false);
     }
 

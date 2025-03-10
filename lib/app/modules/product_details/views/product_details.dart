@@ -418,7 +418,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           ),
                                         ),
                                       ],
-                                    )
+                                    ),
+                                    CustomText(
+                                      text: productDetailsController
+                                          .productModel
+                                          .value
+                                          .data!
+                                          .sku
+                                          .toString(),
+                                    ),
                                   ],
                                 ),
                                 SizedBox(height: 15.h),

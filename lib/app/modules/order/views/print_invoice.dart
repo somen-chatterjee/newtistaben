@@ -302,10 +302,11 @@ class _PrintInvoiceState extends State<PrintInvoice> {
                                             .orderProducts![index]
                                             .subtotalCurrencyPrice
                                             .toString(),
-                                        style: GoogleFonts.ptSans(
+                                        style: TextStyle(
                                             color: AppColor.textColor,
                                             fontWeight: FontWeight.w400,
-                                            fontSize: 11.sp),
+                                            fontSize: 11.sp,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -358,7 +359,7 @@ class _PrintInvoiceState extends State<PrintInvoice> {
                                     Text(
                                       widget.orderDetails!.subtotalCurrencyPrice
                                           .toString(),
-                                      style: GoogleFonts.ptSans(
+                                      style: TextStyle(
                                           color: AppColor.textColor,
                                           fontWeight: FontWeight.w400,
                                           fontSize: 11.sp),
@@ -397,7 +398,7 @@ class _PrintInvoiceState extends State<PrintInvoice> {
                                     Text(
                                       widget.orderDetails!.taxCurrencyPrice
                                           .toString(),
-                                      style: GoogleFonts.ptSans(
+                                      style: TextStyle(
                                           color: AppColor.textColor,
                                           fontWeight: FontWeight.w400,
                                           fontSize: 11.sp),
@@ -436,7 +437,7 @@ class _PrintInvoiceState extends State<PrintInvoice> {
                                     Text(
                                       widget.orderDetails!.discountCurrencyPrice
                                           .toString(),
-                                      style: GoogleFonts.ptSans(
+                                      style: TextStyle(
                                           color: AppColor.textColor,
                                           fontWeight: FontWeight.w400,
                                           fontSize: 11.sp),
@@ -479,7 +480,7 @@ class _PrintInvoiceState extends State<PrintInvoice> {
                                             widget.orderDetails!
                                                 .shippingChargeCurrencyPrice
                                                 .toString(),
-                                            style: GoogleFonts.ptSans(
+                                            style: TextStyle(
                                                 color: AppColor.textColor,
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 11.sp),
@@ -518,7 +519,7 @@ class _PrintInvoiceState extends State<PrintInvoice> {
                                     Text(
                                       widget.orderDetails!.totalCurrencyPrice
                                           .toString(),
-                                      style: GoogleFonts.ptSans(
+                                      style: TextStyle(
                                           color: AppColor.textColor,
                                           fontWeight: FontWeight.w700,
                                           fontSize: 11.sp),

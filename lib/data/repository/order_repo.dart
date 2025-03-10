@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:shopperz/data/model/order_details_model.dart';
 import 'package:shopperz/data/model/order_history_model.dart';
@@ -61,6 +63,7 @@ class OrderRepo {
     String url = ApiList.orderDetails.toString() + id;
     try {
       response = await dio.get(url);
+      // log("somen getOrderDetails ${response}");
       if (response.statusCode == 200) {
         return OrderDetailsModel.fromJson(response.data);
       }

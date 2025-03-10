@@ -41,20 +41,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBevU1E54_Djbi-mcYAP9O_KIwtvJvKMxA',
-    appId: '1:142323472:android:fa6690e068dae663a23f95',
-    messagingSenderId: '142323472',
-    projectId: 'tistabene-f58a4',
-    storageBucket: 'tistabene-f58a4.firebasestorage.app',
+    apiKey: 'AIzaSyA1yt-yt3yUWXl1qAhXRyUMNCCmBkVVJtw',
+    appId: '1:575149452507:android:5cfc77bd47e7d906baf0fe',
+    messagingSenderId: '575149452507',
+    projectId: 'tistabenewholesale',
+    storageBucket: 'tistabenewholesale.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCEqUR69MFzfdfOg5eTfGIWo8FZvIheEp8',
-    appId: '1:142323472:ios:a83aeeecd9758a65a23f95',
-    messagingSenderId: '142323472',
-    projectId: 'tistabene-f58a4',
-    storageBucket: 'tistabene-f58a4.firebasestorage.app',
-    iosBundleId: 'com.inilabs.shopking',
+    apiKey: 'AIzaSyATMlKYzjF3ypsjwQjP5IFY5AZJaD0LVO8',
+    appId: '1:575149452507:ios:372e9c11bf065fe6baf0fe',
+    messagingSenderId: '575149452507',
+    projectId: 'tistabenewholesale',
+    storageBucket: 'tistabenewholesale.firebasestorage.app',
+    iosBundleId: 'com.tistabene.wholesaler',
   );
 
   static const FirebaseOptions web = FirebaseOptions(

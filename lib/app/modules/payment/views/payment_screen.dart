@@ -325,9 +325,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 AppColor.error);
                           } else {
 
-                            print("somen applyCouponStatus ${couponController.applyCouponStatus.value}");
-                            print("somen applyCouponModel ${couponController.applyCouponModel.value.data!.product!.name}");
-
                             if(couponController.applyCouponStatus.value && couponController.applyCouponModel.value.data?.product != null) {
                               var product = couponController.applyCouponModel.value.data?.product;
                                 cartController.cartItems.add(
