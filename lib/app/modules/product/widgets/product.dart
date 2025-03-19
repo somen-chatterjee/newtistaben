@@ -58,7 +58,7 @@ class ProductWidget extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: EdgeInsets.all(8.r),
+          padding: EdgeInsets.all(6.r),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,8 +68,8 @@ class ProductWidget extends StatelessWidget {
                   CachedNetworkImage(
                     imageUrl: productImage.toString(),
                     imageBuilder: (context, imageProvider) => Container(
-                      height: 160.h,
-                      width: 140.w,
+                      height: 200.h,
+                      // width: 140.w,
                       decoration: BoxDecoration(
                         color: AppColor.whiteColor,
                         borderRadius: BorderRadius.circular(8.r),
@@ -161,33 +161,33 @@ class ProductWidget extends StatelessWidget {
               SizedBox(
                 height: 4.h,
               ),
-              RatingBarIndicator(
-                rating: double.parse(rating.toString() == 'null'
-                    ? '0'
-                    : (double.parse(rating.toString()) / textRating!.toInt())
-                        .toString()),
-                itemSize: 10.h,
-                unratedColor: AppColor.inactiveColor,
-                itemBuilder: (context, index) => Container(
-                  margin: EdgeInsets.symmetric(horizontal: 1.w),
-                  child: SvgPicture.asset(
-                    SvgIcon.star,
-                    colorFilter: const ColorFilter.mode(
-                        AppColor.yellowColor, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-              SizedBox(height: 4.h),
-              TextWidget(
-                text:
-                    "${rating.toString() == 'null' ? '0' : double.parse(rating.toString()) / textRating!.toInt()} (${textRating ?? 0} ${' Reviews'.tr})",
-                color: AppColor.textColor1,
-                fontSize: 9.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
+              // RatingBarIndicator(
+              //   rating: double.parse(rating.toString() == 'null'
+              //       ? '0'
+              //       : (double.parse(rating.toString()) / textRating!.toInt())
+              //           .toString()),
+              //   itemSize: 10.h,
+              //   unratedColor: AppColor.inactiveColor,
+              //   itemBuilder: (context, index) => Container(
+              //     margin: EdgeInsets.symmetric(horizontal: 1.w),
+              //     child: SvgPicture.asset(
+              //       SvgIcon.star,
+              //       colorFilter: const ColorFilter.mode(
+              //           AppColor.yellowColor, BlendMode.srcIn),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height: 4.h),
+              // TextWidget(
+              //   text:
+              //       "${rating.toString() == 'null' ? '0' : double.parse(rating.toString()) / textRating!.toInt()} (${textRating ?? 0} ${' Reviews'.tr})",
+              //   color: AppColor.textColor1,
+              //   fontSize: 9.sp,
+              //   fontWeight: FontWeight.w500,
+              // ),
+              // SizedBox(
+              //   height: 12.h,
+              // ),
               FittedBox(
                 child: Row(
                   children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:shopperz/app/modules/home/controller/promotion_controller.dart';
@@ -52,12 +53,12 @@ class _PromotionWiseProductScreenState
           resizeToAvoidBottomInset: false,
           appBar: AppBarWidget4(
             text: '',
-            showDownload: promotionController.promotionProductModel.isNotEmpty,
-            onTap: () {
-              promotionController.getPromotionProductPdf(
-                promotionSlug: widget.promotion.slug ?? "",
-              );
-            },
+            // showDownload: promotionController.promotionProductModel.isNotEmpty,
+            // onTap: () {
+            //   promotionController.getPromotionProductPdf(
+            //     promotionSlug: widget.promotion.slug ?? "",
+            //   );
+            // },
           ),
           body: Stack(
             children: [
@@ -67,29 +68,77 @@ class _PromotionWiseProductScreenState
                   SizedBox(height: 10.h),
                   Padding(
                     padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        TextWidget(
-                          text: widget.promotion.name.toString(),
-                          color: AppColor.textColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Obx(
-                          () => Row(
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextWidget(
-                                text:
-                                    '(${promotionController.promotionProductModel.length} Products Found)',
+                                text: widget.promotion.name.toString(),
                                 color: AppColor.textColor,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              Obx(
+                                () => Row(
+                                  children: [
+                                    TextWidget(
+                                      text:
+                                          '(${promotionController.promotionProductModel.length} Products Found)',
+                                      color: AppColor.textColor,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
+                          ),
+                        ),
+                        if(!promotionController.promotionProductModel.isNotEmpty)
+                        GestureDetector(
+                          onTap: () {
+                            promotionController.getPromotionProductPdf(
+                              promotionSlug: widget.promotion.slug ?? "",
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
+                            decoration: BoxDecoration(
+                              color: AppColor.primaryColor,
+                              borderRadius: BorderRadius.all(Radius.circular(50.r)),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    TextWidget(
+                                      text: "Catalogue",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColor.whiteColor,
+                                    ),
+                                    TextWidget(
+                                      text: "(Use filters)",
+                                      fontSize: 12,
+                                      color: AppColor.whiteColor,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: 10.w),
+                                SvgPicture.asset(
+                                  "assets/icons/download.svg",
+                                  width: 20,
+                                  height: 20,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -105,8 +154,8 @@ class _PromotionWiseProductScreenState
                               child: MasonryGridView.count(
                                   controller: promotionController.scrollController,
                                   crossAxisCount: 2,
-                                  mainAxisSpacing: 16.h,
-                                  crossAxisSpacing: 16.w,
+                                  mainAxisSpacing: 4.h,
+                                  crossAxisSpacing: 4.w,
                                   physics: const AlwaysScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: promotionController

@@ -381,44 +381,44 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       ],
                                     ),
                                     SizedBox(height: 8.h),
-                                    Row(
-                                      children: [
-                                        RatingBarIndicator(
-                                          rating: double.parse(
-                                              '${productDetailsController.productModel.value.data!.ratingStar.toString() == 'null' ? '0' : double.parse(productDetailsController.productModel.value.data!.ratingStar.toString()) / productDetailsController.productModel.value.data!.ratingStarCount!.toInt()}'),
-                                          itemSize: 11.h,
-                                          unratedColor: AppColor.inactiveColor,
-                                          itemBuilder: (context, index) =>
-                                              Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 1.w),
-                                            child: SvgPicture.asset(
-                                              SvgIcon.star,
-                                              colorFilter:
-                                                  const ColorFilter.mode(
-                                                      AppColor.yellowColor,
-                                                      BlendMode.srcIn),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 8.w),
-                                        SizedBox(
-                                          child: Row(
-                                            children: [
-                                              CustomText(
-                                                  text:
-                                                      '${productDetailsController.productModel.value.data!.ratingStar.toString() == 'null' ? '0' : double.parse(productDetailsController.productModel.value.data!.ratingStar.toString()) / productDetailsController.productModel.value.data!.ratingStarCount!.toInt()}'),
-                                              SizedBox(
-                                                width: 5.w,
-                                              ),
-                                              CustomText(
-                                                  text:
-                                                      "(${productDetailsController.productModel.value.data!.ratingStarCount} ${' Reviews'.tr})")
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   children: [
+                                    //     RatingBarIndicator(
+                                    //       rating: double.parse(
+                                    //           '${productDetailsController.productModel.value.data!.ratingStar.toString() == 'null' ? '0' : double.parse(productDetailsController.productModel.value.data!.ratingStar.toString()) / productDetailsController.productModel.value.data!.ratingStarCount!.toInt()}'),
+                                    //       itemSize: 11.h,
+                                    //       unratedColor: AppColor.inactiveColor,
+                                    //       itemBuilder: (context, index) =>
+                                    //           Container(
+                                    //         margin: EdgeInsets.symmetric(
+                                    //             horizontal: 1.w),
+                                    //         child: SvgPicture.asset(
+                                    //           SvgIcon.star,
+                                    //           colorFilter:
+                                    //               const ColorFilter.mode(
+                                    //                   AppColor.yellowColor,
+                                    //                   BlendMode.srcIn),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     SizedBox(width: 8.w),
+                                    //     SizedBox(
+                                    //       child: Row(
+                                    //         children: [
+                                    //           CustomText(
+                                    //               text:
+                                    //                   '${productDetailsController.productModel.value.data!.ratingStar.toString() == 'null' ? '0' : double.parse(productDetailsController.productModel.value.data!.ratingStar.toString()) / productDetailsController.productModel.value.data!.ratingStarCount!.toInt()}'),
+                                    //           SizedBox(
+                                    //             width: 5.w,
+                                    //           ),
+                                    //           CustomText(
+                                    //               text:
+                                    //                   "(${productDetailsController.productModel.value.data!.ratingStarCount} ${' Reviews'.tr})")
+                                    //         ],
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                     CustomText(
                                       text: productDetailsController
                                           .productModel

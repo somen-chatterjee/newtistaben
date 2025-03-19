@@ -44,21 +44,24 @@ class _WishlistScreenState extends State<WishlistScreen> {
           preferredSize: Size.fromHeight(48.h),
           child: const AppBarWidget(isSearch: false),
         ),
-        body: Padding(
-          padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextWidget(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
+              child: TextWidget(
                 text: 'WISHLIST'.tr,
                 color: AppColor.textColor,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
               ),
-              SizedBox(
-                height: 5.h,
-              ),
-              Obx(
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 16.w, right: 16.w),
+              child: Obx(
                 () => TextWidget(
                   text:
                       '(${wishlistController.favoriteModel.value.data?.length ?? 0} ${' Products Found'.tr})',
@@ -67,186 +70,186 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(
-                height: 12.h,
-              ),
-              Expanded(
-                child: RefreshIndicator(
-                  color: AppColor.primaryColor,
-                  onRefresh: () async {
-                    wishlistController.fetchFavorite();
-                  },
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Obx(() {
-                          return wishlistController.favoriteModel.value.data ==
-                                      null ||
-                                  wishlistController
-                                      .favoriteModel.value.data!.isEmpty
-                              ? Padding(
-                                  padding: EdgeInsets.only(top: 100.h),
-                                  child: Center(
-                                    child: Image.asset(
-                                      AppImages.emptyIcon,
-                                      height: 300.h,
-                                      width: 300.w,
-                                    ),
+            ),
+            SizedBox(
+              height: 12.h,
+            ),
+            Expanded(
+              child: RefreshIndicator(
+                color: AppColor.primaryColor,
+                onRefresh: () async {
+                  wishlistController.fetchFavorite();
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Obx(() {
+                        return wishlistController.favoriteModel.value.data ==
+                                    null ||
+                                wishlistController
+                                    .favoriteModel.value.data!.isEmpty
+                            ? Padding(
+                                padding: EdgeInsets.only(top: 100.h),
+                                child: Center(
+                                  child: Image.asset(
+                                    AppImages.emptyIcon,
+                                    height: 300.h,
+                                    width: 300.w,
                                   ),
-                                )
-                              : Obx(
-                                  () => StaggeredGrid.count(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 16.h,
-                                    crossAxisSpacing: 16.w,
-                                    children: [
-                                      for (var i = 0;
-                                          i <
-                                              wishlistController.favoriteModel
-                                                  .value.data!.length;
-                                          i++)
-                                        InkWell(
-                                          onTap: () {
-                                            Get.to(() => ProductDetailsScreen(
-                                                favoriteItem: wishlistController
-                                                    .favoriteModel
-                                                    .value
-                                                    .data![i]));
-                                          },
-                                          child: Obx(
-                                            () => ProductWidget(
-                                              favTap: () async {
-                                                if (box.read('isLogedIn') !=
-                                                    false) {
-                                                  if (wishlistController
-                                                          .favoriteModel
-                                                          .value
-                                                          .data![i]
-                                                          .wishlist ==
-                                                      true) {
-                                                    await wishlistController
-                                                        .toggleFavoriteFalse(
-                                                            wishlistController
-                                                                .favoriteModel
-                                                                .value
-                                                                .data![i]
-                                                                .id!);
-
-                                                    wishlistController
-                                                        .showFavorite(
-                                                            wishlistController
-                                                                .favoriteModel
-                                                                .value
-                                                                .data![i]
-                                                                .id!);
-                                                  }
-                                                  if (wishlistController
-                                                          .favoriteModel
-                                                          .value
-                                                          .data![i]
-                                                          .wishlist ==
-                                                      false) {
-                                                    await wishlistController
-                                                        .toggleFavoriteTrue(
-                                                            wishlistController
-                                                                .favoriteModel
-                                                                .value
-                                                                .data![i]
-                                                                .id!);
-
-                                                    wishlistController
-                                                        .showFavorite(
-                                                            wishlistController
-                                                                .favoriteModel
-                                                                .value
-                                                                .data![i]
-                                                                .id!);
-                                                  }
-                                                } else {
-                                                  Get.to(() =>
-                                                      const SignInScreen());
-                                                }
-
-                                                await wishlistController
-                                                    .fetchFavorite();
-                                              },
-                                              wishlist: wishlistController
-                                                          .favList
-                                                          .contains(
-                                                              wishlistController
-                                                                  .favoriteModel
-                                                                  .value
-                                                                  .data![i]
-                                                                  .id) ||
-                                                      wishlistController
+                                ),
+                              )
+                            : Obx(
+                                () => StaggeredGrid.count(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 4.h,
+                                  crossAxisSpacing: 4.w,
+                                  children: [
+                                    for (var i = 0;
+                                        i <
+                                            wishlistController.favoriteModel
+                                                .value.data!.length;
+                                        i++)
+                                      InkWell(
+                                        onTap: () {
+                                          Get.to(() => ProductDetailsScreen(
+                                              favoriteItem: wishlistController
+                                                  .favoriteModel
+                                                  .value
+                                                  .data![i]));
+                                        },
+                                        child: Obx(
+                                          () => ProductWidget(
+                                            favTap: () async {
+                                              if (box.read('isLogedIn') !=
+                                                  false) {
+                                                if (wishlistController
+                                                        .favoriteModel
+                                                        .value
+                                                        .data![i]
+                                                        .wishlist ==
+                                                    true) {
+                                                  await wishlistController
+                                                      .toggleFavoriteFalse(
+                                                          wishlistController
                                                               .favoriteModel
                                                               .value
-                                                              .data?[i]
-                                                              .wishlist ==
-                                                          true
-                                                  ? true
-                                                  : false,
-                                              productImage: wishlistController
-                                                  .favoriteModel
-                                                  .value
-                                                  .data?[i]
-                                                  .cover,
-                                              title: wishlistController
-                                                  .favoriteModel
-                                                  .value
-                                                  .data?[i]
-                                                  .name,
-                                              rating: wishlistController
-                                                  .favoriteModel
-                                                  .value
-                                                  .data?[i]
-                                                  .ratingStar,
-                                              flashSale: wishlistController
-                                                  .favoriteModel
-                                                  .value
-                                                  .data![i]
-                                                  .flashSale!,
-                                              isOffer: wishlistController
-                                                  .favoriteModel
-                                                  .value
-                                                  .data![i]
-                                                  .isOffer!,
-                                              currentPrice: wishlistController
-                                                  .favoriteModel
-                                                  .value
-                                                  .data?[i]
-                                                  .currencyPrice,
-                                              discountPrice: wishlistController
-                                                  .favoriteModel
-                                                  .value
-                                                  .data?[i]
-                                                  .discountedPrice,
-                                              textRating: wishlistController
-                                                  .favoriteModel
-                                                  .value
-                                                  .data?[i]
-                                                  .ratingStarCount,
-                                            ),
+                                                              .data![i]
+                                                              .id!);
+
+                                                  wishlistController
+                                                      .showFavorite(
+                                                          wishlistController
+                                                              .favoriteModel
+                                                              .value
+                                                              .data![i]
+                                                              .id!);
+                                                }
+                                                if (wishlistController
+                                                        .favoriteModel
+                                                        .value
+                                                        .data![i]
+                                                        .wishlist ==
+                                                    false) {
+                                                  await wishlistController
+                                                      .toggleFavoriteTrue(
+                                                          wishlistController
+                                                              .favoriteModel
+                                                              .value
+                                                              .data![i]
+                                                              .id!);
+
+                                                  wishlistController
+                                                      .showFavorite(
+                                                          wishlistController
+                                                              .favoriteModel
+                                                              .value
+                                                              .data![i]
+                                                              .id!);
+                                                }
+                                              } else {
+                                                Get.to(() =>
+                                                    const SignInScreen());
+                                              }
+
+                                              await wishlistController
+                                                  .fetchFavorite();
+                                            },
+                                            wishlist: wishlistController
+                                                        .favList
+                                                        .contains(
+                                                            wishlistController
+                                                                .favoriteModel
+                                                                .value
+                                                                .data![i]
+                                                                .id) ||
+                                                    wishlistController
+                                                            .favoriteModel
+                                                            .value
+                                                            .data?[i]
+                                                            .wishlist ==
+                                                        true
+                                                ? true
+                                                : false,
+                                            productImage: wishlistController
+                                                .favoriteModel
+                                                .value
+                                                .data?[i]
+                                                .cover,
+                                            title: wishlistController
+                                                .favoriteModel
+                                                .value
+                                                .data?[i]
+                                                .name,
+                                            rating: wishlistController
+                                                .favoriteModel
+                                                .value
+                                                .data?[i]
+                                                .ratingStar,
+                                            flashSale: wishlistController
+                                                .favoriteModel
+                                                .value
+                                                .data![i]
+                                                .flashSale!,
+                                            isOffer: wishlistController
+                                                .favoriteModel
+                                                .value
+                                                .data![i]
+                                                .isOffer!,
+                                            currentPrice: wishlistController
+                                                .favoriteModel
+                                                .value
+                                                .data?[i]
+                                                .currencyPrice,
+                                            discountPrice: wishlistController
+                                                .favoriteModel
+                                                .value
+                                                .data?[i]
+                                                .discountedPrice,
+                                            textRating: wishlistController
+                                                .favoriteModel
+                                                .value
+                                                .data?[i]
+                                                .ratingStarCount,
                                           ),
                                         ),
-                                    ],
-                                  ),
-                                );
-                        }),
-                        SizedBox(
-                          height: 100.h,
-                        )
-                      ],
-                    ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                      }),
+                      SizedBox(
+                        height: 100.h,
+                      )
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -127,12 +127,12 @@ class _SearchScreenState extends State<SearchScreen> {
                   return SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 16.h),
+                          horizontal: 0.w, vertical: 16.h),
                       child: Obx(
                         () => StaggeredGrid.count(
                           crossAxisCount: 2,
-                          mainAxisSpacing: 16.h,
-                          crossAxisSpacing: 16.w,
+                          mainAxisSpacing: 4.h,
+                          crossAxisSpacing: 4.w,
                           children: [
                             for (var index = 0;
                                 index < searchController.productList.length;

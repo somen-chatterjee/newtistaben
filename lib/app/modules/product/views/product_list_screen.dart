@@ -63,12 +63,12 @@ class _ProductlistScreenState extends State<ProductlistScreen> {
             preferredSize: Size.fromHeight(48.h),
             child: const AppBarWidget2(),
           ),
-          body: Padding(
-            padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 16.h, left: 10.w, right: 16.w),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
@@ -96,99 +96,99 @@ class _ProductlistScreenState extends State<ProductlistScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 12.h,
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Expanded(
-                  child: Obx(
-                    () => MasonryGridView.count(
-                        controller: widget.id == 5
-                            ? allPopularController.scrollController
-                            : allFlashController.scrollController,
-                        shrinkWrap: true,
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 16.h,
-                        crossAxisSpacing: 16.w,
-                        itemCount: widget.id == 5
-                            ? (allPopularController.popularList.length +
-                                (allPopularController.hasMoreData == true
-                                    ? 1
-                                    : 0))
-                            : (allFlashController.flashSaleList.length +
-                                (allFlashController.hasMoreData == true
-                                    ? 1
-                                    : 0)),
-                        itemBuilder: (context, index) {
-                          final productListLength = widget.id == 5
-                              ? allPopularController.popularList.length
-                              : allFlashController.flashSaleList.length;
+              ),
+              SizedBox(
+                height: 12.h,
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Expanded(
+                child: Obx(
+                  () => MasonryGridView.count(
+                      controller: widget.id == 5
+                          ? allPopularController.scrollController
+                          : allFlashController.scrollController,
+                      shrinkWrap: true,
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 4.h,
+                      crossAxisSpacing: 4.w,
+                      itemCount: widget.id == 5
+                          ? (allPopularController.popularList.length +
+                              (allPopularController.hasMoreData == true
+                                  ? 1
+                                  : 0))
+                          : (allFlashController.flashSaleList.length +
+                              (allFlashController.hasMoreData == true
+                                  ? 1
+                                  : 0)),
+                      itemBuilder: (context, index) {
+                        final productListLength = widget.id == 5
+                            ? allPopularController.popularList.length
+                            : allFlashController.flashSaleList.length;
 
-                          final productList = widget.id == 5
-                              ? allPopularController.popularList
-                              : allFlashController.flashSaleList;
-                          if (index == productListLength) {
-                            return Shimmer.fromColors(
-                              baseColor: Colors.grey[200]!,
-                              highlightColor: Colors.grey[300]!,
-                              child: Container(
-                                height: 207.h,
-                                width: 156.w,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                    color: Colors.white,
-                                    border: Border.all(color: AppColor.borderColor)),
-                              ),
-                            );
-                          }
-
-                          return Obx(
-                            () => ProductWidget(
-                              onTap: () {
-                                Get.to(
-                                  () => ProductDetailsScreen(
-                                    product: productList[index],
-                                  ),
-                                );
-                              },
-                              wishlist: wishListController.favList
-                                          .contains(productList[index].id!) ||
-                                      productList[index].wishlist == true
-                                  ? true
-                                  : false,
-                              favTap: () async {
-                                if (productList[index].wishlist == true) {
-                                  await wishListController.toggleFavoriteFalse(
-                                      productList[index].id!);
-
-                                  wishListController
-                                      .showFavorite(productList[index].id!);
-                                }
-                                if (productList[index].wishlist == false) {
-                                  await wishListController.toggleFavoriteTrue(
-                                      productList[index].id!);
-
-                                  wishListController
-                                      .showFavorite(productList[index].id!);
-                                }
-                              },
-                              productImage: productList[index].cover,
-                              title: productList[index].name,
-                              rating: productList[index].ratingStar,
-                              currentPrice: productList[index].currencyPrice,
-                              discountPrice: productList[index].discountedPrice,
-                              textRating: productList[index].ratingStarCount,
-                              flashSale: productList[index].flashSale,
-                              isOffer: productList[index].isOffer,
+                        final productList = widget.id == 5
+                            ? allPopularController.popularList
+                            : allFlashController.flashSaleList;
+                        if (index == productListLength) {
+                          return Shimmer.fromColors(
+                            baseColor: Colors.grey[200]!,
+                            highlightColor: Colors.grey[300]!,
+                            child: Container(
+                              height: 207.h,
+                              width: 156.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  color: Colors.white,
+                                  border: Border.all(color: AppColor.borderColor)),
                             ),
                           );
-                        }),
-                  ),
-                )
-              ],
-            ),
+                        }
+
+                        return Obx(
+                          () => ProductWidget(
+                            onTap: () {
+                              Get.to(
+                                () => ProductDetailsScreen(
+                                  product: productList[index],
+                                ),
+                              );
+                            },
+                            wishlist: wishListController.favList
+                                        .contains(productList[index].id!) ||
+                                    productList[index].wishlist == true
+                                ? true
+                                : false,
+                            favTap: () async {
+                              if (productList[index].wishlist == true) {
+                                await wishListController.toggleFavoriteFalse(
+                                    productList[index].id!);
+
+                                wishListController
+                                    .showFavorite(productList[index].id!);
+                              }
+                              if (productList[index].wishlist == false) {
+                                await wishListController.toggleFavoriteTrue(
+                                    productList[index].id!);
+
+                                wishListController
+                                    .showFavorite(productList[index].id!);
+                              }
+                            },
+                            productImage: productList[index].cover,
+                            title: productList[index].name,
+                            rating: productList[index].ratingStar,
+                            currentPrice: productList[index].currencyPrice,
+                            discountPrice: productList[index].discountedPrice,
+                            textRating: productList[index].ratingStarCount,
+                            flashSale: productList[index].flashSale,
+                            isOffer: productList[index].isOffer,
+                          ),
+                        );
+                      }),
+                ),
+              )
+            ],
           ),
         ),
       ),

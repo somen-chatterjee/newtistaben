@@ -110,13 +110,13 @@ class HomeScreen extends StatelessWidget {
               profile.getTotalWalletBalance();
             }
           },
-          child: Padding(
-            padding: EdgeInsets.only(top: 16.h, left: 16.w),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 16.h, left: 16.w),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -158,192 +158,361 @@ class HomeScreen extends StatelessWidget {
                       const PromotionBanner()
                     ],
                   ),
-                  SizedBox(height: 32.h),
-                  SizedBox(
-                    child: Obx(() {
-                      return productSectionController
-                                  .productSection.value.data ==
-                              null
-                          ? const ProductShimmer()
-                          : productSectionController
-                                  .productSection.value.data!.isNotEmpty
-                              ? ListView.builder(
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.zero,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: productSectionController
-                                      .productSection.value.data?.length,
-                                  itemBuilder: (context, index) {
-                                    final section = productSectionController
-                                        .productSection.value.data;
-                                    return section![index].products!.isNotEmpty
-                                        ? Padding(
-                                            padding:
-                                                EdgeInsets.only(right: 16.w),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TitleWidget(
-                                                    text: section[index]
-                                                        .name
-                                                        .toString()),
-                                                SizedBox(height: 12.h),
-                                                StaggeredGrid.count(
-                                                  crossAxisCount: 2,
-                                                  mainAxisSpacing: 16.h,
-                                                  crossAxisSpacing: 16.w,
-                                                  children: [
-                                                    for (var i = 0;
-                                                        i <
-                                                            section[index]
-                                                                .products!
-                                                                .length;
-                                                        i++)
-                                                      Obx(
-                                                        () => ProductWidget(
-                                                          onTap: () {
-                                                            Get.to(
-                                                              () => ProductDetailsScreen(
-                                                                  sectionModel:
-                                                                      section[
-                                                                          index],
-                                                                  productModel:
-                                                                      section[index]
-                                                                          .products![i]),
-                                                            );
-                                                          },
-                                                          favTap: () async {
-                                                            if (box.read(
-                                                                    'isLogedIn') !=
-                                                                false) {
-                                                              if (section[index]
-                                                                      .products![
-                                                                          i]
-                                                                      .wishlist ==
-                                                                  true) {
-                                                                await wishListController
-                                                                    .toggleFavoriteFalse(section[
-                                                                            index]
-                                                                        .products![
-                                                                            i]
-                                                                        .id!);
-                                                                wishListController
-                                                                    .showFavorite(section[
-                                                                            index]
-                                                                        .products![
-                                                                            i]
-                                                                        .id!);
-                                                              }
-                                                              if (section[index]
-                                                                      .products![
-                                                                          i]
-                                                                      .wishlist ==
-                                                                  false) {
-                                                                await wishListController
-                                                                    .toggleFavoriteTrue(section[
-                                                                            index]
-                                                                        .products![
-                                                                            i]
-                                                                        .id!);
-                                                                wishListController
-                                                                    .showFavorite(section[
-                                                                            index]
-                                                                        .products![
-                                                                            i]
-                                                                        .id!);
-                                                              }
-                                                            } else {
-                                                              Get.to(() =>
-                                                                  const SignInScreen());
-                                                            }
-                                                          },
-                                                          wishlist: wishListController
-                                                                      .favList
-                                                                      .contains(section[index]
-                                                                          .products![
-                                                                              i]
-                                                                          .id!) ||
-                                                                  productSectionController
-                                                                          .productSection
-                                                                          .value
-                                                                          .data![
-                                                                              index]
-                                                                          .products![
-                                                                              i]
-                                                                          .wishlist ==
-                                                                      true
-                                                              ? true
-                                                              : false,
-                                                          productImage:
-                                                              section[index]
-                                                                  .products![i]
-                                                                  .cover!,
-                                                          title: section[index]
-                                                              .products![i]
-                                                              .name,
-                                                          rating: section[index]
-                                                              .products![i]
-                                                              .ratingStar,
-                                                          currentPrice: section[
-                                                                  index]
-                                                              .products![i]
-                                                              .currencyPrice,
-                                                          discountPrice: section[
-                                                                  index]
-                                                              .products![i]
-                                                              .discountedPrice,
-                                                          textRating: section[
-                                                                  index]
-                                                              .products![i]
-                                                              .ratingStarCount,
-                                                          flashSale:
-                                                              section[index]
-                                                                  .products![i]
-                                                                  .flashSale!,
-                                                          isOffer:
-                                                              section[index]
-                                                                  .products![i]
-                                                                  .isOffer!,
-                                                        ),
-                                                      ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 32.h),
-                                                MultiPromotionBanner(
-                                                  pIndex: index,
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : const SizedBox();
-                                  })
-                              : const SizedBox();
-                    }),
-                  ),
-                  Obx(
-                    () => popularProductController.popularModel.value.data ==
+                ),
+                SizedBox(height: 32.h),
+                SizedBox(
+                  child: Obx(() {
+                    return productSectionController
+                                .productSection.value.data ==
                             null
                         ? const ProductShimmer()
-                        : popularProductController
-                                .popularModel.value.data!.isNotEmpty
-                            ? Padding(
-                                padding: EdgeInsets.only(right: 16.w),
-                                child: Column(
+                        : productSectionController
+                                .productSection.value.data!.isNotEmpty
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: productSectionController
+                                    .productSection.value.data?.length,
+                                itemBuilder: (context, index) {
+                                  final section = productSectionController
+                                      .productSection.value.data;
+                                  return section![index].products!.isNotEmpty
+                                      ? Padding(
+                                          padding:
+                                              EdgeInsets.only(right: 16.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              TitleWidget(
+                                                  text: section[index]
+                                                      .name
+                                                      .toString()),
+                                              SizedBox(height: 12.h),
+                                              StaggeredGrid.count(
+                                                crossAxisCount: 2,
+                                                mainAxisSpacing: 4.h,
+                                                crossAxisSpacing: 4.w,
+                                                children: [
+                                                  for (var i = 0;
+                                                      i <
+                                                          section[index]
+                                                              .products!
+                                                              .length;
+                                                      i++)
+                                                    Obx(
+                                                      () => ProductWidget(
+                                                        onTap: () {
+                                                          Get.to(
+                                                            () => ProductDetailsScreen(
+                                                                sectionModel:
+                                                                    section[
+                                                                        index],
+                                                                productModel:
+                                                                    section[index]
+                                                                        .products![i]),
+                                                          );
+                                                        },
+                                                        favTap: () async {
+                                                          if (box.read(
+                                                                  'isLogedIn') !=
+                                                              false) {
+                                                            if (section[index]
+                                                                    .products![
+                                                                        i]
+                                                                    .wishlist ==
+                                                                true) {
+                                                              await wishListController
+                                                                  .toggleFavoriteFalse(section[
+                                                                          index]
+                                                                      .products![
+                                                                          i]
+                                                                      .id!);
+                                                              wishListController
+                                                                  .showFavorite(section[
+                                                                          index]
+                                                                      .products![
+                                                                          i]
+                                                                      .id!);
+                                                            }
+                                                            if (section[index]
+                                                                    .products![
+                                                                        i]
+                                                                    .wishlist ==
+                                                                false) {
+                                                              await wishListController
+                                                                  .toggleFavoriteTrue(section[
+                                                                          index]
+                                                                      .products![
+                                                                          i]
+                                                                      .id!);
+                                                              wishListController
+                                                                  .showFavorite(section[
+                                                                          index]
+                                                                      .products![
+                                                                          i]
+                                                                      .id!);
+                                                            }
+                                                          } else {
+                                                            Get.to(() =>
+                                                                const SignInScreen());
+                                                          }
+                                                        },
+                                                        wishlist: wishListController
+                                                                    .favList
+                                                                    .contains(section[index]
+                                                                        .products![
+                                                                            i]
+                                                                        .id!) ||
+                                                                productSectionController
+                                                                        .productSection
+                                                                        .value
+                                                                        .data![
+                                                                            index]
+                                                                        .products![
+                                                                            i]
+                                                                        .wishlist ==
+                                                                    true
+                                                            ? true
+                                                            : false,
+                                                        productImage:
+                                                            section[index]
+                                                                .products![i]
+                                                                .cover!,
+                                                        title: section[index]
+                                                            .products![i]
+                                                            .name,
+                                                        rating: section[index]
+                                                            .products![i]
+                                                            .ratingStar,
+                                                        currentPrice: section[
+                                                                index]
+                                                            .products![i]
+                                                            .currencyPrice,
+                                                        discountPrice: section[
+                                                                index]
+                                                            .products![i]
+                                                            .discountedPrice,
+                                                        textRating: section[
+                                                                index]
+                                                            .products![i]
+                                                            .ratingStarCount,
+                                                        flashSale:
+                                                            section[index]
+                                                                .products![i]
+                                                                .flashSale!,
+                                                        isOffer:
+                                                            section[index]
+                                                                .products![i]
+                                                                .isOffer!,
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 32.h),
+                                              MultiPromotionBanner(
+                                                pIndex: index,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : const SizedBox();
+                                })
+                            : const SizedBox();
+                  }),
+                ),
+                Obx(
+                  () => popularProductController.popularModel.value.data ==
+                          null
+                      ? const ProductShimmer()
+                      : popularProductController
+                              .popularModel.value.data!.isNotEmpty
+                          ? Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TitleWidget(text: "Most Popular".tr),
+                                  SeeAllButton(
+                                    onTap: () async {
+                                      Get.to(
+                                        () => const ProductlistScreen(
+                                          id: 5,
+                                          title: "Most Popular",
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+                            StaggeredGrid.count(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 4.h,
+                              crossAxisSpacing: 4.w,
+                              children: [
+                                for (int index = 0;
+                                    index <
+                                        popularProductController
+                                            .popularModel
+                                            .value
+                                            .data!
+                                            .length;
+                                    index++)
+                                  ProductWidget(
+                                    onTap: () {
+                                      Get.to(() => ProductDetailsScreen(
+                                          individualProduct:
+                                              popularProductController
+                                                  .popularModel
+                                                  .value
+                                                  .data?[index]));
+                                    },
+                                    wishlist: wishListController.favList
+                                                .contains(
+                                                    popularProductController
+                                                        .popularModel
+                                                        .value
+                                                        .data![index]
+                                                        .id!) ||
+                                            popularProductController
+                                                    .popularModel
+                                                    .value
+                                                    .data?[index]
+                                                    .wishlist ==
+                                                true
+                                        ? true
+                                        : false,
+                                    favTap: () async {
+                                      if (box.read('isLogedIn') !=
+                                          false) {
+                                        if (popularProductController
+                                                .popularModel
+                                                .value
+                                                .data?[index]
+                                                .wishlist ==
+                                            true) {
+                                          await wishListController
+                                              .toggleFavoriteFalse(
+                                                  popularProductController
+                                                      .popularModel
+                                                      .value
+                                                      .data![index]
+                                                      .id!);
+
+                                          wishListController.showFavorite(
+                                              popularProductController
+                                                  .popularModel
+                                                  .value
+                                                  .data![index]
+                                                  .id!);
+                                        }
+                                        if (popularProductController
+                                                .popularModel
+                                                .value
+                                                .data?[index]
+                                                .wishlist ==
+                                            false) {
+                                          await wishListController
+                                              .toggleFavoriteTrue(
+                                                  popularProductController
+                                                      .popularModel
+                                                      .value
+                                                      .data![index]
+                                                      .id!);
+
+                                          wishListController.showFavorite(
+                                              popularProductController
+                                                  .popularModel
+                                                  .value
+                                                  .data![index]
+                                                  .id!);
+                                        }
+                                      } else {
+                                        Get.to(
+                                            () => const SignInScreen());
+                                      }
+                                    },
+                                    productImage:
+                                        popularProductController
+                                            .popularModel
+                                            .value
+                                            .data?[index]
+                                            .cover!,
+                                    title: popularProductController
+                                        .popularModel
+                                        .value
+                                        .data?[index]
+                                        .name,
+                                    rating: popularProductController
+                                        .popularModel
+                                        .value
+                                        .data?[index]
+                                        .ratingStar
+                                        .toString(),
+                                    currentPrice:
+                                        popularProductController
+                                            .popularModel
+                                            .value
+                                            .data?[index]
+                                            .currencyPrice,
+                                    discountPrice:
+                                        popularProductController
+                                            .popularModel
+                                            .value
+                                            .data?[index]
+                                            .discountedPrice,
+                                    textRating: popularProductController
+                                        .popularModel
+                                        .value
+                                        .data?[index]
+                                        .ratingStarCount,
+                                    flashSale: popularProductController
+                                        .popularModel
+                                        .value
+                                        .data?[index]
+                                        .flashSale!,
+                                    isOffer: popularProductController
+                                        .popularModel
+                                        .value
+                                        .data?[index]
+                                        .isOffer!,
+                                  ),
+                              ],
+                            ),
+                          ],
+                                                        )
+                          : const SizedBox(),
+                ),
+                SizedBox(height: 34.h),
+                Obx(
+                  () => flashSaleController.flashSaleModel.value.data == null
+                      ? const ProductShimmer()
+                      : flashSaleController
+                              .flashSaleModel.value.data!.isNotEmpty
+                          ? Padding(
+                              padding: EdgeInsets.only(right: 16.w),
+                              child: Obx(
+                                () => Column(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(right: 16.w),
+                                      padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          TitleWidget(text: "Most Popular".tr),
+                                          TitleWidget(text: 'Flash Sale'.tr),
                                           SeeAllButton(
-                                            onTap: () async {
+                                            onTap: () {
                                               Get.to(
                                                 () => const ProductlistScreen(
-                                                  id: 5,
-                                                  title: "Most Popular",
+                                                  id: 10,
+                                                  title: "Flash Sale",
                                                 ),
                                               );
                                             },
@@ -354,414 +523,242 @@ class HomeScreen extends StatelessWidget {
                                     SizedBox(height: 16.h),
                                     StaggeredGrid.count(
                                       crossAxisCount: 2,
-                                      mainAxisSpacing: 16.h,
-                                      crossAxisSpacing: 16.w,
+                                      mainAxisSpacing: 4.h,
+                                      crossAxisSpacing: 4.w,
                                       children: [
                                         for (int index = 0;
                                             index <
-                                                popularProductController
-                                                    .popularModel
+                                                flashSaleController
+                                                    .flashSaleModel
                                                     .value
                                                     .data!
                                                     .length;
                                             index++)
-                                          ProductWidget(
-                                            onTap: () {
-                                              Get.to(() => ProductDetailsScreen(
-                                                  individualProduct:
-                                                      popularProductController
-                                                          .popularModel
-                                                          .value
-                                                          .data?[index]));
-                                            },
-                                            wishlist: wishListController.favList
+                                          Obx(() {
+                                            final flashSale =
+                                                flashSaleController
+                                                    .flashSaleModel
+                                                    .value
+                                                    .data![index];
+
+                                            return Obx(
+                                              () => ProductWidget(
+                                                onTap: () {
+                                                  Get.to(
+                                                    () =>
+                                                        ProductDetailsScreen(
+                                                      individualProduct:
+                                                          flashSaleController
+                                                              .flashSaleModel
+                                                              .value
+                                                              .data?[index],
+                                                    ),
+                                                  );
+                                                },
+                                                wishlist: wishListController
+                                                            .favList
+                                                            .contains(
+                                                                flashSale
+                                                                    .id!) ||
+                                                        flashSale.wishlist ==
+                                                            true
+                                                    ? true
+                                                    : false,
+                                                favTap: () async {
+                                                  if (box.read('isLogedIn') !=
+                                                      false) {
+                                                    if (flashSale.wishlist ==
+                                                        true) {
+                                                      await wishListController
+                                                          .toggleFavoriteFalse(
+                                                              flashSale.id!);
+                                                      wishListController
+                                                          .showFavorite(
+                                                              flashSale.id!);
+                                                    }
+                                                    if (flashSale.wishlist ==
+                                                        false) {
+                                                      await wishListController
+                                                          .toggleFavoriteTrue(
+                                                              flashSale.id!);
+
+                                                      wishListController
+                                                          .showFavorite(
+                                                              flashSale.id!);
+                                                    }
+                                                  } else {
+                                                    Get.to(() =>
+                                                        const SignInScreen());
+                                                  }
+                                                },
+                                                favColor: wishListController
+                                                        .favList
                                                         .contains(
-                                                            popularProductController
-                                                                .popularModel
-                                                                .value
-                                                                .data![index]
-                                                                .id!) ||
-                                                    popularProductController
-                                                            .popularModel
-                                                            .value
-                                                            .data?[index]
-                                                            .wishlist ==
-                                                        true
-                                                ? true
-                                                : false,
-                                            favTap: () async {
-                                              if (box.read('isLogedIn') !=
-                                                  false) {
-                                                if (popularProductController
-                                                        .popularModel
-                                                        .value
-                                                        .data?[index]
-                                                        .wishlist ==
-                                                    true) {
-                                                  await wishListController
-                                                      .toggleFavoriteFalse(
-                                                          popularProductController
-                                                              .popularModel
-                                                              .value
-                                                              .data![index]
-                                                              .id!);
-
-                                                  wishListController.showFavorite(
-                                                      popularProductController
-                                                          .popularModel
-                                                          .value
-                                                          .data![index]
-                                                          .id!);
-                                                }
-                                                if (popularProductController
-                                                        .popularModel
-                                                        .value
-                                                        .data?[index]
-                                                        .wishlist ==
-                                                    false) {
-                                                  await wishListController
-                                                      .toggleFavoriteTrue(
-                                                          popularProductController
-                                                              .popularModel
-                                                              .value
-                                                              .data![index]
-                                                              .id!);
-
-                                                  wishListController.showFavorite(
-                                                      popularProductController
-                                                          .popularModel
-                                                          .value
-                                                          .data![index]
-                                                          .id!);
-                                                }
-                                              } else {
-                                                Get.to(
-                                                    () => const SignInScreen());
-                                              }
-                                            },
-                                            productImage:
-                                                popularProductController
-                                                    .popularModel
-                                                    .value
-                                                    .data?[index]
-                                                    .cover!,
-                                            title: popularProductController
-                                                .popularModel
-                                                .value
-                                                .data?[index]
-                                                .name,
-                                            rating: popularProductController
-                                                .popularModel
-                                                .value
-                                                .data?[index]
-                                                .ratingStar
-                                                .toString(),
-                                            currentPrice:
-                                                popularProductController
-                                                    .popularModel
-                                                    .value
-                                                    .data?[index]
-                                                    .currencyPrice,
-                                            discountPrice:
-                                                popularProductController
-                                                    .popularModel
-                                                    .value
-                                                    .data?[index]
-                                                    .discountedPrice,
-                                            textRating: popularProductController
-                                                .popularModel
-                                                .value
-                                                .data?[index]
-                                                .ratingStarCount,
-                                            flashSale: popularProductController
-                                                .popularModel
-                                                .value
-                                                .data?[index]
-                                                .flashSale!,
-                                            isOffer: popularProductController
-                                                .popularModel
-                                                .value
-                                                .data?[index]
-                                                .isOffer!,
-                                          ),
+                                                            flashSale.id!)
+                                                    ? SvgIcon.filledHeart
+                                                    : SvgIcon.heart,
+                                                productImage:
+                                                    flashSale.cover!,
+                                                title: flashSale.name,
+                                                rating: flashSale.ratingStar
+                                                    .toString(),
+                                                currentPrice:
+                                                    flashSale.currencyPrice,
+                                                discountPrice:
+                                                    flashSale.discountedPrice,
+                                                textRating:
+                                                    flashSale.ratingStarCount,
+                                                flashSale:
+                                                    flashSale.flashSale!,
+                                                isOffer: flashSale.isOffer!,
+                                              ),
+                                            );
+                                          }),
                                       ],
                                     ),
                                   ],
                                 ),
-                              )
-                            : const SizedBox(),
-                  ),
-                  SizedBox(height: 34.h),
-                  Obx(
-                    () => flashSaleController.flashSaleModel.value.data == null
-                        ? const ProductShimmer()
-                        : flashSaleController
-                                .flashSaleModel.value.data!.isNotEmpty
-                            ? Padding(
-                                padding: EdgeInsets.only(right: 16.w),
-                                child: Obx(
-                                  () => Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 16.w),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TitleWidget(text: 'Flash Sale'.tr),
-                                            SeeAllButton(
-                                              onTap: () {
-                                                Get.to(
-                                                  () => const ProductlistScreen(
-                                                    id: 10,
-                                                    title: "Flash Sale",
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 16.h),
-                                      StaggeredGrid.count(
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 16.h,
-                                        crossAxisSpacing: 16.w,
-                                        children: [
-                                          for (int index = 0;
-                                              index <
-                                                  flashSaleController
-                                                      .flashSaleModel
-                                                      .value
-                                                      .data!
-                                                      .length;
-                                              index++)
-                                            Obx(() {
-                                              final flashSale =
-                                                  flashSaleController
-                                                      .flashSaleModel
-                                                      .value
-                                                      .data![index];
+                              ),
+                            )
+                          : const SizedBox(),
+                ),
+                SizedBox(height: 34.h),
+                Obx(
+                  () => brandController.brandModel.value.data != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TitleWidget(text: "Popular Brands".tr),
+                            SizedBox(height: 16.h),
+                            SizedBox(
+                              height: brandController
+                                          .brandModel.value.data?.isEmpty ??
+                                      false
+                                  ? 0
+                                  : 100.h,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: brandController
+                                    .brandModel.value.data?.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    borderRadius: BorderRadius.circular(16.r),
+                                    onTap: () {
+                                      filterController.addHomeBrandId(
+                                          brandController.brandModel.value
+                                              .data![index].id
+                                              .toString());
 
-                                              return Obx(
-                                                () => ProductWidget(
-                                                  onTap: () {
-                                                    Get.to(
-                                                      () =>
-                                                          ProductDetailsScreen(
-                                                        individualProduct:
-                                                            flashSaleController
-                                                                .flashSaleModel
-                                                                .value
-                                                                .data?[index],
-                                                      ),
-                                                    );
-                                                  },
-                                                  wishlist: wishListController
-                                                              .favList
-                                                              .contains(
-                                                                  flashSale
-                                                                      .id!) ||
-                                                          flashSale.wishlist ==
-                                                              true
-                                                      ? true
-                                                      : false,
-                                                  favTap: () async {
-                                                    if (box.read('isLogedIn') !=
-                                                        false) {
-                                                      if (flashSale.wishlist ==
-                                                          true) {
-                                                        await wishListController
-                                                            .toggleFavoriteFalse(
-                                                                flashSale.id!);
-                                                        wishListController
-                                                            .showFavorite(
-                                                                flashSale.id!);
-                                                      }
-                                                      if (flashSale.wishlist ==
-                                                          false) {
-                                                        await wishListController
-                                                            .toggleFavoriteTrue(
-                                                                flashSale.id!);
-
-                                                        wishListController
-                                                            .showFavorite(
-                                                                flashSale.id!);
-                                                      }
-                                                    } else {
-                                                      Get.to(() =>
-                                                          const SignInScreen());
-                                                    }
-                                                  },
-                                                  favColor: wishListController
-                                                          .favList
-                                                          .contains(
-                                                              flashSale.id!)
-                                                      ? SvgIcon.filledHeart
-                                                      : SvgIcon.heart,
-                                                  productImage:
-                                                      flashSale.cover!,
-                                                  title: flashSale.name,
-                                                  rating: flashSale.ratingStar
-                                                      .toString(),
-                                                  currentPrice:
-                                                      flashSale.currencyPrice,
-                                                  discountPrice:
-                                                      flashSale.discountedPrice,
-                                                  textRating:
-                                                      flashSale.ratingStarCount,
-                                                  flashSale:
-                                                      flashSale.flashSale!,
-                                                  isOffer: flashSale.isOffer!,
-                                                ),
-                                              );
-                                            }),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
-                  ),
-                  SizedBox(height: 34.h),
-                  Obx(
-                    () => brandController.brandModel.value.data != null
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TitleWidget(text: "Popular Brands".tr),
-                              SizedBox(height: 16.h),
-                              SizedBox(
-                                height: brandController
-                                            .brandModel.value.data?.isEmpty ??
-                                        false
-                                    ? 0
-                                    : 100.h,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount: brandController
-                                      .brandModel.value.data?.length,
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      borderRadius: BorderRadius.circular(16.r),
-                                      onTap: () {
-                                        filterController.addHomeBrandId(
-                                            brandController.brandModel.value
-                                                .data![index].id
-                                                .toString());
-
-                                        Get.to(() => CategoryWiseProductScreen(
-                                              brandName: brandController
-                                                  .brandModel
-                                                  .value
-                                                  .data?[index]
-                                                  .name,
-                                            ));
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 4.w),
-                                        child: Obx(
-                                          () => brandController.brandModel.value
-                                                          .data ==
-                                                      null ||
-                                                  brandController.brandModel
-                                                      .value.data!.isEmpty
-                                              ? Shimmer.fromColors(
-                                                  baseColor: Colors.grey[200]!,
-                                                  highlightColor:
-                                                      Colors.grey[300]!,
-                                                  child: Container(
-                                                    height: 90.h,
-                                                    width: 100.w,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16.r),
-                                                        color: Colors.white),
-                                                  ),
-                                                )
-                                              : Ink(
-                                                  height: 90,
-                                                  width: 100,
+                                      Get.to(() => CategoryWiseProductScreen(
+                                            brandName: brandController
+                                                .brandModel
+                                                .value
+                                                .data?[index]
+                                                .name,
+                                          ));
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 4.w),
+                                      child: Obx(
+                                        () => brandController.brandModel.value
+                                                        .data ==
+                                                    null ||
+                                                brandController.brandModel
+                                                    .value.data!.isEmpty
+                                            ? Shimmer.fromColors(
+                                                baseColor: Colors.grey[200]!,
+                                                highlightColor:
+                                                    Colors.grey[300]!,
+                                                child: Container(
+                                                  height: 90.h,
+                                                  width: 100.w,
                                                   decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                        color: AppColor
-                                                            .borderColor),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16.r),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(8.sp),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        CachedNetworkImage(
-                                                            imageUrl:
-                                                                brandController
-                                                                    .brandModel
-                                                                    .value
-                                                                    .data![
-                                                                        index]
-                                                                    .cover
-                                                                    .toString(),
-                                                            fit: BoxFit.cover,
-                                                            imageBuilder: (context,
-                                                                    imageProvider) =>
-                                                                Container(
-                                                                  height: 20.h,
-                                                                  width: 60.w,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    image: DecorationImage(
-                                                                        image:
-                                                                            imageProvider),
-                                                                  ),
-                                                                )),
-                                                        SizedBox(height: 20.h),
-                                                        CustomText(
-                                                          text: brandController
+                                                      borderRadius:
+                                                          BorderRadius
+                                                              .circular(16.r),
+                                                      color: Colors.white),
+                                                ),
+                                              )
+                                            : Ink(
+                                                height: 90,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                      color: AppColor
+                                                          .borderColor),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          16.r),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      EdgeInsets.all(8.sp),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      CachedNetworkImage(
+                                                          imageUrl:
+                                                              brandController
                                                                   .brandModel
                                                                   .value
-                                                                  .data?[index]
-                                                                  .name ??
-                                                              "",
-                                                          color: AppColor
-                                                              .textColor,
-                                                          weight:
-                                                              FontWeight.w600,
-                                                          size: 12.sp,
-                                                        )
-                                                      ],
-                                                    ),
+                                                                  .data![
+                                                                      index]
+                                                                  .cover
+                                                                  .toString(),
+                                                          fit: BoxFit.cover,
+                                                          imageBuilder: (context,
+                                                                  imageProvider) =>
+                                                              Container(
+                                                                height: 20.h,
+                                                                width: 60.w,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  image: DecorationImage(
+                                                                      image:
+                                                                          imageProvider),
+                                                                ),
+                                                              )),
+                                                      SizedBox(height: 20.h),
+                                                      CustomText(
+                                                        text: brandController
+                                                                .brandModel
+                                                                .value
+                                                                .data?[index]
+                                                                .name ??
+                                                            "",
+                                                        color: AppColor
+                                                            .textColor,
+                                                        weight:
+                                                            FontWeight.w600,
+                                                        size: 12.sp,
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                        ),
+                                              ),
                                       ),
-                                    );
-                                  },
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
-                              SizedBox(
-                                height: brandController
-                                            .brandModel.value.data?.isEmpty ??
-                                        false
-                                    ? 0
-                                    : 100.h,
-                              )
-                            ],
-                          )
-                        : const SizedBox(),
-                  ),
-                ],
-              ),
+                            ),
+                            SizedBox(
+                              height: brandController
+                                          .brandModel.value.data?.isEmpty ??
+                                      false
+                                  ? 0
+                                  : 100.h,
+                            )
+                          ],
+                        )
+                      : const SizedBox(),
+                ),
+              ],
             ),
           ),
         ),

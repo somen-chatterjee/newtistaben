@@ -103,19 +103,19 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
             resizeToAvoidBottomInset: false,
             appBar: AppBarWidget4(
               text: '',
-              showDownload: cateWiseProductController.categoryWiseProductList
-                  .isNotEmpty,
-              onTap: () {
-                cateWiseProductController.getSearchProductPdf(
-                  categorySlug: widget.categoryTreeModel?.slug ??
-                      widget.categoryModel?.slug ??
-                      '',
-                  sortBy: filterController.selectedOption.value.trim(),
-                  brands: filterController.homeBrands,
-                  variations: filterController.encodeVaritionObject,
-                  name: productSearchController.searchTextController.text.toString(),
-                );
-              },
+              // showDownload: cateWiseProductController.categoryWiseProductList
+              //     .isNotEmpty,
+              // onTap: () {
+              //   cateWiseProductController.getSearchProductPdf(
+              //     categorySlug: widget.categoryTreeModel?.slug ??
+              //         widget.categoryModel?.slug ??
+              //         '',
+              //     sortBy: filterController.selectedOption.value.trim(),
+              //     brands: filterController.homeBrands,
+              //     variations: filterController.encodeVaritionObject,
+              //     name: productSearchController.searchTextController.text.toString(),
+              //   );
+              // },
             ),
             body: Stack(
               children: [
@@ -157,28 +157,82 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                               ),
                             ],
                           ),
-                          InkWell(
-                            onTap: () {
-                              if (cateWiseProductController
-                                      .categoryWiseProductModel.value.data !=
-                                  null) {
-                                Get.to(() => FilterScreen(
-                                          cateWiseProductModel:
-                                              cateWiseProductController
-                                                  .categoryWiseProductModel
-                                                  .value
-                                                  .data,
-                                        ))!
-                                    .then((value) {
-                                  setState(() {});
-                                });
-                              }
-                            },
-                            child: SvgPicture.asset(
-                              SvgIcon.filter,
-                              height: 24.h,
-                              width: 24.w,
-                            ),
+                          Row(
+                            children: [
+                              if(cateWiseProductController.categoryWiseProductList
+                                  .isNotEmpty)
+                              GestureDetector(
+                                onTap: () {
+                                  cateWiseProductController.getSearchProductPdf(
+                                    categorySlug: widget.categoryTreeModel?.slug ??
+                                        widget.categoryModel?.slug ??
+                                        '',
+                                    sortBy: filterController.selectedOption.value.trim(),
+                                    brands: filterController.homeBrands,
+                                    variations: filterController.encodeVaritionObject,
+                                    name: productSearchController.searchTextController.text.toString(),
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.primaryColor,
+                                    borderRadius: BorderRadius.all(Radius.circular(50.r)),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          TextWidget(
+                                            text: "Catalogue",
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColor.whiteColor,
+                                          ),
+                                          TextWidget(
+                                            text: "(Use filters)",
+                                            fontSize: 12,
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      SvgPicture.asset(
+                                        "assets/icons/download.svg",
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              InkWell(
+                                onTap: () {
+                                  if (cateWiseProductController
+                                          .categoryWiseProductModel.value.data !=
+                                      null) {
+                                    Get.to(() => FilterScreen(
+                                              cateWiseProductModel:
+                                                  cateWiseProductController
+                                                      .categoryWiseProductModel
+                                                      .value
+                                                      .data,
+                                            ))!
+                                        .then((value) {
+                                      setState(() {});
+                                    });
+                                  }
+                                },
+                                child: SvgPicture.asset(
+                                  SvgIcon.filter,
+                                  height: 24.h,
+                                  width: 24.w,
+                                ),
+                              ),
+                            ],
                           )
                         ],
                       ),
@@ -234,13 +288,13 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                     )
                                   : Padding(
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 16.w, vertical: 16.h),
+                                          horizontal: 0.w, vertical: 16.h),
                                       child: MasonryGridView.count(
                                           controller: cateWiseProductController
                                               .scrollController,
                                           crossAxisCount: 2,
-                                          mainAxisSpacing: 16.h,
-                                          crossAxisSpacing: 16.w,
+                                          mainAxisSpacing: 4.h,
+                                          crossAxisSpacing: 4.w,
                                           physics:
                                               const AlwaysScrollableScrollPhysics(),
                                           shrinkWrap: true,
