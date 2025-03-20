@@ -251,12 +251,14 @@ class Color {
   final String? attributeOptionName;
   final int? productAttributeId;
   final int? productAttributeOptionId;
+  final String? image;
 
   Color({
     this.attributeName,
     this.attributeOptionName,
     this.productAttributeId,
     this.productAttributeOptionId,
+    this.image,
   });
 
   factory Color.fromJson(Map<String, dynamic> json) => Color(
@@ -264,6 +266,7 @@ class Color {
         attributeOptionName: json["attribute_option_name"],
         productAttributeId: json["product_attribute_id"],
         productAttributeOptionId: json["product_attribute_option_id"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -271,5 +274,6 @@ class Color {
         "attribute_option_name": attributeOptionName,
         "product_attribute_id": productAttributeId,
         "product_attribute_option_id": productAttributeOptionId,
+        "image": image,
       };
 }

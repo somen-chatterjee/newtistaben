@@ -52,6 +52,19 @@ class CategoryWiseProductController extends GetxController {
     }, (categoryWiseProduct) {
       categoryWiseProductModel.value = categoryWiseProduct;
 
+      // collection variation set
+      if(variationsMap != null) {
+        variationsMap!.forEach((key, value) {
+          if(key == "Collection") {
+            collectionList.clear();
+            selectedCollections.clear();
+            value.map((item) {
+              collectionList.add(Color.fromJson(item));
+            }).toList();
+          }
+        });
+      }
+
       lastPage.value = categoryWiseProduct.data!.lastPage!.toInt();
 
       if (page.value < lastPage.value) {
@@ -139,6 +152,17 @@ class CategoryWiseProductController extends GetxController {
     }
   }
 
+  var collectionList = <Color>[].obs;
+
+  var selectedCollections = <int>{}.obs; // Store selected option IDs
+
+  void toggleSelection(int id) {
+    if (selectedCollections.contains(id)) {
+      selectedCollections.remove(id);
+    } else {
+      selectedCollections.add(id);
+    }
+  }
 
   void resetState() {
     categoryWiseProductList.clear();

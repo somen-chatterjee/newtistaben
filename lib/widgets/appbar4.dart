@@ -22,7 +22,7 @@ class AppBarWidget4 extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColor.primaryBackgroundColor,
       elevation: 0,
       toolbarHeight: 48.h,
-      leadingWidth: double.infinity,
+      // leadingWidth: double.infinity,
       leading: Padding(
         padding: EdgeInsets.only(left: 8.w, top: 8.h),
         child: Row(
@@ -48,6 +48,12 @@ class AppBarWidget4 extends StatelessWidget implements PreferredSizeWidget {
             )
           ],
         ),
+      ),
+      centerTitle: true,
+      title: SvgPicture.asset(
+        SvgIcon.logo,
+        height: 35.h,
+        width: 73.w,
       ),
       actions: [
         // if (showDownload ?? false)

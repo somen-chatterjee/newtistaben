@@ -17,7 +17,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leadingWidth: 54.w,
+      // leadingWidth: 54.w,
       backgroundColor: AppColor.primaryBackgroundColor,
       leading: Container(
         padding: EdgeInsets.only(left: 16.w, right: 16.w),
@@ -27,6 +27,12 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
             SvgIcon.back,
           ),
         ),
+      ),
+      centerTitle: true,
+      title: SvgPicture.asset(
+        SvgIcon.logo,
+        height: 35.h,
+        width: 73.w,
       ),
       actions: [
         GestureDetector(
