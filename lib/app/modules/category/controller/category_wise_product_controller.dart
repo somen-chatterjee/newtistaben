@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopperz/app/modules/filter/controller/filter_controller.dart';
 import 'package:shopperz/config/theme/app_color.dart';
 import 'package:shopperz/data/remote_services/remote_services.dart';
 import 'package:shopperz/widgets/custom_snackbar.dart';
@@ -9,14 +10,16 @@ import '../model/category_wise_product.dart';
 
 class CategoryWiseProductController extends GetxController {
   ScrollController scrollController = ScrollController();
-  final isLaoding = false.obs;
+  final isLoading = false.obs;
   final categoryWiseProductModel = CategoryWiseProduct().obs;
   final categoryWiseProductList = <Product>[].obs;
+  final categoryWiseProductListCopy = <Product>[].obs;
 
   int paginate = 1;
   final page = 1.obs;
   final itemPerPage = 30.obs;
-  final isLoading = false.obs;
+  bool isFirst = true;
+  final isCollectionLoading = false.obs;
   final lastPage = 1.obs;
   bool hasMoreData = false;
 
@@ -34,7 +37,11 @@ class CategoryWiseProductController extends GetxController {
     String? name,
     variatons,
   }) async {
-    isLaoding(true);
+    if(isFirst){
+      isCollectionLoading(true);
+      isFirst = false;
+    }
+    isLoading(true);
     final data = await RemoteServices().fetchCategoryWiseProduct(
       category: categorySlug,
       brands: brands,
@@ -45,9 +52,11 @@ class CategoryWiseProductController extends GetxController {
       variations: variatons,
       page: page.value,
     );
-    isLaoding(false);
+    isLoading(false);
+    isCollectionLoading(false);
     data.fold((error) {
-      isLaoding.value = false;
+      isLoading.value = false;
+      isCollectionLoading.value = false;
       error.toString();
     }, (categoryWiseProduct) {
       categoryWiseProductModel.value = categoryWiseProduct;
@@ -57,7 +66,6 @@ class CategoryWiseProductController extends GetxController {
         variationsMap!.forEach((key, value) {
           if(key == "Collection") {
             collectionList.clear();
-            selectedCollections.clear();
             value.map((item) {
               collectionList.add(Color.fromJson(item));
             }).toList();
@@ -162,6 +170,25 @@ class CategoryWiseProductController extends GetxController {
     } else {
       selectedCollections.add(id);
     }
+  }
+
+  void setCollectionVariation({required Color item}) {
+    var filterController = Get.find<FilterController>();
+    var variationObject = {
+      "attribute": item.productAttributeId,
+      "option": item.productAttributeOptionId,
+    };
+
+    filterController.addVariationObject(variationObject);
+    if(filterController.variationObjectList.isNotEmpty) {
+      filterController.setVariations();
+    }
+  }
+
+  void resetCollection() {
+    isFirst = true;
+    collectionList.clear();
+    selectedCollections.clear();
   }
 
   void resetState() {

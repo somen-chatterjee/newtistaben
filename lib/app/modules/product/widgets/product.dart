@@ -74,7 +74,7 @@ class ProductWidget extends StatelessWidget {
                         color: AppColor.whiteColor,
                         borderRadius: BorderRadius.circular(8.r),
                         image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover),
+                            image: imageProvider, fit: BoxFit.fill),
                       ),
                     ),
                   ),
@@ -107,8 +107,8 @@ class ProductWidget extends StatelessWidget {
                             ? InkWell(
                                 onTap: favTap,
                                 child: Container(
-                                  height: 18.r,
-                                  width: 18.r,
+                                  height: 28.r,
+                                  width: 28.r,
                                   decoration: BoxDecoration(
                                     color: AppColor.whiteColor,
                                     borderRadius: BorderRadius.circular(18.r),
@@ -116,8 +116,8 @@ class ProductWidget extends StatelessWidget {
                                   child: Center(
                                     child: SvgPicture.asset(
                                       SvgIcon.heart,
-                                      height: 12.h,
-                                      width: 12.w,
+                                      height: 20.h,
+                                      width: 20.w,
                                     ),
                                   ),
                                 ),
@@ -194,7 +194,7 @@ class ProductWidget extends StatelessWidget {
                     TextWidget(
                       text: discountPrice ?? '0',
                       color: AppColor.textColor,
-                      fontSize: 18.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w700,
                     ),
                     SizedBox(
