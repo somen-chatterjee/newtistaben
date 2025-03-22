@@ -108,6 +108,34 @@ class FilterController extends GetxController {
     }
   }
 
+  void addCollectionVariationObject(variationObject) {
+    final int? incomingAttribute =
+    int.tryParse(variationObject['attribute'].toString());
+    final int? incomingOption =
+    int.tryParse(variationObject['option'].toString());
+
+    bool exists = variationObjectList.any((item) =>
+    item['attribute'] is int &&
+        item['option'] is int &&
+        item['attribute'] == incomingAttribute &&
+        item['option'] == incomingOption);
+
+    if (exists) {
+      variationObjectList.removeWhere((item) =>
+      item['attribute'] is int &&
+          item['option'] is int &&
+          item['attribute'] == incomingAttribute &&
+          item['option'] == incomingOption);
+      encodeVaritionObject = jsonEncode(variationObjectList).toString();
+    } else {
+      variationObjectList.add({
+        'attribute': incomingAttribute,
+        'option': incomingOption,
+      });
+      encodeVaritionObject = jsonEncode(variationObjectList).toString();
+    }
+  }
+
   addHomeBrandId(String id) {
     homeBrands = "[${id.toString()}]";
   }

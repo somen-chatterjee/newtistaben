@@ -278,7 +278,6 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                   cateWiseProductController
                                       .collectionList[index];
                                   int id = item.productAttributeOptionId ?? 0;
-                                  print('sam ${jsonEncode(item)}');
                               return Obx(() {
                                     bool isSelected = cateWiseProductController
                                         .selectedCollections
@@ -295,9 +294,11 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                           onTap: () {
                                             cateWiseProductController
                                                 .toggleSelection(id);
+
                                             cateWiseProductController
                                                 .setCollectionVariation(
                                                 item: item);
+
                                             setState(() {});
                                           },
                                           child: Container(

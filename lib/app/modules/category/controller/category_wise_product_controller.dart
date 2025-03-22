@@ -179,7 +179,8 @@ class CategoryWiseProductController extends GetxController {
       "option": item.productAttributeOptionId,
     };
 
-    filterController.addVariationObject(variationObject);
+    filterController.addCollectionVariationObject(variationObject);
+
     if(filterController.variationObjectList.isNotEmpty) {
       filterController.setVariations();
     }
