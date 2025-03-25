@@ -5,6 +5,8 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:shopperz/app/modules/cart/model/cart_model.dart';
 import 'package:shopperz/app/modules/cart/model/product_model.dart';
 import 'package:shopperz/app/modules/category/controller/category_wise_product_controller.dart';
 import 'package:shopperz/app/modules/home_sub_category/controller/sub_category_wise_product_controller.dart';
@@ -26,6 +28,7 @@ import 'package:shopperz/app/modules/search/model/all_product.dart';
 import 'package:shopperz/app/modules/shipping/model/coupon.dart';
 import 'package:shopperz/app/modules/shipping/model/outlet_model.dart';
 import 'package:shopperz/app/modules/shipping/model/show_address.dart';
+import 'package:shopperz/data/helper/device_token.dart';
 import 'package:shopperz/data/model/country_code_model.dart';
 import 'package:shopperz/data/model/setting_model.dart';
 import 'package:shopperz/data/server/app_server.dart';
@@ -317,6 +320,7 @@ class RemoteServices {
             : AppServer.getHttpHeadersWithToken());
     if (response.statusCode == 200) {
       final data = response.data;
+      log("somen ${jsonEncode(data)}");
       return Right(ProductModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
@@ -361,6 +365,7 @@ class RemoteServices {
 
     if (response.statusCode == 200) {
       final data = response.data;
+      log("somen ${jsonEncode(data)}");
       return Right(ChildrenVariationModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
@@ -635,5 +640,52 @@ class RemoteServices {
     });
 
     return response;
+  }
+
+  Future<Either<String, CategoryWiseProduct>> saveCartProducts({required List<CartModel> cartList}) async {
+    var requestBody = {
+      "device_token": await DeviceToken().getDeviceToken(),
+      "user_id": GetStorage().read('token'),
+      "products": jsonEncode(cartList),
+    };
+    log("sam $requestBody");
+
+    final response = await server.postRequest(
+      endPoint: ApiList.saveCartProducts,
+      headers: box.read('isLogedIn') == false
+          ? AppServer.getAuthHeaders()
+          : AppServer.getHttpHeadersWithToken(),
+      body: requestBody,
+    );
+    log("somrn $response");
+    if (response.statusCode == 200) {
+      final data = response.data;
+      categoryWiseProductController.variationsMap = data["data"]["variations"];
+      return Right(CategoryWiseProduct.fromJson(data));
+    } else {
+      return const Left("Something went wrong.");
+    }
+  }
+
+  Future<Either<String, CategoryWiseProduct>> getCartProducts() async {
+    var requestBody = {
+      "device_token": await DeviceToken().getDeviceToken(),
+      "user_id": GetStorage().read('token'),
+    }
+    final response = await server.postRequest(
+        endPoint: ApiList.getCartProducts,
+        headers: box.read('isLogedIn') == false
+            ? AppServer.getAuthHeaders()
+            : AppServer.getHttpHeadersWithToken(),
+        body: requestBody,
+    );
+    log("somrn $response");
+    if (response.statusCode == 200) {
+      final data = response.data;
+      categoryWiseProductController.variationsMap = data["data"]["variations"];
+      return Right(CategoryWiseProduct.fromJson(data));
+    } else {
+      return const Left("Something went wrong.");
+    }
   }
 }

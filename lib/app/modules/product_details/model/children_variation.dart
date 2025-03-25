@@ -39,6 +39,7 @@ class Datum {
     final String? sku;
     final int? stock;
     int numOfItem;
+    int? maximumPurchaseQuantity;
 
     Datum({
         this.id,
@@ -54,6 +55,7 @@ class Datum {
         this.discountPercentage,
         this.sku,
         this.stock,
+        this.maximumPurchaseQuantity,
         this.numOfItem = 0,
     });
 
@@ -71,6 +73,7 @@ class Datum {
         discountPercentage: json["discount_percentage"],
         sku: json["sku"],
         stock: json["stock"],
+        maximumPurchaseQuantity: json["maximum_purchase_quantity"],
         numOfItem: json["num_of_item"] ?? 0,
     );
 
@@ -89,5 +92,6 @@ class Datum {
         "sku": sku,
         "stock": stock,
         "num_of_item": numOfItem,
+        "maximum_purchase_quantity": maximumPurchaseQuantity,
     };
 }

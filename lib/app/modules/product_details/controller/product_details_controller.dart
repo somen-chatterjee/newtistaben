@@ -1,4 +1,7 @@
 
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/auth/controller/auth_controler.dart';
@@ -233,6 +236,10 @@ class ProductDetailsController extends GetxController {
             productCalculation(index);
           } else {
             debugPrint("Stock not available.");
+            // customSnackbar(
+            //     "INFO".tr,
+            //     "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED".tr,
+            //     AppColor.redColor);
           }
         } else {
           // Decrease numOfItem but not go below 0
@@ -366,6 +373,7 @@ class ProductDetailsController extends GetxController {
       }
 
       if (cartController.isProductAdded) {
+        await RemoteServices().saveCartProducts(cartList: cartController.cartItems);
         Get.back();
         customSnackbar(
             "SUCCESS".tr, "Product added to cart".tr, AppColor.success);

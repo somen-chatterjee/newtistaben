@@ -110,4 +110,6 @@ class ApiList {
       "$baseUrl/api/frontend/country-state-city/countries";
   static String states = "$baseUrl/api/frontend/country-state-city/states/";
   static String cities = "$baseUrl/api/frontend/country-state-city/cities/";
+  static String saveCartProducts = "$baseUrl/api/frontend/product/save-cart-products";
+  static String getCartProducts = "$baseUrl/api/frontend/product/get-cart-products";
 }

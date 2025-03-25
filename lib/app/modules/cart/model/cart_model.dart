@@ -37,6 +37,27 @@ class CartModel {
     this.variationOldPrice,
     this.variationCurrencyPrice,
     this.variationOldCurrencyPrice,
-    this.variationStock
+    this.variationStock,
   }) : quantity = quantity.obs;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'product': product.toJson(),
+      'quantity': quantity.value,
+      'variationId': variationId,
+      'shippingCharge': shippingCharge,
+      'finalVariationString': finalVariationString,
+      'sku': sku,
+      'taxObject': taxObject,
+      'stock': stock,
+      'shippingObject': shippingObject,
+      'totalProductTax': totalProductTax,
+      'flatShippingCharge': flatShippingCharge,
+      'variationPrice': variationPrice,
+      'variationOldPrice': variationOldPrice,
+      'variationCurrencyPrice': variationCurrencyPrice,
+      'variationOldCurrencyPrice': variationOldCurrencyPrice,
+      'variationStock': variationStock,
+    };
+  }
 }
