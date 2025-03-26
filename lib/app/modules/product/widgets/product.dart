@@ -153,7 +153,7 @@ class ProductWidget extends StatelessWidget {
                   text: title ?? '',
                   color: AppColor.textColor,
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   maxLines: 2,
                   overflow: TextOverflow.fade,
                 ),
@@ -194,8 +194,8 @@ class ProductWidget extends StatelessWidget {
                     TextWidget(
                       text: discountPrice ?? '0',
                       color: AppColor.textColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
                     ),
                     SizedBox(
                       width: 8.w,

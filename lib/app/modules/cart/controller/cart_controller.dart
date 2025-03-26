@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:get/get.dart';
+import 'package:shopperz/app/database/cart_db_helper.dart';
 import 'package:shopperz/app/modules/auth/controller/auth_controler.dart';
 import 'package:shopperz/app/modules/cart/model/product_model.dart';
 import 'package:shopperz/app/modules/shipping/controller/show_address_controller.dart';
+import 'package:shopperz/main.dart';
 import '../../../../config/theme/app_color.dart';
 import '../../../../widgets/custom_snackbar.dart';
 import '../model/cart_model.dart';
@@ -21,9 +26,14 @@ class CartController extends GetxController {
   double multiplyShippingAmount = 0.0;
   bool isProductAdded = false;
 
+  // initialize database
+  final dbHelper = DatabaseHelper();
+
   @override
   onInit() {
     authController.getSetting();
+    dbHelper.database;
+    getAllCartProducts();
     super.onInit();
   }
 
@@ -33,7 +43,7 @@ class CartController extends GetxController {
     }
   }
 
-  void addItem(
+  Future<void> addItem(
       {required ProductModel product,
       int? variationId,
       String? shippingAmount,
@@ -49,7 +59,7 @@ class CartController extends GetxController {
       dynamic productVariationCurrencyPrice,
       dynamic productVariationOldCurrencyPrice,
       int? variationStock,
-      String? flatShippingCost}) {
+      String? flatShippingCost}) async {
     isProductAdded = false;
 
     final maxQuantity = 10000;
@@ -70,34 +80,44 @@ class CartController extends GetxController {
         } else {
           item.quantity.value = newQuantity;
           isProductAdded = true;
+          await dbHelper.insertCartItem(item);
           return;
         }
       }
     }
 
-    cartItems.add(
-      CartModel(
-          product: product,
-          variationId: variationId ?? 0,
-          quantity: numOfItems.value,
-          shippingCharge: shippingAmount ?? "0",
-          finalVariationString: finalVariation ?? "null",
-          sku: sku ?? "null",
-          taxObject: taxJson,
-          stock: stock,
-          variationPrice: productVariationPrice,
-          variationOldPrice: productVariationOldPrice,
-          variationCurrencyPrice: productVariationCurrencyPrice,
-          variationOldCurrencyPrice: productVariationOldCurrencyPrice,
-          shippingObject: shipping,
-          totalProductTax: totalTax,
-          flatShippingCharge: flatShippingCost,
-          variationStock: variationStock),
+    var cartData = CartModel(
+      product: product,
+      variationId: variationId ?? 0,
+      quantity: numOfItems.value,
+      shippingCharge: shippingAmount ?? "0",
+      finalVariationString: finalVariation ?? "null",
+      sku: sku ?? "null",
+      taxObject: taxJson,
+      stock: stock,
+      variationPrice: productVariationPrice,
+      variationOldPrice: productVariationOldPrice,
+      variationCurrencyPrice: productVariationCurrencyPrice,
+      variationOldCurrencyPrice: productVariationOldCurrencyPrice,
+      shippingObject: shipping,
+      totalProductTax: totalTax,
+      flatShippingCharge: flatShippingCost,
+      variationStock: variationStock,
     );
+
+    log("somen ${cartData.quantity}");
+
+    // for first time insert on table
+    int result = await dbHelper.insertCartItem(cartData);
+
+    if(result != -1) {
+      cartItems.add(cartData);
+    }
+
     isProductAdded = true;
   }
 
-  void incrementItem(CartModel cartItem) {
+  void incrementItem(CartModel cartItem) async{
     if (cartItem.variationStock != -1) {
       if (cartItem.variationStock! < 0) {
       } else {
@@ -140,13 +160,17 @@ class CartController extends GetxController {
         }
       }
     }
+
+    await dbHelper.insertCartItem(cartItem);
   }
 
-  void decrementItem(CartModel cartItem) {
+  void decrementItem(CartModel cartItem) async{
     if (cartItem.quantity > 1) {
       cartItem.quantity.value--;
       decrementShippingCharge(cartItem);
     }
+
+    await dbHelper.insertCartItem(cartItem);
   }
 
   int getQuantityForProduct(ProductModel product) {
@@ -291,4 +315,15 @@ class CartController extends GetxController {
     }
     if (shippingMethod == "10") {}
   }
+
+  void getAllCartProducts() async {
+    // if (box.read('isLogedIn') != false) {
+    //   // TODO: need to implement api for cart data
+    // } else {
+      final allCartItems = await dbHelper.getCartItems();
+      cartItems.clear();
+      cartItems.addAll(allCartItems);
+    // }
+  }
+
 }

@@ -47,6 +47,7 @@ class ProductDetailsController extends GetxController {
   final reviewLimit = 3.obs;
 
   final isLaoding = RxInt(1);
+  final isAddToCartLoading = RxInt(0);
 
   String finalVariationString = "";
 
@@ -326,6 +327,7 @@ class ProductDetailsController extends GetxController {
   }
 
   void getOrderDetails() async {
+    isAddToCartLoading(1);
     final cartController = Get.find<CartController>();
     final authController = Get.find<AuthController>();
 
@@ -339,7 +341,7 @@ class ProductDetailsController extends GetxController {
           cartController.numOfItems.value = details.numOfItems ?? 1;
 
           // adding multiple items to cart
-          cartController.addItem(
+          await cartController.addItem(
             variationStock: details.variationStock,
             product: details.product ?? ProductModel(),
             variationId: details.variationId,
@@ -373,11 +375,12 @@ class ProductDetailsController extends GetxController {
       }
 
       if (cartController.isProductAdded) {
-        await RemoteServices().saveCartProducts(cartList: cartController.cartItems);
+        // await RemoteServices().saveCartProducts(cartList: cartController.cartItems);
         Get.back();
         customSnackbar(
             "SUCCESS".tr, "Product added to cart".tr, AppColor.success);
       }
+      isAddToCartLoading(0);
     }
 
     //

@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:core';
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -320,7 +318,6 @@ class RemoteServices {
             : AppServer.getHttpHeadersWithToken());
     if (response.statusCode == 200) {
       final data = response.data;
-      log("somen ${jsonEncode(data)}");
       return Right(ProductModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
@@ -365,7 +362,6 @@ class RemoteServices {
 
     if (response.statusCode == 200) {
       final data = response.data;
-      log("somen ${jsonEncode(data)}");
       return Right(ChildrenVariationModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
@@ -648,7 +644,6 @@ class RemoteServices {
       "user_id": GetStorage().read('token'),
       "products": jsonEncode(cartList),
     };
-    log("sam $requestBody");
 
     final response = await server.postRequest(
       endPoint: ApiList.saveCartProducts,
@@ -657,7 +652,6 @@ class RemoteServices {
           : AppServer.getHttpHeadersWithToken(),
       body: requestBody,
     );
-    log("somrn $response");
     if (response.statusCode == 200) {
       final data = response.data;
       categoryWiseProductController.variationsMap = data["data"]["variations"];
@@ -671,7 +665,7 @@ class RemoteServices {
     var requestBody = {
       "device_token": await DeviceToken().getDeviceToken(),
       "user_id": GetStorage().read('token'),
-    }
+    };
     final response = await server.postRequest(
         endPoint: ApiList.getCartProducts,
         headers: box.read('isLogedIn') == false
@@ -679,7 +673,6 @@ class RemoteServices {
             : AppServer.getHttpHeadersWithToken(),
         body: requestBody,
     );
-    log("somrn $response");
     if (response.statusCode == 200) {
       final data = response.data;
       categoryWiseProductController.variationsMap = data["data"]["variations"];
