@@ -110,13 +110,18 @@ class DatabaseHelper {
   }
 
   // delete the cart item
-  Future<void> deleteCartItem(int variationId) async {
+  Future<int> deleteCartItem(int variationId) async {
     final db = await _initDatabase();
-    await db.delete(
-      'cart',
-      where: 'variationId = ?',
-      whereArgs: [variationId],
-    );
+    try {
+      return await db.delete(
+        'cart',
+        where: 'variationId = ?',
+        whereArgs: [variationId],
+      );
+    } catch (e) {
+      print("Insert failed: $e");
+      return -1; // Error indicator
+    }
   }
 
   // clear the cart

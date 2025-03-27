@@ -114,6 +114,10 @@ class PaymentControllr extends GetxController {
     if (response != null && response.statusCode == 201) {
         isLoading(false);
         int orderId = response.data['data']['id'];
+
+        // remove all data from cart db using cart controller
+        cartController.removeAllCartData();
+
         Get.to(()=> PaymentView(
           orderId: orderId,
           slug: slug,

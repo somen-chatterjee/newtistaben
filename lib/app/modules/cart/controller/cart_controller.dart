@@ -185,10 +185,13 @@ class CartController extends GetxController {
     return quantity;
   }
 
-  void removeFromCart(CartModel cartModel) {
-    cartItems.remove(cartModel);
-    quantityTax.value = 0.0;
-    removeProductWiseShippingCharge(cartModel);
+  void removeFromCart(CartModel cartModel) async {
+    var result = await dbHelper.deleteCartItem(cartModel.variationId);
+    if(result != -1) {
+      cartItems.remove(cartModel);
+      quantityTax.value = 0.0;
+      removeProductWiseShippingCharge(cartModel);
+    }
   }
 
   int get totalItems {
@@ -324,6 +327,11 @@ class CartController extends GetxController {
       cartItems.clear();
       cartItems.addAll(allCartItems);
     // }
+  }
+
+  void removeAllCartData() async {
+    await dbHelper.clearCart();
+    cartItems.clear();
   }
 
 }
