@@ -125,8 +125,8 @@ class ProductWidget extends StatelessWidget {
                             : InkWell(
                                 onTap: favTap,
                                 child: Container(
-                                  height: 18.r,
-                                  width: 18.r,
+                                  height: 28.r,
+                                  width: 28.r,
                                   decoration: BoxDecoration(
                                     color: AppColor.whiteColor,
                                     borderRadius: BorderRadius.circular(18.r),
@@ -134,8 +134,8 @@ class ProductWidget extends StatelessWidget {
                                   child: Center(
                                     child: SvgPicture.asset(
                                       SvgIcon.filledHeart,
-                                      height: 12.h,
-                                      width: 12.w,
+                                      height: 20.h,
+                                      width: 20.w,
                                     ),
                                   ),
                                 ),
