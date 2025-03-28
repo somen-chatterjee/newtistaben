@@ -37,6 +37,7 @@ class Datum {
     final dynamic discount;
     final int? discountPercentage;
     final String? sku;
+    final int? moq;
     final int? stock;
     int numOfItem;
     int? maximumPurchaseQuantity;
@@ -54,6 +55,7 @@ class Datum {
         this.discount,
         this.discountPercentage,
         this.sku,
+        this.moq,
         this.stock,
         this.maximumPurchaseQuantity,
         this.numOfItem = 0,
@@ -72,6 +74,7 @@ class Datum {
         discount: json["discount"],
         discountPercentage: json["discount_percentage"],
         sku: json["sku"],
+        moq: json["moq"],
         stock: json["stock"],
         maximumPurchaseQuantity: json["maximum_purchase_quantity"],
         numOfItem: json["num_of_item"] ?? 0,
@@ -90,6 +93,7 @@ class Datum {
         "discount": discount,
         "discount_percentage": discountPercentage,
         "sku": sku,
+        "moq": moq,
         "stock": stock,
         "num_of_item": numOfItem,
         "maximum_purchase_quantity": maximumPurchaseQuantity,

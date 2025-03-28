@@ -57,7 +57,7 @@ class _CustomTabBarState extends State<CustomTabBar>
   final itemList = [
     "DETAILS".tr,
     "VIDEOS".tr,
-    "REVIEW".tr,
+    // "REVIEW".tr,
     "SHIPPING_AND_RETURN".tr
   ];
   int currentIndex = 0;
@@ -65,14 +65,14 @@ class _CustomTabBarState extends State<CustomTabBar>
   late final itemView = [
     const DetailsView(),
     const VideosView(),
-    ReviewView(
-      allProductModel: widget.allProductModel,
-      categoryWiseProduct: widget.categoryWiseProduct,
-      favoriteItem: widget.favoriteItem,
-      productModel: widget.productModel,
-      relatedProduct: widget.relatedProduct,
-      sectionModel: widget.sectionModel,
-    ),
+    // ReviewView(
+    //   allProductModel: widget.allProductModel,
+    //   categoryWiseProduct: widget.categoryWiseProduct,
+    //   favoriteItem: widget.favoriteItem,
+    //   productModel: widget.productModel,
+    //   relatedProduct: widget.relatedProduct,
+    //   sectionModel: widget.sectionModel,
+    // ),
     const ShippingReturnView()
   ];
 

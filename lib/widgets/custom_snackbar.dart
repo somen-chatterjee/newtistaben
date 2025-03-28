@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 customSnackbar(tittle, message, color) {
+  Get.closeAllSnackbars();
   Get.snackbar(
     tittle,
     message,

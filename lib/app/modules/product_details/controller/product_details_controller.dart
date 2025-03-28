@@ -43,6 +43,7 @@ class ProductDetailsController extends GetxController {
   final variationProductOldCurrencyPrice = ''.obs;
   final variationsku = ''.obs;
   final variationsStock = RxInt(-1);
+  final variationsMoq = RxInt(-1);
 
   final reviewLimit = 3.obs;
 
@@ -196,7 +197,7 @@ class ProductDetailsController extends GetxController {
       if (model != null && model.data != null && index < model.data!.length) {
         if (isIncrement) {
           // Increase numOfItem but not exceed stock
-          if (model.data![index].numOfItem < model.data![index].stock!) {
+          if (model.data![index].numOfItem < model.data![index].moq!) {
             model.data![index].numOfItem++;
 
             // product id
@@ -234,13 +235,9 @@ class ProductDetailsController extends GetxController {
                     .toString() ??
                 '';
 
-            productCalculation(index);
+
           } else {
             debugPrint("Stock not available.");
-            // customSnackbar(
-            //     "INFO".tr,
-            //     "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED".tr,
-            //     AppColor.redColor);
           }
         } else {
           // Decrease numOfItem but not go below 0
@@ -258,6 +255,9 @@ class ProductDetailsController extends GetxController {
             }
           }
         }
+
+        productCalculation(index);
+
       }
     });
   }
@@ -321,6 +321,7 @@ class ProductDetailsController extends GetxController {
               .toString() ??
           "0",
       numOfItems: childrenVariationModel1.value.data![index].numOfItem,
+      variationMoq: childrenVariationModel1.value.data![index].moq,
     );
 
     productDetailsList[index] = productDetails;
@@ -359,6 +360,7 @@ class ProductDetailsController extends GetxController {
             details.productVariationOldCurrencyPrice,
             totalTax: details.totalTax,
             flatShippingCost: details.flatShippingCost,
+            variationMoq: details.variationMoq,
           );
 
           cartController.calculateShippingCharge(
@@ -555,6 +557,7 @@ class ProductDetails {
   final int? variationStock;
   final String? flatShippingCost;
   final int? numOfItems;
+  final int? variationMoq;
 
   ProductDetails({
     this.product,
@@ -574,6 +577,7 @@ class ProductDetails {
     this.variationStock,
     this.flatShippingCost,
     this.numOfItems,
+    this.variationMoq,
   });
 
   factory ProductDetails.fromJson(Map<String, dynamic> json) {
@@ -598,6 +602,7 @@ class ProductDetails {
       variationStock: json['variationStock'],
       flatShippingCost: json['flatShippingCost'],
       numOfItems: json['numOfItems'],
+      variationMoq: json['variationMoq'],
     );
   }
 
@@ -620,6 +625,7 @@ class ProductDetails {
       'variationStock': variationStock,
       'flatShippingCost': flatShippingCost,
       'numOfItems': numOfItems,
+      'variationMoq': variationMoq,
     };
   }
 }

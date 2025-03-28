@@ -59,7 +59,9 @@ class CartController extends GetxController {
       dynamic productVariationCurrencyPrice,
       dynamic productVariationOldCurrencyPrice,
       int? variationStock,
-      String? flatShippingCost}) async {
+        String? flatShippingCost,
+        int? variationMoq,
+      }) async {
     isProductAdded = false;
 
     final maxQuantity = 10000;
@@ -103,9 +105,10 @@ class CartController extends GetxController {
       totalProductTax: totalTax,
       flatShippingCharge: flatShippingCost,
       variationStock: variationStock,
+      variationMoq: variationMoq,
     );
 
-    log("somen ${cartData.quantity}");
+    log("somen ${jsonEncode(cartData.toJson())}");
 
     // for first time insert on table
     int result = await dbHelper.insertCartItem(cartData);
@@ -123,11 +126,13 @@ class CartController extends GetxController {
       } else {
         if (cartItem.quantity.value < cartItem.variationStock!) {
           // maximum purchase quantity null
-          if (cartItem.product.data!.maximumPurchaseQuantity == null) {
-            cartItem.quantity.value++;
-          } else {
+          // if (cartItem.product.data!.maximumPurchaseQuantity == null) {
+          //   cartItem.quantity.value++;
+          // } else {
+          //   if (cartItem.quantity.value <
+          //       cartItem.product.data!.maximumPurchaseQuantity!) {
             if (cartItem.quantity.value <
-                cartItem.product.data!.maximumPurchaseQuantity!) {
+                cartItem.variationMoq!) {
               cartItem.quantity.value++;
             } else {
               customSnackbar(
@@ -135,7 +140,7 @@ class CartController extends GetxController {
                   "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED".tr,
                   AppColor.redColor);
             }
-          }
+          // }
         } else {}
       }
     } else {

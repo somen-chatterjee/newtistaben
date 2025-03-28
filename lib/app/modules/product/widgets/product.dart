@@ -54,11 +54,12 @@ class ProductWidget extends StatelessWidget {
                 color: Colors.black.withOpacity(0.04),
                 offset: const Offset(0, 0),
                 blurRadius: 7.r,
-                spreadRadius: 0),
+                spreadRadius: 0,
+            ),
           ],
         ),
         child: Padding(
-          padding: EdgeInsets.all(6.r),
+          padding: EdgeInsets.all(0.r),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,9 +154,9 @@ class ProductWidget extends StatelessWidget {
                   text: title ?? '',
                   color: AppColor.textColor,
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   maxLines: 2,
-                  overflow: TextOverflow.fade,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               SizedBox(
@@ -205,7 +206,7 @@ class ProductWidget extends StatelessWidget {
                             text: currentPrice ?? '0',
                             color: AppColor.redColor,
                             fontSize: 12.sp,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                             decoration: TextDecoration.lineThrough,
                           )
                         : const SizedBox(),

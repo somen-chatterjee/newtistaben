@@ -20,6 +20,7 @@ class CartModel {
   dynamic variationCurrencyPrice;
   dynamic variationOldCurrencyPrice;
   int? variationStock;
+  int? variationMoq;
 
   CartModel({
     required this.product,
@@ -38,6 +39,7 @@ class CartModel {
     this.variationCurrencyPrice,
     this.variationOldCurrencyPrice,
     this.variationStock,
+    this.variationMoq,
   }) : quantity = quantity.obs;
 
   Map<String, dynamic> toJson() {
@@ -58,6 +60,7 @@ class CartModel {
       'variationCurrencyPrice': variationCurrencyPrice,
       'variationOldCurrencyPrice': variationOldCurrencyPrice,
       'variationStock': variationStock,
+      'variationMoq': variationMoq,
     };
   }
 }

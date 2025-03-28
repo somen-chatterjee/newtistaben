@@ -133,7 +133,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text: attributeName,
+                                text: "${attributeName.capitalize} ${attributeName == 'size' ? '(Search Setwise)': ''}",
                                 color: AppColor.textColor,
                                 size: 18.sp,
                                 weight: FontWeight.w600,

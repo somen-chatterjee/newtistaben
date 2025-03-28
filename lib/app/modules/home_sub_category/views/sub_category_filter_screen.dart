@@ -139,7 +139,7 @@ class _SubCategoryFilterScreenState extends State<SubCategoryFilterScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text: attributeName,
+                                text: "${attributeName.capitalize} ${attributeName == 'size' ? '(Search Setwise)': ''}",
                                 color: AppColor.textColor,
                                 size: 18.sp,
                                 weight: FontWeight.w600,

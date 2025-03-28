@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -440,7 +441,7 @@ class RemoteServices {
         endPoint: ApiList.coupon, headers: AppServer.getHttpHeadersWithToken());
     if (response.statusCode == 200) {
       final data = response.data;
-
+log("somen fetchCoupon ${jsonEncode(data)}");
       return Right(CouponModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
@@ -554,12 +555,12 @@ class RemoteServices {
       required int page,
       required int perPage}) async {
     try {
-      // log("sam fetchPromotionPdfProduct ${jsonEncode({
-      //   "promotionSlug": promotionSlug,
-      //   "perPage": perPage,
-      //   "paginate": paginate,
-      //   "page": page,
-      // })}");
+      log("sam fetchPromotionPdfProduct ${jsonEncode({
+        "promotionSlug": promotionSlug,
+        "perPage": perPage,
+        "paginate": paginate,
+        "page": page,
+      })}");
 
       final response = await server.postRequest(
           endPoint: ApiList.productsPdf,

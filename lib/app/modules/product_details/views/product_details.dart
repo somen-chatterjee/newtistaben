@@ -227,7 +227,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 "",
                             imageBuilder: (context, imageProvider) =>
                                 Container(
-                                  height: 346.h,
+                                  height: 420.h,
                                   width: 328.w,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(16.r),
@@ -242,7 +242,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               .data!.images!.isEmpty
                               ? const SizedBox()
                               : SizedBox(
-                            height: 80.h,
+                            height: 100.h,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
@@ -273,7 +273,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         Container(
                                           margin: EdgeInsets.only(
                                               right: 8.w),
-                                          height: 76.h,
+                                          height: 100.h,
                                           width: 76.w,
                                           decoration: BoxDecoration(
                                             borderRadius:

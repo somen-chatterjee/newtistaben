@@ -351,4 +351,5 @@ Map<String, String> arabic = {
   'STATE': 'ولاية',
   'CITY': 'مدينة',
   'Reset': 'إعادة ضبط',
+  'MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED': 'لقد تجاوزت الحد الأقصى لكمية الشراء لهذا العنصر.',
 };

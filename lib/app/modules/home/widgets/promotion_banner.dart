@@ -33,7 +33,7 @@ class PromotionBanner extends StatelessWidget {
             )
           : promotionController.promotionModel.value.data?.isNotEmpty ?? false
               ? Padding(
-                  padding: EdgeInsets.only(top: 16.h),
+                  padding: EdgeInsets.only(top: 0.h),
                   child: SizedBox(
                     height: 142.h,
                     child: ListView.builder(

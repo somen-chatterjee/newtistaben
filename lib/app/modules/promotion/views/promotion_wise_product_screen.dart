@@ -153,13 +153,13 @@ class _PromotionWiseProductScreenState
                       ? const TrendyCollectionShimmer()
                       : Expanded(
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
                             child: MasonryGridView.count(
                                 controller:
                                     promotionController.scrollController,
                                 crossAxisCount: 2,
-                                mainAxisSpacing: 4.h,
-                                crossAxisSpacing: 4.w,
+                                mainAxisSpacing: 6.h,
+                                crossAxisSpacing: 6.w,
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: promotionController

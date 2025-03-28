@@ -6,6 +6,7 @@ import 'package:shopperz/app/modules/cart/controller/cart_controller.dart';
 import 'package:shopperz/app/modules/product_details/controller/product_details_controller.dart';
 import 'package:shopperz/config/theme/app_color.dart';
 import 'package:shopperz/utils/svg_icon.dart';
+import 'package:shopperz/widgets/custom_snackbar.dart';
 import 'package:shopperz/widgets/custom_text.dart';
 
 class Variations extends StatefulWidget {
@@ -1229,7 +1230,7 @@ class _VariationsState extends State<Variations> {
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       separatorBuilder: (context, index) {
-                        return Divider(height: 16.sp);
+                        return Divider(height: 18.sp);
                       },
                       itemBuilder: (context, index) {
                         return GestureDetector(
@@ -1354,50 +1355,67 @@ class _VariationsState extends State<Variations> {
                   }
                 }*/
                           child: Padding(
-                            padding: EdgeInsets.only(right: 8.w),
+                            padding: EdgeInsets.only(
+                              right: 8.w,
+                              top: 4.h,
+                              bottom: 4.h,
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
                                   mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: /*productDetailsController
-                                                      .selectedIndex2.value ==
-                                                  index
-                                              ? */AppColor.primaryColor,
+                                    Row(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color: /*productDetailsController
+                                                          .selectedIndex2.value ==
+                                                      index
+                                                  ? */
+                                                  AppColor.primaryColor,
                                               // : AppColor.cartColor,
-                                          shape: BoxShape.circle),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(12.5.w),
-                                        child: Center(
-                                          child: CustomText(
-                                            text: productDetailsController
-                                                    .childrenVariationModel1
-                                                    .value
-                                                    .data?[index]
-                                                    .productAttributeOptionName ??
-                                                '',
-                                            color: /*productDetailsController
-                                                        .selectedIndex2.value ==
-                                                    index
-                                                ?*/ Colors.white,
+                                              shape: BoxShape.circle),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(12.5.w),
+                                            child: Center(
+                                              child: CustomText(
+                                                text: productDetailsController
+                                                        .childrenVariationModel1
+                                                        .value
+                                                        .data?[index]
+                                                        .productAttributeOptionName ??
+                                                    '',
+                                                color: /*productDetailsController
+                                                            .selectedIndex2.value ==
+                                                        index
+                                                    ?*/
+                                                    Colors.white,
                                                 // : Colors.black,
-                                            size: 12.sp,
-                                            weight: FontWeight.w500,
+                                                size: 12.sp,
+                                                weight: FontWeight.w500,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        SizedBox(width: 10.h),
+                                        CustomText(
+                                          text: productDetailsController
+                                                  .childrenVariationModel1
+                                                  .value
+                                                  .data?[index]
+                                                  .currencyPrice ??
+                                              '',
+                                          size: 14.sp,
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(height: 10.h),
+                                    SizedBox(height: 5.h),
                                     CustomText(
-                                      text: productDetailsController
-                                              .childrenVariationModel1
-                                              .value
-                                              .data?[index]
-                                              .currencyPrice ??
-                                          '',
+                                      text:
+                                          '${productDetailsController.childrenVariationModel1.value.data?[index].sku ?? ''} (MOQ: ${productDetailsController.childrenVariationModel1.value.data?[index].moq ?? ''})',
                                       size: 14.sp,
                                     ),
                                   ],
@@ -1407,18 +1425,21 @@ class _VariationsState extends State<Variations> {
                                   width: 99.w,
                                   height: 36.h,
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(20.r),
+                                    borderRadius: BorderRadius.circular(20.r),
                                     color: AppColor.cartColor,
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       // decrement button
                                       GestureDetector(
                                         onTap: () {
-                                          productDetailsController.incrementDecrementQty(index: index,isIncrement: false,);
+                                          productDetailsController
+                                              .incrementDecrementQty(
+                                            index: index,
+                                            isIncrement: false,
+                                          );
                                         },
                                         /*{
                                                                                                 // Variation is not empty
@@ -1461,18 +1482,23 @@ class _VariationsState extends State<Variations> {
                                                                                                 }
                                                                                               }*/
                                         child: (productDetailsController
-                                            .childrenVariationModel1.value.data?[index].numOfItem ?? 0) > 0
+                                                        .childrenVariationModel1
+                                                        .value
+                                                        .data?[index]
+                                                        .numOfItem ??
+                                                    0) >
+                                                0
                                             ? SvgPicture.asset(
-                                          SvgIcon.decrement,
-                                          color: Colors.black,
-                                          height: 20.h,
-                                          width: 20.w,
-                                        )
+                                                SvgIcon.decrement,
+                                                color: Colors.black,
+                                                height: 20.h,
+                                                width: 20.w,
+                                              )
                                             : SvgPicture.asset(
-                                            SvgIcon.decrement,
-                                            color: Colors.grey,
-                                            height: 20.h,
-                                            width: 20.w),
+                                                SvgIcon.decrement,
+                                                color: Colors.grey,
+                                                height: 20.h,
+                                                width: 20.w),
                                       ),
 
                                       // // Intial variation null
@@ -1533,9 +1559,13 @@ class _VariationsState extends State<Variations> {
                                       //     color: Colors.grey),
 
                                       Obx(
-                                            () => CustomText(
+                                        () => CustomText(
                                             text: productDetailsController
-                                                .childrenVariationModel1.value.data?[index].numOfItem.toString(),
+                                                .childrenVariationModel1
+                                                .value
+                                                .data?[index]
+                                                .numOfItem
+                                                .toString(),
                                             size: 18.sp,
                                             weight: FontWeight.w600),
                                       ),
@@ -1543,11 +1573,36 @@ class _VariationsState extends State<Variations> {
                                       // increment button
                                       GestureDetector(
                                         onTap: () {
-                                          productDetailsController
-                                              .incrementDecrementQty(
-                                            index: index,
-                                            isIncrement: true
-                                          );
+                                          if (productDetailsController
+                                                  .childrenVariationModel1
+                                                  .value
+                                                  .data![index]
+                                                  .moq! >
+                                              0) {
+                                            if (productDetailsController
+                                                    .childrenVariationModel1
+                                                    .value
+                                                    .data![index]
+                                                    .numOfItem <
+                                                productDetailsController
+                                                    .childrenVariationModel1
+                                                    .value
+                                                    .data![index]
+                                                    .moq!) {
+                                              productDetailsController
+                                                  .incrementDecrementQty(
+                                                index: index,
+                                                isIncrement: true,
+                                              );
+                                            } else {
+                                              customSnackbar(
+                                                "INFO".tr,
+                                                "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED"
+                                                    .tr,
+                                                AppColor.redColor,
+                                              );
+                                            }
+                                          }
                                         },
                                         /*{
                                                                                                 if (productDetailsController
@@ -1652,18 +1707,32 @@ class _VariationsState extends State<Variations> {
                                                                                                   }
                                                                                                 }
                                                                                               }*/
-                                        child: true
+                                        child: productDetailsController
+                                                        .childrenVariationModel1
+                                                        .value
+                                                        .data![index]
+                                                        .moq! >
+                                                    0 &&
+                                                productDetailsController
+                                                        .childrenVariationModel1
+                                                        .value
+                                                        .data![index]
+                                                        .numOfItem <
+                                                    productDetailsController
+                                                        .childrenVariationModel1
+                                                        .value
+                                                        .data![index]
+                                                        .moq!
                                             ? SvgPicture.asset(
-                                            SvgIcon.increment,
-                                            color: AppColor
-                                                .primaryColor,
-                                            height: 20.h,
-                                            width: 20.w)
+                                                SvgIcon.increment,
+                                                color: AppColor.primaryColor,
+                                                height: 20.h,
+                                                width: 20.w)
                                             : SvgPicture.asset(
-                                            SvgIcon.increment,
-                                            height: 20.h,
-                                            width: 20.w,
-                                            color: Colors.grey),
+                                                SvgIcon.increment,
+                                                height: 20.h,
+                                                width: 20.w,
+                                                color: Colors.grey),
                                       ),
 
                                       // // Intial variation null

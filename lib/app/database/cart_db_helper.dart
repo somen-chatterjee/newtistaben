@@ -40,7 +40,8 @@ class DatabaseHelper {
           variationOldPrice TEXT,
           variationCurrencyPrice TEXT,
           variationOldCurrencyPrice TEXT,
-          variationStock INTEGER
+          variationStock INTEGER,
+          variationMoq INTEGER
         )
       ''');
       },
@@ -73,6 +74,7 @@ class DatabaseHelper {
           'variationOldCurrencyPrice':
               jsonEncode(cartItem.variationOldCurrencyPrice),
           'variationStock': cartItem.variationStock,
+          'variationMoq': cartItem.variationMoq,
         },
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
@@ -105,6 +107,7 @@ class DatabaseHelper {
         variationOldCurrencyPrice:
             jsonDecode(maps[i]['variationOldCurrencyPrice']),
         variationStock: maps[i]['variationStock'],
+        variationMoq: maps[i]['variationMoq'],
       );
     });
   }

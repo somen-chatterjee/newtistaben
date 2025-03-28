@@ -253,14 +253,14 @@ class _SubCategoryWiseProductScreenState
                         // color: AppColor.whiteColor, // white hobe
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          padding: EdgeInsets.symmetric(horizontal: 8.w),
                           shrinkWrap: true,
                           itemCount: widget.categoryModel?.children?.length ?? 0,
                           itemBuilder: (context, index) {
                             final category = widget.categoryModel!;
                             return Center(
                               child: Padding(
-                                padding: EdgeInsets.only(right: 12.w),
+                                padding: EdgeInsets.only(right: 8.w),
                                 child: InkWell(
                                   onTap: () {
                                     Get.to(
@@ -293,33 +293,34 @@ class _SubCategoryWiseProductScreenState
                                     //   }
                                     // });
                                   },
-                                  child: Container(
-                                    height: 85.h,
-                                    width: 72.w,
-                                    decoration: BoxDecoration(
-                                      color: AppColor.whiteColor,
-                                      borderRadius: BorderRadius.circular(8.r),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black.withOpacity(0.04),
-                                            offset: const Offset(0, 0),
-                                            blurRadius: 32.r,
-                                            spreadRadius: 0)
-                                      ],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        CachedNetworkImage(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        height: 90.h,
+                                        width: 90.w,
+                                        decoration: BoxDecoration(
+                                          color: AppColor.whiteColor,
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black.withOpacity(0.04),
+                                                offset: const Offset(0, 0),
+                                                blurRadius: 32.r,
+                                                spreadRadius: 0,
+                                            )
+                                          ],
+                                        ),
+                                        child: CachedNetworkImage(
                                           imageUrl: category.children![index].thumb
                                               .toString(),
                                           imageBuilder: (context, imageProvider) =>
                                               Container(
-                                                height: 50.h,
+                                                // height: 50.h,
                                                 width: double.infinity,
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.only(
-                                                      topLeft: Radius.circular(8.r),
-                                                      topRight: Radius.circular(8.r)),
+                                                  color: AppColor.whiteColor,
+                                                  shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                     image: imageProvider,
                                                     fit: BoxFit.cover,
@@ -327,30 +328,16 @@ class _SubCategoryWiseProductScreenState
                                                 ),
                                               ),
                                         ),
-                                        Expanded(
-                                          child: Container(
-                                            height: 22.h,
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                              color: AppColor.whiteColor,
-                                              borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(8.r),
-                                                bottomRight: Radius.circular(8.r),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: TextWidget(
-                                                text: category.children![index].name,
-                                                textAlign: TextAlign.center,
-                                                color: AppColor.titleTextColor,
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      ),
+                                      SizedBox(height: 6.h),
+                                      TextWidget(
+                                        text: category.children![index].name,
+                                        textAlign: TextAlign.center,
+                                        color: AppColor.titleTextColor,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -418,13 +405,13 @@ class _SubCategoryWiseProductScreenState
                           )
                               : Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 0.w, vertical: 16.h),
+                                  horizontal: 8.w, vertical: 8.h),
                               child: MasonryGridView.count(
                                   controller: cateWiseProductController
                                       .scrollController,
                                   crossAxisCount: 2,
-                                  mainAxisSpacing: 4.h,
-                                  crossAxisSpacing: 4.w,
+                                  mainAxisSpacing: 6.h,
+                                  crossAxisSpacing: 6.w,
                                   physics:
                                   const AlwaysScrollableScrollPhysics(),
                                   shrinkWrap: true,

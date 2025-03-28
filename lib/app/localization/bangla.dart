@@ -348,4 +348,5 @@ Map<String, String> bangla = {
   'STATE': 'রাজ্য',
   'CITY': 'শহর',
   'Reset': 'রিসেট',
+  'MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED': 'আপনি এই আইটেমের সর্বাধিক ক্রয় পরিমাণ সীমা অতিক্রম করেছেন।',
 };

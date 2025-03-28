@@ -60,6 +60,9 @@ class OrderWidget2 extends StatelessWidget {
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                       ),
+                      SizedBox(
+                        height: 6.h,
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -79,28 +82,28 @@ class OrderWidget2 extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                           const Spacer(),
-                          order!.status == 10 ?
-                          InkWell(
-                            onTap: () {
-                             Get.to(() => product!.productUserReview == false? ReviewScreen(product: product,) : EditReviewScreen(product: product));
-                            },
-                            child: Container(
-                              height: 26.h,
-                              width: 95.w,
-                              decoration: BoxDecoration(
-                                  color: AppColor.primaryColor1,
-                                  borderRadius: BorderRadius.circular(14.r)),
-                              child: Center(
-                                child: TextWidget(
-                                  text: product!.productUserReview == false? 'Write Review'.tr: 'Edit Review'.tr,
-                                  color: AppColor.primaryColor,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ):
-                          SizedBox()
+                          // order!.status == 10 ?
+                          // InkWell(
+                          //   onTap: () {
+                          //    Get.to(() => product!.productUserReview == false? ReviewScreen(product: product,) : EditReviewScreen(product: product));
+                          //   },
+                          //   child: Container(
+                          //     height: 26.h,
+                          //     width: 95.w,
+                          //     decoration: BoxDecoration(
+                          //         color: AppColor.primaryColor1,
+                          //         borderRadius: BorderRadius.circular(14.r)),
+                          //     child: Center(
+                          //       child: TextWidget(
+                          //         text: product!.productUserReview == false? 'Write Review'.tr: 'Edit Review'.tr,
+                          //         color: AppColor.primaryColor,
+                          //         fontSize: 12.sp,
+                          //         fontWeight: FontWeight.w700,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ):
+                          // SizedBox()
                         ],
                       )
                     ],

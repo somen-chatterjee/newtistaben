@@ -261,7 +261,7 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                     if(!cateWiseProductController.isCollectionLoading.value
                         && cateWiseProductController.collectionList.isNotEmpty){
                       return SizedBox(
-                        height: 100,
+                        height: 120,
                         // Increased height to accommodate text outside the container
                         child: Obx(
                               () =>
@@ -269,9 +269,9 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount:
                                 cateWiseProductController.collectionList.length,
-                                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
                                 separatorBuilder: (context, index) {
-                                  return SizedBox(width: 10.w);
+                                  return SizedBox(width: 4.w);
                                 },
                                 itemBuilder: (context, index) {
                                   var item =
@@ -322,15 +322,15 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                                 ClipOval(
                                                   child: Image.network(
                                                     item.image ?? "",
-                                                    width: 60,
-                                                    height: 60,
+                                                    width: 90.w,
+                                                    height: 90.h,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
                                                 if (isSelected) // Light pink overlay when selected
                                                   Container(
-                                                    width: 60,
-                                                    height: 60,
+                                                    width: 90.w,
+                                                    height: 90.h,
                                                     clipBehavior: Clip.hardEdge,
                                                     decoration: BoxDecoration(
                                                       color:
@@ -437,13 +437,13 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                         )
                             : Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 0.w, vertical: 16.h),
+                              horizontal: 8.w, vertical: 16.h),
                           child: MasonryGridView.count(
                             controller: cateWiseProductController
                                 .scrollController,
                             crossAxisCount: 2,
-                            mainAxisSpacing: 4.h,
-                            crossAxisSpacing: 4.w,
+                            mainAxisSpacing: 6.h,
+                            crossAxisSpacing: 6.w,
                             physics:
                             const AlwaysScrollableScrollPhysics(),
                             shrinkWrap: true,
