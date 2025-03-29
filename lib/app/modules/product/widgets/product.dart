@@ -69,7 +69,7 @@ class ProductWidget extends StatelessWidget {
                   CachedNetworkImage(
                     imageUrl: productImage.toString(),
                     imageBuilder: (context, imageProvider) => Container(
-                      height: 200.h,
+                      height: 250.h,
                       // width: 140.w,
                       decoration: BoxDecoration(
                         color: AppColor.whiteColor,

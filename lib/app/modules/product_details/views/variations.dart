@@ -1487,7 +1487,11 @@ class _VariationsState extends State<Variations> {
                                                         .data?[index]
                                                         .numOfItem ??
                                                     0) >
-                                                0
+                                            (productDetailsController
+                                                .childrenVariationModel1
+                                                .value
+                                                .data?[index]
+                                                .moq ?? 0)
                                             ? SvgPicture.asset(
                                                 SvgIcon.decrement,
                                                 color: Colors.black,
@@ -1573,36 +1577,11 @@ class _VariationsState extends State<Variations> {
                                       // increment button
                                       GestureDetector(
                                         onTap: () {
-                                          if (productDetailsController
-                                                  .childrenVariationModel1
-                                                  .value
-                                                  .data![index]
-                                                  .moq! >
-                                              0) {
-                                            if (productDetailsController
-                                                    .childrenVariationModel1
-                                                    .value
-                                                    .data![index]
-                                                    .numOfItem <
-                                                productDetailsController
-                                                    .childrenVariationModel1
-                                                    .value
-                                                    .data![index]
-                                                    .moq!) {
-                                              productDetailsController
-                                                  .incrementDecrementQty(
-                                                index: index,
-                                                isIncrement: true,
-                                              );
-                                            } else {
-                                              customSnackbar(
-                                                "INFO".tr,
-                                                "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED"
-                                                    .tr,
-                                                AppColor.redColor,
-                                              );
-                                            }
-                                          }
+                                            productDetailsController
+                                                .incrementDecrementQty(
+                                              index: index,
+                                              isIncrement: true,
+                                            );
                                         },
                                         /*{
                                                                                                 if (productDetailsController
@@ -1707,22 +1686,7 @@ class _VariationsState extends State<Variations> {
                                                                                                   }
                                                                                                 }
                                                                                               }*/
-                                        child: productDetailsController
-                                                        .childrenVariationModel1
-                                                        .value
-                                                        .data![index]
-                                                        .moq! >
-                                                    0 &&
-                                                productDetailsController
-                                                        .childrenVariationModel1
-                                                        .value
-                                                        .data![index]
-                                                        .numOfItem <
-                                                    productDetailsController
-                                                        .childrenVariationModel1
-                                                        .value
-                                                        .data![index]
-                                                        .moq!
+                                        child: true
                                             ? SvgPicture.asset(
                                                 SvgIcon.increment,
                                                 color: AppColor.primaryColor,

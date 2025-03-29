@@ -197,7 +197,7 @@ class ProductDetailsController extends GetxController {
       if (model != null && model.data != null && index < model.data!.length) {
         if (isIncrement) {
           // Increase numOfItem but not exceed stock
-          if (model.data![index].numOfItem < model.data![index].moq!) {
+          if (model.data![index].numOfItem < model.data![index].stock!) {
             model.data![index].numOfItem++;
 
             // product id
@@ -238,10 +238,16 @@ class ProductDetailsController extends GetxController {
 
           } else {
             debugPrint("Stock not available.");
+            customSnackbar(
+              "INFO".tr,
+              "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED"
+                  .tr,
+              AppColor.redColor,
+            );
           }
         } else {
           // Decrease numOfItem but not go below 0
-          if (model.data![index].numOfItem > 0) {
+          if (model.data![index].numOfItem > (model.data![index].moq ?? 0)) {
             model.data![index].numOfItem--;
             if(model.data![index].numOfItem == 0) {
             //   variationProductId.value = '';
@@ -265,6 +271,12 @@ class ProductDetailsController extends GetxController {
   bool hasItemsForCart() {
     return childrenVariationModel1.value.data
             ?.any((item) => item.numOfItem > 0) ??
+        false;
+  }
+
+  bool checkMoqForProduct() {
+    return childrenVariationModel1.value.data
+            ?.any((item) => item.numOfItem > (item.moq ?? 0)) ??
         false;
   }
 
@@ -328,7 +340,7 @@ class ProductDetailsController extends GetxController {
   }
 
   void getOrderDetails() async {
-    isAddToCartLoading(1);
+
     final cartController = Get.find<CartController>();
     final authController = Get.find<AuthController>();
 
@@ -336,55 +348,65 @@ class ProductDetailsController extends GetxController {
     // log("somen getOrderDetails ${jsonEncode(productDetailsList)}");
 
     // check items for further process.
-    if (hasItemsForCart()) {
-      for (var details in productDetailsList) {
-        if (details != null) {
-          cartController.numOfItems.value = details.numOfItems ?? 1;
+    if(checkMoqForProduct()) {
+      if (hasItemsForCart()) {
+        isAddToCartLoading(1);
+        for (var details in productDetailsList) {
+          print("somen $details");
+          if (details != null) {
+            cartController.numOfItems.value = details.numOfItems ?? 1;
 
-          // adding multiple items to cart
-          await cartController.addItem(
-            variationStock: details.variationStock,
-            product: details.product ?? ProductModel(),
-            variationId: details.variationId,
-            shippingAmount: details.shippingAmount,
-            finalVariation: details.finalVariation,
-            sku: details.sku,
-            taxJson: details.taxJson,
-            stock: details.stock,
-            shipping: details.shipping,
-            productVariationPrice: details.productVariationPrice,
-            productVariationOldPrice: details.productVariationOldPrice,
-            productVariationCurrencyPrice: details
-                .productVariationCurrencyPrice,
-            productVariationOldCurrencyPrice:
-            details.productVariationOldCurrencyPrice,
-            totalTax: details.totalTax,
-            flatShippingCost: details.flatShippingCost,
-            variationMoq: details.variationMoq,
-          );
+            // adding multiple items to cart
+            await cartController.addItem(
+              variationStock: details.variationStock,
+              product: details.product ?? ProductModel(),
+              variationId: details.variationId,
+              shippingAmount: details.shippingAmount,
+              finalVariation: details.finalVariation,
+              sku: details.sku,
+              taxJson: details.taxJson,
+              stock: details.stock,
+              shipping: details.shipping,
+              productVariationPrice: details.productVariationPrice,
+              productVariationOldPrice: details.productVariationOldPrice,
+              productVariationCurrencyPrice: details
+                  .productVariationCurrencyPrice,
+              productVariationOldCurrencyPrice:
+              details.productVariationOldCurrencyPrice,
+              totalTax: details.totalTax,
+              flatShippingCost: details.flatShippingCost,
+              variationMoq: details.variationMoq,
+            );
 
-          cartController.calculateShippingCharge(
-              shippingMethodStatus: authController.shippingMethod,
-              shippingType:
-              details.product?.data?.shipping?.shippingType.toString() ?? "0",
-              isProductQntyMultiply: details
-                  .product?.data?.shipping?.isProductQuantityMultiply
-                  .toString() ??
-                  "0",
-              flatShippingCharge: authController
-                  .settingModel?.data?.shippingSetupFlatRateWiseCost);
+            cartController.calculateShippingCharge(
+                shippingMethodStatus: authController.shippingMethod,
+                shippingType:
+                details.product?.data?.shipping?.shippingType.toString() ?? "0",
+                isProductQntyMultiply: details
+                    .product?.data?.shipping?.isProductQuantityMultiply
+                    .toString() ??
+                    "0",
+                flatShippingCharge: authController
+                    .settingModel?.data?.shippingSetupFlatRateWiseCost);
+          }
         }
-      }
 
-      if (cartController.isProductAdded) {
-        // await RemoteServices().saveCartProducts(cartList: cartController.cartItems);
-        Get.back();
-        customSnackbar(
-            "SUCCESS".tr, "Product added to cart".tr, AppColor.success);
+        if (cartController.isProductAdded) {
+          // await RemoteServices().saveCartProducts(cartList: cartController.cartItems);
+          Get.back();
+          customSnackbar(
+              "SUCCESS".tr, "Product added to cart".tr, AppColor.success);
+        }
+        isAddToCartLoading(0);
       }
-      isAddToCartLoading(0);
+    } else {
+      customSnackbar(
+        "INFO".tr,
+        "Please select the Minimum Order Quantity for selected product."
+            .tr,
+        AppColor.redColor,
+      );
     }
-
     //
     // if (initialVariationModel.value.data != null &&
     //     initialVariationModel.value.data!.isNotEmpty) {
