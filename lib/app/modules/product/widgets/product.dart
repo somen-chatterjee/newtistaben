@@ -155,7 +155,7 @@ class ProductWidget extends StatelessWidget {
                   color: AppColor.textColor,
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

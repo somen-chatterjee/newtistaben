@@ -96,42 +96,42 @@ class ProductDetailsShimmer extends StatelessWidget {
               ],
             ),
             SizedBox(height: 8.h),
-            Row(
-              children: [
-                Shimmer.fromColors(
-                  baseColor: Colors.grey[200]!,
-                  highlightColor: Colors.grey[300]!,
-                  child: RatingBarIndicator(
-                    rating: 5,
-                    itemSize: 10.h,
-                    itemBuilder: (context, index) => Container(
-                      margin: EdgeInsets.symmetric(horizontal: 1.w),
-                      child: SvgPicture.asset(
-                        SvgIcon.star,
-                        colorFilter: const ColorFilter.mode(
-                            AppColor.whiteColor, BlendMode.srcIn),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 8.w),
-                SizedBox(
-                  child: Row(
-                    children: [
-                      Shimmer.fromColors(
-                        baseColor: Colors.grey[200]!,
-                        highlightColor: Colors.grey[300]!,
-                        child: Container(
-                          height: 20.h,
-                          width: 100.w,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )
+            // Row(
+            //   children: [
+            //     Shimmer.fromColors(
+            //       baseColor: Colors.grey[200]!,
+            //       highlightColor: Colors.grey[300]!,
+            //       child: RatingBarIndicator(
+            //         rating: 5,
+            //         itemSize: 10.h,
+            //         itemBuilder: (context, index) => Container(
+            //           margin: EdgeInsets.symmetric(horizontal: 1.w),
+            //           child: SvgPicture.asset(
+            //             SvgIcon.star,
+            //             colorFilter: const ColorFilter.mode(
+            //                 AppColor.whiteColor, BlendMode.srcIn),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     SizedBox(width: 8.w),
+            //     SizedBox(
+            //       child: Row(
+            //         children: [
+            //           Shimmer.fromColors(
+            //             baseColor: Colors.grey[200]!,
+            //             highlightColor: Colors.grey[300]!,
+            //             child: Container(
+            //               height: 20.h,
+            //               width: 100.w,
+            //               color: Colors.white,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // )
           ],
         ),
         SizedBox(height: 15.h),

@@ -23,9 +23,11 @@ class CartWidget extends StatefulWidget {
       this.remove,
       required this.isOffer,
       this.stock,
+      this.moq,
       this.incrementValue,
       this.decrementIconvalue = 1,
-      this.finalVariation});
+      this.finalVariation,
+      });
 
   final String? productImage;
   final String? title;
@@ -40,6 +42,7 @@ class CartWidget extends StatefulWidget {
   final int decrementIconvalue;
   final int? incrementValue;
   final int? stock;
+  final int? moq;
   final String? finalVariation;
   final bool? isOffer;
 
@@ -50,6 +53,7 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
+    print('somen ${widget.quantity.toString()} ${widget.decrementIconvalue.toString()} ${widget.incrementValue.toString()} ${widget.moq.toString()}');
     return Column(
       children: [
         SizedBox(
@@ -140,11 +144,12 @@ class _CartWidgetState extends State<CartWidget> {
                                   InkWell(
                                     onTap: widget.decrement,
                                     child: SvgPicture.asset(
-                                        widget.decrementIconvalue < 2
+                                        (widget.incrementValue ?? 0) <= (widget.moq ?? 2)
                                             ? SvgIcon.cart1
                                             : SvgIcon.cart3,
                                         height: 20.h,
-                                        width: 20.w),
+                                        width: 20.w,
+                                    ),
                                   ),
                                   TextWidget(
                                     text: widget.quantity,

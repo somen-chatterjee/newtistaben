@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -234,36 +233,32 @@ class ProductDetailsController extends GetxController {
                     .value.data?[index].oldCurrencyPrice
                     .toString() ??
                 '';
-
-
           } else {
             debugPrint("Stock not available.");
             customSnackbar(
               "INFO".tr,
-              "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED"
-                  .tr,
+              "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED".tr,
               AppColor.redColor,
             );
           }
         } else {
           // Decrease numOfItem but not go below 0
-          if (model.data![index].numOfItem > (model.data![index].moq ?? 0)) {
+          if (model.data![index].numOfItem > 0) {
             model.data![index].numOfItem--;
-            if(model.data![index].numOfItem == 0) {
-            //   variationProductId.value = '';
-            //   variationProductPrice.value = '';
-            //   variationProductCurrencyPrice.value = '';
-            //   variationProductOldPrice.value = '';
-            //   variationProductOldCurrencyPrice.value = '';
-            //   variationsku.value = '';
-            //   variationsStock.value = -1;
+            if (model.data![index].numOfItem == 0) {
+              //   variationProductId.value = '';
+              //   variationProductPrice.value = '';
+              //   variationProductCurrencyPrice.value = '';
+              //   variationProductOldPrice.value = '';
+              //   variationProductOldCurrencyPrice.value = '';
+              //   variationsku.value = '';
+              //   variationsStock.value = -1;
               productDetailsList[index] = null;
             }
           }
         }
 
         productCalculation(index);
-
       }
     });
   }
@@ -275,9 +270,17 @@ class ProductDetailsController extends GetxController {
   }
 
   bool checkMoqForProduct() {
-    return childrenVariationModel1.value.data
-            ?.any((item) => item.numOfItem > (item.moq ?? 0)) ??
-        false;
+    var items = childrenVariationModel1.value.data;
+
+    if (items == null || items.isEmpty) return false; // No items, return false
+
+    for (var item in items) {
+      if (item.numOfItem > 0 && item.numOfItem < item.moq!) {
+        return false; // If any product doesn't meet MOQ, return false immediately
+      }
+    }
+
+    return true; // If all items with numOfItem > 0 meet MOQ, return true
   }
 
   List<ProductDetails?> productDetailsList = [];
@@ -340,7 +343,6 @@ class ProductDetailsController extends GetxController {
   }
 
   void getOrderDetails() async {
-
     final cartController = Get.find<CartController>();
     final authController = Get.find<AuthController>();
 
@@ -348,11 +350,10 @@ class ProductDetailsController extends GetxController {
     // log("somen getOrderDetails ${jsonEncode(productDetailsList)}");
 
     // check items for further process.
-    if(checkMoqForProduct()) {
+    if (checkMoqForProduct()) {
       if (hasItemsForCart()) {
         isAddToCartLoading(1);
         for (var details in productDetailsList) {
-          print("somen $details");
           if (details != null) {
             cartController.numOfItems.value = details.numOfItems ?? 1;
 
@@ -369,10 +370,10 @@ class ProductDetailsController extends GetxController {
               shipping: details.shipping,
               productVariationPrice: details.productVariationPrice,
               productVariationOldPrice: details.productVariationOldPrice,
-              productVariationCurrencyPrice: details
-                  .productVariationCurrencyPrice,
+              productVariationCurrencyPrice:
+                  details.productVariationCurrencyPrice,
               productVariationOldCurrencyPrice:
-              details.productVariationOldCurrencyPrice,
+                  details.productVariationOldCurrencyPrice,
               totalTax: details.totalTax,
               flatShippingCost: details.flatShippingCost,
               variationMoq: details.variationMoq,
@@ -381,10 +382,11 @@ class ProductDetailsController extends GetxController {
             cartController.calculateShippingCharge(
                 shippingMethodStatus: authController.shippingMethod,
                 shippingType:
-                details.product?.data?.shipping?.shippingType.toString() ?? "0",
+                    details.product?.data?.shipping?.shippingType.toString() ??
+                        "0",
                 isProductQntyMultiply: details
-                    .product?.data?.shipping?.isProductQuantityMultiply
-                    .toString() ??
+                        .product?.data?.shipping?.isProductQuantityMultiply
+                        .toString() ??
                     "0",
                 flatShippingCharge: authController
                     .settingModel?.data?.shippingSetupFlatRateWiseCost);
@@ -402,8 +404,7 @@ class ProductDetailsController extends GetxController {
     } else {
       customSnackbar(
         "INFO".tr,
-        "Please select the Minimum Order Quantity for selected product."
-            .tr,
+        "selectMOQ".tr,
         AppColor.redColor,
       );
     }

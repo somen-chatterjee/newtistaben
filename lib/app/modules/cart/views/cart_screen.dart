@@ -118,6 +118,9 @@ class _CartScreenState extends State<CartScreen> {
                                         isOffer: cartItem.product.data!.isOffer,
                                         decrementIconvalue:
                                             cartController.totalItems,
+                                        moq:
+                                            cartController
+                                                .cartItems[index].variationMoq,
                                         quantity: cartController
                                             .cartItems[index].quantity
                                             .toString(),

@@ -108,8 +108,6 @@ class CartController extends GetxController {
       variationMoq: variationMoq,
     );
 
-    log("somen ${jsonEncode(cartData.toJson())}");
-
     // for first time insert on table
     int result = await dbHelper.insertCartItem(cartData);
 
@@ -126,13 +124,11 @@ class CartController extends GetxController {
       } else {
         if (cartItem.quantity.value < cartItem.variationStock!) {
           // maximum purchase quantity null
-          // if (cartItem.product.data!.maximumPurchaseQuantity == null) {
-          //   cartItem.quantity.value++;
-          // } else {
-          //   if (cartItem.quantity.value <
-          //       cartItem.product.data!.maximumPurchaseQuantity!) {
+          if (cartItem.product.data!.maximumPurchaseQuantity == null) {
+            cartItem.quantity.value++;
+          } else {
             if (cartItem.quantity.value <
-                cartItem.variationMoq!) {
+                cartItem.product.data!.maximumPurchaseQuantity!) {
               cartItem.quantity.value++;
             } else {
               customSnackbar(
@@ -140,7 +136,7 @@ class CartController extends GetxController {
                   "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED".tr,
                   AppColor.redColor);
             }
-          // }
+          }
         } else {}
       }
     } else {
@@ -170,9 +166,14 @@ class CartController extends GetxController {
   }
 
   void decrementItem(CartModel cartItem) async{
-    if (cartItem.quantity > 1) {
+    if (cartItem.quantity > (cartItem.variationMoq ?? 1)) {
       cartItem.quantity.value--;
       decrementShippingCharge(cartItem);
+    } else {
+      // customSnackbar(
+      //     "INFO".tr,
+      //     "MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED".tr,
+      //     AppColor.redColor);
     }
 
     await dbHelper.insertCartItem(cartItem);

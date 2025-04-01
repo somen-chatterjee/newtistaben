@@ -354,4 +354,5 @@ Map<String, String> english = {
   'CITY':'City',
   'Reset':'Reset',
   'MAXIMUM_PURCHASE_QUANTITY_LIMIT_EXCEEDED':'You have exceeded the maximum purchase quantity limit for this item.',
+  'selectMOQ':'Please select the Minimum Order Quantity for selected product.',
 };

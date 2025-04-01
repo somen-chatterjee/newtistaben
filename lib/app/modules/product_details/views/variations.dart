@@ -1487,11 +1487,7 @@ class _VariationsState extends State<Variations> {
                                                         .data?[index]
                                                         .numOfItem ??
                                                     0) >
-                                            (productDetailsController
-                                                .childrenVariationModel1
-                                                .value
-                                                .data?[index]
-                                                .moq ?? 0)
+                                                0
                                             ? SvgPicture.asset(
                                                 SvgIcon.decrement,
                                                 color: Colors.black,
@@ -1502,7 +1498,8 @@ class _VariationsState extends State<Variations> {
                                                 SvgIcon.decrement,
                                                 color: Colors.grey,
                                                 height: 20.h,
-                                                width: 20.w),
+                                                width: 20.w,
+                                              ),
                                       ),
 
                                       // // Intial variation null
@@ -1577,11 +1574,11 @@ class _VariationsState extends State<Variations> {
                                       // increment button
                                       GestureDetector(
                                         onTap: () {
-                                            productDetailsController
-                                                .incrementDecrementQty(
-                                              index: index,
-                                              isIncrement: true,
-                                            );
+                                          productDetailsController
+                                              .incrementDecrementQty(
+                                            index: index,
+                                            isIncrement: true,
+                                          );
                                         },
                                         /*{
                                                                                                 if (productDetailsController
