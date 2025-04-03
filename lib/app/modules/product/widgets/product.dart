@@ -146,70 +146,78 @@ class ProductWidget extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(
-                height: 8.h,
-              ),
-              SizedBox(
-                child: TextWidget(
-                  text: title ?? '',
-                  color: AppColor.textColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              SizedBox(
-                height: 4.h,
-              ),
-              // RatingBarIndicator(
-              //   rating: double.parse(rating.toString() == 'null'
-              //       ? '0'
-              //       : (double.parse(rating.toString()) / textRating!.toInt())
-              //           .toString()),
-              //   itemSize: 10.h,
-              //   unratedColor: AppColor.inactiveColor,
-              //   itemBuilder: (context, index) => Container(
-              //     margin: EdgeInsets.symmetric(horizontal: 1.w),
-              //     child: SvgPicture.asset(
-              //       SvgIcon.star,
-              //       colorFilter: const ColorFilter.mode(
-              //           AppColor.yellowColor, BlendMode.srcIn),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(height: 4.h),
-              // TextWidget(
-              //   text:
-              //       "${rating.toString() == 'null' ? '0' : double.parse(rating.toString()) / textRating!.toInt()} (${textRating ?? 0} ${' Reviews'.tr})",
-              //   color: AppColor.textColor1,
-              //   fontSize: 9.sp,
-              //   fontWeight: FontWeight.w500,
-              // ),
               // SizedBox(
-              //   height: 12.h,
+              //   height: 8.h,
               // ),
-              FittedBox(
-                child: Row(
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextWidget(
-                      text: discountPrice ?? '0',
-                      color: AppColor.textColor,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
+                    SizedBox(
+                      child: TextWidget(
+                        text: title ?? '',
+                        color: AppColor.textColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     SizedBox(
-                      width: 8.w,
+                      height: 4.h,
                     ),
-                    isOffer == true
-                        ? TextWidget(
-                            text: currentPrice ?? '0',
-                            color: AppColor.redColor,
-                            fontSize: 12.sp,
+                    // RatingBarIndicator(
+                    //   rating: double.parse(rating.toString() == 'null'
+                    //       ? '0'
+                    //       : (double.parse(rating.toString()) / textRating!.toInt())
+                    //           .toString()),
+                    //   itemSize: 10.h,
+                    //   unratedColor: AppColor.inactiveColor,
+                    //   itemBuilder: (context, index) => Container(
+                    //     margin: EdgeInsets.symmetric(horizontal: 1.w),
+                    //     child: SvgPicture.asset(
+                    //       SvgIcon.star,
+                    //       colorFilter: const ColorFilter.mode(
+                    //           AppColor.yellowColor, BlendMode.srcIn),
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(height: 4.h),
+                    // TextWidget(
+                    //   text:
+                    //       "${rating.toString() == 'null' ? '0' : double.parse(rating.toString()) / textRating!.toInt()} (${textRating ?? 0} ${' Reviews'.tr})",
+                    //   color: AppColor.textColor1,
+                    //   fontSize: 9.sp,
+                    //   fontWeight: FontWeight.w500,
+                    // ),
+                    // SizedBox(
+                    //   height: 12.h,
+                    // ),
+                    FittedBox(
+                      child: Row(
+                        children: [
+                          TextWidget(
+                            text: discountPrice ?? '0',
+                            color: AppColor.textColor,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.lineThrough,
-                          )
-                        : const SizedBox(),
+                          ),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          isOffer == true
+                              ? TextWidget(
+                                  text: currentPrice ?? '0',
+                                  color: AppColor.redColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  decoration: TextDecoration.lineThrough,
+                                )
+                              : const SizedBox(),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               )
