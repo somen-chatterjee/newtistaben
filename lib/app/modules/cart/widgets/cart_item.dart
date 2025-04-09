@@ -14,6 +14,7 @@ class CartWidget extends StatefulWidget {
       this.title,
       this.color,
       this.size,
+      this.sku,
       this.increment,
       this.decrement,
       required this.quantity,
@@ -33,6 +34,7 @@ class CartWidget extends StatefulWidget {
   final String? title;
   final String? color;
   final String? size;
+  final String? sku;
   final String quantity;
   final String? currentPrice;
   final String? discountPrice;
@@ -53,7 +55,6 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
-    print('somen ${widget.quantity.toString()} ${widget.decrementIconvalue.toString()} ${widget.incrementValue.toString()} ${widget.moq.toString()}');
     return Column(
       children: [
         SizedBox(
@@ -94,7 +95,7 @@ class _CartWidgetState extends State<CartWidget> {
                       height: 6.h,
                     ),
                     TextWidget(
-                      text: widget.finalVariation,
+                      text: '${widget.finalVariation} ${(widget.sku ?? '').isNotEmpty ? '(${widget.sku})' : ''}',
                       color: AppColor.textColor,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,

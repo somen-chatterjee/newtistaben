@@ -332,8 +332,8 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                               ),
                                             if (isSelected) // Right tick icon at bottom-right
                                               Positioned(
-                                                bottom: 0,
-                                                right: 0,
+                                                bottom: 0.h,
+                                                right: 10.w,
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                     color: Colors.pink,

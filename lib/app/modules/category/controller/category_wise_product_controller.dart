@@ -87,6 +87,65 @@ class CategoryWiseProductController extends GetxController {
     });
   }
 
+  fetchMoreCategoryWiseProduct({
+    required String categorySlug,
+    String? brands,
+    sortBy,
+    minPrice,
+    maxPrice,
+    String? name,
+    variatons,
+  }) async {
+    // if(isFirst){
+    //   isCollectionLoading(true);
+    //   isFirst = false;
+    // }
+    // isLoading(true);
+    final data = await RemoteServices().fetchCategoryWiseProduct(
+      category: categorySlug,
+      brands: brands,
+      sortBy: sortBy,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      name: name ?? "",
+      variations: variatons,
+      page: page.value,
+    );
+    // isLoading(false);
+    // isCollectionLoading(false);
+    data.fold((error) {
+      // isLoading.value = false;
+      // isCollectionLoading.value = false;
+      error.toString();
+    }, (categoryWiseProduct) {
+      categoryWiseProductModel.value = categoryWiseProduct;
+
+      // collection variation set
+      if(variationsMap != null) {
+        variationsMap!.forEach((key, value) {
+          if(key == "Collection") {
+            collectionList.clear();
+            value.map((item) {
+              collectionList.add(Color.fromJson(item));
+            }).toList();
+          }
+        });
+      }
+
+      lastPage.value = categoryWiseProduct.data!.lastPage!.toInt();
+
+      if (page.value < lastPage.value) {
+        hasMoreData = true;
+      } else if (page.value == lastPage.value) {
+        hasMoreData = false;
+      } else {
+        hasMoreData = false;
+      }
+
+      categoryWiseProductList.value += categoryWiseProduct.data!.products!;
+    });
+  }
+
   void loadMoreData({
     required String categorySlug,
   }) {
@@ -95,9 +154,8 @@ class CategoryWiseProductController extends GetxController {
           scrollController.position.maxScrollExtent) {
         if (hasMoreData) {
           page.value++;
-          fetchCategoryWiseProduct(
-            categorySlug: categorySlug,
-          );
+          // fetchCategoryWiseProduct(categorySlug: categorySlug);
+          fetchMoreCategoryWiseProduct(categorySlug: categorySlug);
         }
       }
     });

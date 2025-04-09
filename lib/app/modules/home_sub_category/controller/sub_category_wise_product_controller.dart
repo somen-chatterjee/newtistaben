@@ -74,11 +74,51 @@ class SubCategoryWiseProductController extends GetxController {
           scrollController.position.maxScrollExtent) {
         if (hasMoreData) {
           page.value++;
-          fetchCategoryWiseProduct(
-            categorySlug: categorySlug,
-          );
+          // fetchCategoryWiseProduct(categorySlug: categorySlug);
+          fetchMoreCategoryWiseProduct(categorySlug: categorySlug);
         }
       }
+    });
+  }
+
+  fetchMoreCategoryWiseProduct({
+    required String categorySlug,
+    String? brands,
+    sortBy,
+    minPrice,
+    maxPrice,
+    String? name,
+    variatons,
+  }) async {
+    // isLaoding(true);
+    final data = await RemoteServices().fetchSubCategoryWiseProduct(
+      category: categorySlug,
+      brands: brands,
+      sortBy: sortBy,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      name: name ?? "",
+      variations: variatons,
+      page: page.value,
+    );
+    // isLaoding(false);
+    data.fold((error) {
+      // isLaoding.value = false;
+      error.toString();
+    }, (categoryWiseProduct) {
+      categoryWiseProductModel.value = categoryWiseProduct;
+
+      lastPage.value = categoryWiseProduct.data!.lastPage!.toInt();
+
+      if (page.value < lastPage.value) {
+        hasMoreData = true;
+      } else if (page.value == lastPage.value) {
+        hasMoreData = false;
+      } else {
+        hasMoreData = false;
+      }
+
+      categoryWiseProductList.value += categoryWiseProduct.data!.products!;
     });
   }
 

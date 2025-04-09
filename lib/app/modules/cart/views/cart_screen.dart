@@ -105,6 +105,7 @@ class _CartScreenState extends State<CartScreen> {
                                         title: cartItem.product.data!.name,
                                         finalVariation:
                                             cartItem.finalVariationString,
+                                        sku: cartItem.sku,
                                         currentPrice: cartItem
                                             .variationCurrencyPrice
                                             .toString(),

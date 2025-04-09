@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:shopperz/app/modules/category/controller/category_tree_controller.dart';
 import 'package:shopperz/app/modules/category/views/category_wise_product_screen.dart';
 import 'package:shopperz/app/modules/category/widgets/category_widget.dart';
+import 'package:shopperz/app/modules/home_sub_category/views/sub_category_wise_product_screen.dart';
 import 'package:shopperz/app/modules/sub_category/views/sub_category_screen.dart';
 import 'package:shopperz/utils/images.dart';
 import 'package:shopperz/widgets/loader/loader.dart';
@@ -64,9 +65,16 @@ class CategoryScreen extends StatelessWidget {
                                     text: categoryTree[index].name.toString(),
                                     onTapProduct: () {
                                       Get.to(
-                                          () => CategoryWiseProductScreen(
-                                              categoryTreeModel:
-                                                  categoryTree[index]),
+                                          () => SubCategoryWiseProductScreen(
+                                                categoryModel:
+                                                    categoryTreeController
+                                                        .categoryModel
+                                                        .value
+                                                        .data![index],
+                                              ),
+                                          // CategoryWiseProductScreen(
+                                          //     categoryTreeModel:
+                                          //     categoryTree[index])
                                           transition: Transition.fade);
                                     },
                                     onTapSubCategory: () {

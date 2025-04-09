@@ -22,17 +22,17 @@ class SwapFieldTitle extends StatelessWidget {
             size: 14.sp,
             weight: FontWeight.w500,
           ),
-          GestureDetector(
-            onTap: fieldSwapController.showEmailField,
-            child: CustomText(
-              text: fieldSwapController.isShowEmailField.value
-                  ? "*Use Phone Instead".tr
-                  : "*Use Email Instead".tr,
-              color: AppColor.primaryColor,
-              weight: FontWeight.w500,
-              decoration: true,
-            ),
-          )
+          // GestureDetector(
+          //   onTap: fieldSwapController.showEmailField,
+          //   child: CustomText(
+          //     text: fieldSwapController.isShowEmailField.value
+          //         ? "*Use Phone Instead".tr
+          //         : "*Use Email Instead".tr,
+          //     color: AppColor.primaryColor,
+          //     weight: FontWeight.w500,
+          //     decoration: true,
+          //   ),
+          // ),
         ],
       );
     });
