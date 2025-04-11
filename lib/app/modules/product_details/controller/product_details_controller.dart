@@ -394,7 +394,7 @@ class ProductDetailsController extends GetxController {
         }
 
         if (cartController.isProductAdded) {
-          // await RemoteServices().saveCartProducts(cartList: cartController.cartItems);
+          RemoteServices().saveCartProducts(cartList: cartController.cartItems);
           Get.back();
           customSnackbar(
               "SUCCESS".tr, "Product added to cart".tr, AppColor.success);

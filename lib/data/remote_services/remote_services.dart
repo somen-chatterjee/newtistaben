@@ -167,6 +167,7 @@ class RemoteServices {
 
   final categoryWiseProductController =
       Get.put(CategoryWiseProductController());
+
   Future<Either<String, CategoryWiseProduct>> fetchCategoryWiseProduct({
     final category,
     String? brands,
@@ -204,9 +205,9 @@ class RemoteServices {
     }
   }
 
-
   final subCategoryWiseProductController =
-  Get.put(SubCategoryWiseProductController());
+      Get.put(SubCategoryWiseProductController());
+
   Future<Either<String, CategoryWiseProduct>> fetchSubCategoryWiseProduct({
     final category,
     String? brands,
@@ -247,13 +248,12 @@ class RemoteServices {
           "page": page,
         });
 
-
-
     if (response.statusCode == 200) {
       final data = response.data;
       // log("sam fetchSubCategoryWiseProduct ${jsonEncode(data)}");
 
-      subCategoryWiseProductController.variationsMap = data["data"]["variations"];
+      subCategoryWiseProductController.variationsMap =
+          data["data"]["variations"];
       return Right(CategoryWiseProduct.fromJson(data));
     } else {
       return const Left("Something went wrong.");
@@ -441,7 +441,7 @@ class RemoteServices {
         endPoint: ApiList.coupon, headers: AppServer.getHttpHeadersWithToken());
     if (response.statusCode == 200) {
       final data = response.data;
-log("somen fetchCoupon ${jsonEncode(data)}");
+      log("somen fetchCoupon ${jsonEncode(data)}");
       return Right(CouponModel.fromJson(data));
     } else {
       return const Left("Something went wrong.");
@@ -556,11 +556,11 @@ log("somen fetchCoupon ${jsonEncode(data)}");
       required int perPage}) async {
     try {
       log("sam fetchPromotionPdfProduct ${jsonEncode({
-        "promotionSlug": promotionSlug,
-        "perPage": perPage,
-        "paginate": paginate,
-        "page": page,
-      })}");
+            "promotionSlug": promotionSlug,
+            "perPage": perPage,
+            "paginate": paginate,
+            "page": page,
+          })}");
 
       final response = await server.postRequest(
           endPoint: ApiList.productsPdf,
@@ -639,11 +639,23 @@ log("somen fetchCoupon ${jsonEncode(data)}");
     return response;
   }
 
-  Future<Either<String, CategoryWiseProduct>> saveCartProducts({required List<CartModel> cartList}) async {
+  Future<Either<String, CategoryWiseProduct>> saveCartProducts(
+      {required List<CartModel> cartList}) async {
     var requestBody = {
-      "device_token": await DeviceToken().getDeviceToken(),
-      "user_id": GetStorage().read('token'),
-      "products": jsonEncode(cartList),
+      "device_token": await DeviceToken().getDeviceId(),
+      "user_id": box.read('isLogedIn') != false ? GetStorage().read('token') : null,
+      "data": cartList
+          .map((cartItem) => {
+                "user_id": GetStorage().read('token'),
+                // assuming you have this field in CartModel
+                "product_id": cartItem.product.data!.id!,
+                "quantity": cartItem.quantity.toString(),
+                "variationId": cartItem.variationId,
+                "variationPrice": cartItem.variationPrice,
+                "variationSku": cartItem.sku,
+                "finalVariationString": cartItem.finalVariationString,
+              })
+          .toList(),
     };
 
     final response = await server.postRequest(
@@ -664,15 +676,15 @@ log("somen fetchCoupon ${jsonEncode(data)}");
 
   Future<Either<String, CategoryWiseProduct>> getCartProducts() async {
     var requestBody = {
-      "device_token": await DeviceToken().getDeviceToken(),
+      "device_token": await DeviceToken().getDeviceId(),
       "user_id": GetStorage().read('token'),
     };
     final response = await server.postRequest(
-        endPoint: ApiList.getCartProducts,
-        headers: box.read('isLogedIn') == false
-            ? AppServer.getAuthHeaders()
-            : AppServer.getHttpHeadersWithToken(),
-        body: requestBody,
+      endPoint: ApiList.getCartProducts,
+      headers: box.read('isLogedIn') == false
+          ? AppServer.getAuthHeaders()
+          : AppServer.getHttpHeadersWithToken(),
+      body: requestBody,
     );
     if (response.statusCode == 200) {
       final data = response.data;

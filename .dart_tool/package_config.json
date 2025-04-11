@@ -140,6 +140,18 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "device_info_plus",
+      "rootUri": "file:///Users/somenchatterjee/.pub-cache/hosted/pub.dev/device_info_plus-11.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "device_info_plus_platform_interface",
+      "rootUri": "file:///Users/somenchatterjee/.pub-cache/hosted/pub.dev/device_info_plus_platform_interface-7.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "dio",
       "rootUri": "file:///Users/somenchatterjee/.pub-cache/hosted/pub.dev/dio-5.7.0",
       "packageUri": "lib/",
@@ -968,6 +980,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "win32_registry",
+      "rootUri": "file:///Users/somenchatterjee/.pub-cache/hosted/pub.dev/win32_registry-1.1.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "xdg_directories",
       "rootUri": "file:///Users/somenchatterjee/.pub-cache/hosted/pub.dev/xdg_directories-1.1.0",
       "packageUri": "lib/",
@@ -992,7 +1010,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-04-11T04:03:10.277319Z",
+  "generated": "2025-04-11T08:54:26.403287Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///Users/somenchatterjee/fvm/versions/3.27.0",
