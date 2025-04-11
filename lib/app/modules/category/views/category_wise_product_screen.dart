@@ -153,7 +153,10 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                 children: [
                                   TextWidget(
                                     text:
-                                        '(${cateWiseProductController.categoryWiseProductList.length} Products Found)',
+                                        '(${(cateWiseProductController
+                                            .categoryWiseProductModel
+                                            .value
+                                            .data?.total?.toString() ?? "0")} Products Found)',
                                     color: AppColor.textColor,
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w500,
