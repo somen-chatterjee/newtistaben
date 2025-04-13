@@ -642,7 +642,7 @@ class RemoteServices {
   Future<Either<String, CategoryWiseProduct>> saveCartProducts(
       {required List<CartModel> cartList}) async {
     var requestBody = {
-      "device_token": await DeviceToken().getDeviceId(),
+      "device_token": await DeviceToken().getDeviceToken(),
       "user_id": box.read('isLogedIn') != false ? GetStorage().read('token') : null,
       "data": cartList
           .map((cartItem) => {
@@ -676,7 +676,7 @@ class RemoteServices {
 
   Future<Either<String, CategoryWiseProduct>> getCartProducts() async {
     var requestBody = {
-      "device_token": await DeviceToken().getDeviceId(),
+      "device_token": await DeviceToken().getDeviceToken(),
       "user_id": GetStorage().read('token'),
     };
     final response = await server.postRequest(

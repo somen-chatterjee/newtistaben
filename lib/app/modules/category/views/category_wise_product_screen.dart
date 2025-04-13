@@ -80,6 +80,8 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
         sortBy: filterController.selectedOption.value.trim(),
         brands: filterController.brands,
         variatons: filterController.encodeVaritionObject,
+        minPrice: filterController.minRange,
+        maxPrice: filterController.maxRange,
         name: productSearchController.searchTextController.text.toString(),
       );
     } else {
@@ -91,6 +93,8 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
           sortBy: filterController.selectedOption.value.trim(),
           brands: filterController.homeBrands,
           variatons: filterController.encodeVaritionObject,
+          minPrice: filterController.minRange,
+          maxPrice: filterController.maxRange,
           name: productSearchController.searchTextController.text.toString());
     }
 
@@ -257,9 +261,9 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                   SizedBox(height: 10.h),
                   // collection Section
                   Obx(() {
-                    if (!cateWiseProductController.isCollectionLoading.value &&
-                        cateWiseProductController.collectionList.isNotEmpty) {
-                      return SizedBox(
+                    if (!cateWiseProductController.isCollectionLoading.value) {
+                      return cateWiseProductController.collectionList.isNotEmpty
+                          ? SizedBox(
                         height: 132.h,
                         // Increased height to accommodate text outside the container
                         child: Obx(
@@ -373,7 +377,8 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                             },
                           ),
                         ),
-                      );
+                      )
+                          : SizedBox(height: 20.h);
                     } else {
                       return CollectionShimmer();
                     }
@@ -393,6 +398,8 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                 filterController.selectedOption.value.trim(),
                             brands: filterController.brands,
                             variatons: filterController.encodeVaritionObject,
+                            minPrice: filterController.minRange,
+                            maxPrice: filterController.maxRange,
                             name: productSearchController
                                 .searchTextController.text
                                 .toString(),
@@ -407,6 +414,8 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                   filterController.selectedOption.value.trim(),
                               brands: filterController.homeBrands,
                               variatons: filterController.encodeVaritionObject,
+                              minPrice: filterController.minRange,
+                              maxPrice: filterController.maxRange,
                               name: productSearchController
                                   .searchTextController.text
                                   .toString());

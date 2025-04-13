@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopperz/app/modules/home_sub_category/controller/sub_category_filter_controller.dart';
+import 'package:shopperz/app/modules/search/controller/search_controller.dart';
 import 'package:shopperz/config/theme/app_color.dart';
 import 'package:shopperz/data/remote_services/remote_services.dart';
 import 'package:shopperz/widgets/custom_snackbar.dart';
@@ -69,13 +71,23 @@ class SubCategoryWiseProductController extends GetxController {
   void loadMoreData({
     required String categorySlug,
   }) {
+    final filterController = Get.find<SubCategoryFilterController>();
+    final productSearchController = Get.find<ProductSearchController>();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         if (hasMoreData) {
           page.value++;
           // fetchCategoryWiseProduct(categorySlug: categorySlug);
-          fetchMoreCategoryWiseProduct(categorySlug: categorySlug);
+          fetchMoreCategoryWiseProduct(
+              categorySlug: categorySlug,
+            sortBy: filterController.selectedOption.value.trim(),
+            brands: filterController.brands,
+            variatons: filterController.encodeVaritionObject,
+            minPrice: filterController.minRange,
+            maxPrice: filterController.maxRange,
+            name: productSearchController.searchTextController.text.toString(),
+          );
         }
       }
     });

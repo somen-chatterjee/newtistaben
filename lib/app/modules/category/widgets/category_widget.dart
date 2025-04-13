@@ -11,10 +11,12 @@ class CategoryList extends StatelessWidget {
   const CategoryList(
       {super.key,
       required this.text,
+      this.showSubCategory,
       this.onTapSubCategory,
       this.onTapProduct});
 
   final String text;
+  final bool? showSubCategory;
   final Function()? onTapProduct;
 
   final Function()? onTapSubCategory;
@@ -47,21 +49,22 @@ class CategoryList extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: InkWell(
-                onTap: onTapSubCategory,
-                child: SizedBox(
-                  height: 70.h,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.r),
-                    child: SvgPicture.asset(
-                      SvgIcon.forward,
+            if (showSubCategory ?? false)
+              Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: onTapSubCategory,
+                  child: SizedBox(
+                    height: 70.h,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.r),
+                      child: SvgPicture.asset(
+                        SvgIcon.forward,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),

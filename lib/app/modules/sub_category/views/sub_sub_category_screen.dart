@@ -10,6 +10,7 @@ import 'package:shopperz/widgets/appbar3.dart';
 
 class SubSubCategoryScreen extends StatefulWidget {
   SubSubCategoryScreen({super.key, this.categoryTreeModel});
+
   final CategoryTreeModel? categoryTreeModel;
 
   @override
@@ -20,7 +21,7 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value:const SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.dark,
@@ -43,16 +44,22 @@ class _SubSubCategoryScreenState extends State<SubSubCategoryScreen> {
                   itemBuilder: (context, index) {
                     var data = widget.categoryTreeModel!.children![index];
                     return CategoryList(
-                            text: data.name.toString(),
-                            onTapProduct: () {
-                              Get.to(() => CategoryWiseProductScreen(
-                                  categoryTreeModel: data),transition: Transition.fade);
-                            },
-                            onTapSubCategory: () {
-                              Get.to(() => SubCategoryScreen(
-                                  categoryTreeModel: data),transition: Transition.fade);
-                            },
-                          );
+                      text: data.name.toString(),
+                      onTapProduct: () {
+                        Get.to(
+                            () => CategoryWiseProductScreen(
+                                categoryTreeModel: data),
+                            transition: Transition.fade);
+                      },
+                      showSubCategory: (widget.categoryTreeModel!
+                                  .children![index].children ??
+                              [])
+                          .isNotEmpty,
+                      onTapSubCategory: () {
+                        Get.to(() => SubCategoryScreen(categoryTreeModel: data),
+                            transition: Transition.fade);
+                      },
+                    );
                   },
                 )
               ],

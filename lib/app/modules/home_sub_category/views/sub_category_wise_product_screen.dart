@@ -86,15 +86,15 @@ class _SubCategoryWiseProductScreenState
     } else {
       cateWiseProductController.resetState();
       cateWiseProductController.fetchCategoryWiseProduct(
-          categorySlug: widget.categoryTreeModel?.slug ??
-              widget.categoryModel?.slug ??
-              '',
-          sortBy: filterController.selectedOption.value.trim(),
-          brands: filterController.homeBrands,
-          variatons: filterController.encodeVaritionObject,
-          minPrice: filterController.minRange,
-          maxPrice: filterController.maxRange,
-          name: productSearchController.searchTextController.text.toString());
+        categorySlug:
+            widget.categoryTreeModel?.slug ?? widget.categoryModel?.slug ?? '',
+        sortBy: filterController.selectedOption.value.trim(),
+        brands: filterController.homeBrands,
+        variatons: filterController.encodeVaritionObject,
+        minPrice: filterController.minRange,
+        maxPrice: filterController.maxRange,
+        name: productSearchController.searchTextController.text.toString(),
+      );
     }
 
     return AnnotatedRegion<SystemUiOverlayStyle>(

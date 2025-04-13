@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopperz/app/modules/filter/controller/filter_controller.dart';
+import 'package:shopperz/app/modules/search/controller/search_controller.dart';
 import 'package:shopperz/config/theme/app_color.dart';
 import 'package:shopperz/data/remote_services/remote_services.dart';
 import 'package:shopperz/widgets/custom_snackbar.dart';
@@ -37,7 +38,7 @@ class CategoryWiseProductController extends GetxController {
     String? name,
     variatons,
   }) async {
-    if(isFirst){
+    if (isFirst) {
       isCollectionLoading(true);
       isFirst = false;
     }
@@ -62,9 +63,9 @@ class CategoryWiseProductController extends GetxController {
       categoryWiseProductModel.value = categoryWiseProduct;
 
       // collection variation set
-      if(variationsMap != null) {
+      if (variationsMap != null) {
         variationsMap!.forEach((key, value) {
-          if(key == "Collection") {
+          if (key == "Collection") {
             collectionList.clear();
             value.map((item) {
               collectionList.add(Color.fromJson(item));
@@ -121,9 +122,9 @@ class CategoryWiseProductController extends GetxController {
       categoryWiseProductModel.value = categoryWiseProduct;
 
       // collection variation set
-      if(variationsMap != null) {
+      if (variationsMap != null) {
         variationsMap!.forEach((key, value) {
-          if(key == "Collection") {
+          if (key == "Collection") {
             collectionList.clear();
             value.map((item) {
               collectionList.add(Color.fromJson(item));
@@ -149,13 +150,23 @@ class CategoryWiseProductController extends GetxController {
   void loadMoreData({
     required String categorySlug,
   }) {
+    final filterController = Get.find<FilterController>();
+    final productSearchController = Get.find<ProductSearchController>();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         if (hasMoreData) {
           page.value++;
           // fetchCategoryWiseProduct(categorySlug: categorySlug);
-          fetchMoreCategoryWiseProduct(categorySlug: categorySlug);
+          fetchMoreCategoryWiseProduct(
+            categorySlug: categorySlug,
+            sortBy: filterController.selectedOption.value.trim(),
+            brands: filterController.brands,
+            variatons: filterController.encodeVaritionObject,
+            minPrice: filterController.minRange,
+            maxPrice: filterController.maxRange,
+            name: productSearchController.searchTextController.text.toString(),
+          );
         }
       }
     });
@@ -186,9 +197,7 @@ class CategoryWiseProductController extends GetxController {
       );
 
       openPdf(url: data);
-
     } catch (e) {
-
       customSnackbar(
         "ERROR".tr,
         "Failed to load the catalogue. Try again later.",
@@ -203,7 +212,6 @@ class CategoryWiseProductController extends GetxController {
   }
 
   void openPdf({required String url}) async {
-
     Uri uri = Uri.parse(url);
 
     if (await canLaunchUrl(uri)) {
@@ -211,9 +219,9 @@ class CategoryWiseProductController extends GetxController {
     } else {
       debugPrint("Could not launch pdf");
       customSnackbar(
-          "ERROR".tr,
-          "Failed to load the catalogue. Try again later.",
-          AppColor.error,
+        "ERROR".tr,
+        "Failed to load the catalogue. Try again later.",
+        AppColor.error,
       );
     }
   }
@@ -239,7 +247,7 @@ class CategoryWiseProductController extends GetxController {
 
     filterController.addCollectionVariationObject(variationObject);
 
-    if(filterController.variationObjectList.isNotEmpty) {
+    if (filterController.variationObjectList.isNotEmpty) {
       filterController.setVariations();
     }
   }

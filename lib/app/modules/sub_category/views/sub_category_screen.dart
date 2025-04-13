@@ -63,6 +63,10 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                       categoryTreeModel: data),
                                   transition: Transition.fade);
                             },
+                            showSubCategory: (widget.categoryTreeModel!
+                                        .children![index].children ??
+                                    [])
+                                .isNotEmpty,
                             onTapSubCategory: () {
                               Get.to(
                                   () => SubSubCategoryScreen(

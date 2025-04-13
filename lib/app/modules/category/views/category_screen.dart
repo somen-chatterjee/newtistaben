@@ -77,6 +77,9 @@ class CategoryScreen extends StatelessWidget {
                                           //     categoryTree[index])
                                           transition: Transition.fade);
                                     },
+                                    showSubCategory: (categoryTreeController.categoryTreeList[index]
+                                            .children ?? [])
+                                            .isNotEmpty,
                                     onTapSubCategory: () {
                                       Get.to(
                                           () => SubCategoryScreen(

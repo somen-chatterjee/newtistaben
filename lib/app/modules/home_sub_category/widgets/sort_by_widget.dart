@@ -82,18 +82,18 @@ class _SortByWidgetState extends State<SortByWidget> {
                       Get.back();
                     },
                   ),
-                  RadioListTile(
-                    activeColor: AppColor.primaryColor,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 0.w),
-                    title: Text('Top Rated'.tr),
-                    value: 'top_rated',
-                    groupValue: sortController.selectedOption.value,
-                    onChanged: (value) {
-                      sortController.selectedOption.value = value!;
-
-                      Get.back();
-                    },
-                  ),
+                  // RadioListTile(
+                  //   activeColor: AppColor.primaryColor,
+                  //   contentPadding: EdgeInsets.symmetric(horizontal: 0.w),
+                  //   title: Text('Top Rated'.tr),
+                  //   value: 'top_rated',
+                  //   groupValue: sortController.selectedOption.value,
+                  //   onChanged: (value) {
+                  //     sortController.selectedOption.value = value!;
+                  //
+                  //     Get.back();
+                  //   },
+                  // ),
                 ],
               ),
             ),
