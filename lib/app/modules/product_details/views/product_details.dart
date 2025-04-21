@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:shopperz/app/modules/auth/controller/auth_controler.dart';
 import 'package:shopperz/app/modules/auth/views/sign_in.dart';
 import 'package:shopperz/app/modules/cart/controller/cart_controller.dart';
@@ -212,28 +213,44 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CachedNetworkImage(
-                            imageUrl: productDetailsController.isClicked
-                                ? productDetailsController
-                                .productModel
-                                .value
-                                .data
-                                ?.images![productDetailsController.isSelected] ??
-                                ""
-                                : productDetailsController
-                                .productModel.value.data?.image ??
-                                "",
-                            imageBuilder: (context, imageProvider) =>
-                                Container(
-                                  height: 420.h,
-                                  width: 328.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.fill),
+                          SizedBox(
+                            height: 420.h,
+                            width: 328.w,
+                            child: CachedNetworkImage(
+                              imageUrl: productDetailsController.isClicked
+                                  ? productDetailsController
+                                  .productModel
+                                  .value
+                                  .data
+                                  ?.images![productDetailsController.isSelected] ??
+                                  ""
+                                  : productDetailsController
+                                  .productModel.value.data?.image ??
+                                  "",
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                    height: 420.h,
+                                    width: 328.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16.r),
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.fill),
+                                    ),
+                                  ),
+                                placeholder: (context, url) => Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Container(
+                                    height: 420.h,
+                                    width: 328.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: BorderRadius.circular(16.r),
+                                    ),
                                   ),
                                 ),
+                            ),
                           ),
                           SizedBox(height: 10.h),
                           productDetailsController.productModel.value
@@ -289,6 +306,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 fit: BoxFit.cover),
                                           ),
                                         ),
+                                    placeholder: (context, url) => Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        height: 100.h,
+                                        width: 76.w,
+                                        margin: EdgeInsets.only(right: 8.w),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[300],
+                                          borderRadius: BorderRadius.circular(16.r),
+                                        ),
+                                      ),
+                                    ),
                                     errorWidget:
                                         (context, url, error) =>
                                         SizedBox(),
