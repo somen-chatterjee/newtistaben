@@ -76,8 +76,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Get.put(CategoryWiseProductController());
 
   int quantity = 1;
-  bool isClicked = false;
-  int isSelected = 0;
 
   @override
   void initState() {
@@ -215,12 +213,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CachedNetworkImage(
-                            imageUrl: isClicked
+                            imageUrl: productDetailsController.isClicked
                                 ? productDetailsController
                                 .productModel
                                 .value
                                 .data
-                                ?.images![isSelected] ??
+                                ?.images![productDetailsController.isSelected] ??
                                 ""
                                 : productDetailsController
                                 .productModel.value.data?.image ??
@@ -257,8 +255,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      isSelected = index;
-                                      isClicked = true;
+                                      productDetailsController.isSelected = index;
+                                      productDetailsController.isClicked = true;
                                     });
                                   },
                                   child: CachedNetworkImage(
@@ -280,7 +278,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             BorderRadius.circular(
                                                 8.r),
                                             border: Border.all(
-                                                color: isSelected ==
+                                                color: productDetailsController.isSelected ==
                                                     index
                                                     ? Colors.black
                                                     : Colors

@@ -16,6 +16,9 @@ import 'package:shopperz/utils/api_list.dart';
 import 'package:shopperz/widgets/custom_snackbar.dart';
 
 class ProductDetailsController extends GetxController {
+  bool isClicked = false;
+  int isSelected = 0;
+
   final productModel = ProductModel().obs;
   final relatedProductModel = RelatedProductModel().obs;
   final initialVariationModel = InitialVariationModel().obs;
@@ -111,6 +114,7 @@ class ProductDetailsController extends GetxController {
 
   Future<void> fetchChildrenVariation1(
       {required String initialVariationId}) async {
+    log("fetchChildrenVariation1");
     final data = await RemoteServices()
         .fetchChildrenVariation(initialVariationId: initialVariationId);
 
@@ -120,6 +124,26 @@ class ProductDetailsController extends GetxController {
       childrenVariationModel1.value.data
           ?.map((value) => productDetailsList.add(null))
           .toList();
+
+      // change the sku and image of product model
+      // check if childrenVariationModel1 is not null
+      if(childrenVariationModel1.value.data != null ||
+          childrenVariationModel1.value.data!.isNotEmpty) {
+        productModel.value.data?.sku = childrenVariationModel1.value.data?[0].mainSku;
+        productModel.value.data?.name = childrenVariationModel1.value.data?[0].name;
+
+        //check if image is not null
+        if (childrenVariationModel1.value.data?[0].images != null) {
+          productModel.value.data?.image =
+          childrenVariationModel1.value.data?[0].images?[0];
+          productModel.value.data?.images = childrenVariationModel1.value.data?[0].images;
+          isClicked = false;
+          isSelected = 0;
+        }
+      }
+
+
+      update();
     });
   }
 

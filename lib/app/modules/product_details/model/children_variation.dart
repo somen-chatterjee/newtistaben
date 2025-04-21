@@ -26,6 +26,8 @@ class ChildrenVariationModel {
 
 class Datum {
     final int? id;
+    final String? name;
+    final String? mainSku;
     final int? productAttributeId;
     final int? productAttributeOptionId;
     final String? productAttributeName;
@@ -41,9 +43,12 @@ class Datum {
     final int? stock;
     int numOfItem;
     int? maximumPurchaseQuantity;
+    List<String>? images;
 
     Datum({
         this.id,
+        this.name,
+        this.mainSku,
         this.productAttributeId,
         this.productAttributeOptionId,
         this.productAttributeName,
@@ -59,10 +64,13 @@ class Datum {
         this.stock,
         this.maximumPurchaseQuantity,
         this.numOfItem = 0,
+        this.images,
     });
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
+        name: json["name"],
+        mainSku: json["main_sku"],
         productAttributeId: json["product_attribute_id"],
         productAttributeOptionId: json["product_attribute_option_id"],
         productAttributeName: json["product_attribute_name"],
@@ -78,10 +86,13 @@ class Datum {
         stock: json["stock"],
         maximumPurchaseQuantity: json["maximum_purchase_quantity"],
         numOfItem: json["num_of_item"] ?? 0,
+        images: json["images"] == null ? [] : List<String>.from(json["images"]!.map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
+        "name": name,
+        "main_sku": mainSku,
         "product_attribute_id": productAttributeId,
         "product_attribute_option_id": productAttributeOptionId,
         "product_attribute_name": productAttributeName,
@@ -97,5 +108,6 @@ class Datum {
         "stock": stock,
         "num_of_item": numOfItem,
         "maximum_purchase_quantity": maximumPurchaseQuantity,
+        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
     };
 }

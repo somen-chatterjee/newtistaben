@@ -999,184 +999,179 @@ class _VariationsState extends State<Variations> {
                   ? SizedBox(
                       height: 32.h,
                       child: ListView.builder(
-                          itemCount: productDetailsController
-                                  .initialVariationModel.value.data?.length ??
-                              0,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            // color button
-                            return GestureDetector(
-                              onTap: () async {
-                                cartController.numOfItems.value = 1;
+                        itemCount: productDetailsController
+                                .initialVariationModel.value.data?.length ??
+                            0,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          // color button
+                          return GestureDetector(
+                            onTap: () async {
+                              cartController.numOfItems.value = 1;
 
-                                productDetailsController.selectedIndex1.value =
-                                    index;
+                              productDetailsController.selectedIndex1.value =
+                                  index;
 
-                                productDetailsController.selectedIndex2.value =
-                                    -1;
-                                productDetailsController.selectedIndex3.value =
-                                    -1;
-                                productDetailsController.selectedIndex4.value =
-                                    -1;
-                                productDetailsController.selectedIndex5.value =
-                                    -1;
-                                productDetailsController.selectedIndex6.value =
-                                    -1;
-                                productDetailsController.selectedIndex7.value =
-                                    -1;
+                              productDetailsController.selectedIndex2.value =
+                                  -1;
+                              productDetailsController.selectedIndex3.value =
+                                  -1;
+                              productDetailsController.selectedIndex4.value =
+                                  -1;
+                              productDetailsController.selectedIndex5.value =
+                                  -1;
+                              productDetailsController.selectedIndex6.value =
+                                  -1;
+                              productDetailsController.selectedIndex7.value =
+                                  -1;
 
-                                productDetailsController
-                                    .childrenVariationModel2.value.data
-                                    ?.clear();
-                                productDetailsController
-                                    .childrenVariationModel3.value.data
-                                    ?.clear();
-                                productDetailsController
-                                    .childrenVariationModel4.value.data
-                                    ?.clear();
-                                productDetailsController
-                                    .childrenVariationModel5.value.data
-                                    ?.clear();
-                                productDetailsController
-                                    .childrenVariationModel6.value.data
-                                    ?.clear();
+                              productDetailsController
+                                  .childrenVariationModel2.value.data
+                                  ?.clear();
+                              productDetailsController
+                                  .childrenVariationModel3.value.data
+                                  ?.clear();
+                              productDetailsController
+                                  .childrenVariationModel4.value.data
+                                  ?.clear();
+                              productDetailsController
+                                  .childrenVariationModel5.value.data
+                                  ?.clear();
+                              productDetailsController
+                                  .childrenVariationModel6.value.data
+                                  ?.clear();
 
-                                if (productDetailsController
+                              if (productDetailsController.initialVariationModel
+                                      .value.data?[index].sku !=
+                                  null) {
+                                productDetailsController.variationProductId
+                                    .value = productDetailsController
                                         .initialVariationModel
                                         .value
                                         .data?[index]
-                                        .sku !=
-                                    null) {
-                                  productDetailsController.variationProductId
-                                      .value = productDetailsController
-                                          .initialVariationModel
-                                          .value
-                                          .data?[index]
-                                          .id
-                                          .toString() ??
-                                      '';
-                                  productDetailsController.variationProductPrice
-                                      .value = productDetailsController
-                                          .initialVariationModel
-                                          .value
-                                          .data?[index]
-                                          .price
-                                          .toString() ??
-                                      '';
-                                  productDetailsController
-                                      .variationProductCurrencyPrice
-                                      .value = productDetailsController
-                                          .initialVariationModel
-                                          .value
-                                          .data?[index]
-                                          .currencyPrice
-                                          .toString() ??
-                                      '';
-                                  productDetailsController
-                                      .variationProductOldPrice
-                                      .value = productDetailsController
-                                          .initialVariationModel
-                                          .value
-                                          .data?[index]
-                                          .oldPrice
-                                          .toString() ??
-                                      '';
-                                  productDetailsController
-                                      .variationProductOldCurrencyPrice
-                                      .value = productDetailsController
-                                          .initialVariationModel
-                                          .value
-                                          .data?[index]
-                                          .oldCurrencyPrice
-                                          .toString() ??
-                                      '';
-                                  productDetailsController.variationsku.value =
-                                      productDetailsController
+                                        .id
+                                        .toString() ??
+                                    '';
+                                productDetailsController.variationProductPrice
+                                    .value = productDetailsController
+                                        .initialVariationModel
+                                        .value
+                                        .data?[index]
+                                        .price
+                                        .toString() ??
+                                    '';
+                                productDetailsController
+                                    .variationProductCurrencyPrice
+                                    .value = productDetailsController
+                                        .initialVariationModel
+                                        .value
+                                        .data?[index]
+                                        .currencyPrice
+                                        .toString() ??
+                                    '';
+                                productDetailsController
+                                    .variationProductOldPrice
+                                    .value = productDetailsController
+                                        .initialVariationModel
+                                        .value
+                                        .data?[index]
+                                        .oldPrice
+                                        .toString() ??
+                                    '';
+                                productDetailsController
+                                    .variationProductOldCurrencyPrice
+                                    .value = productDetailsController
+                                        .initialVariationModel
+                                        .value
+                                        .data?[index]
+                                        .oldCurrencyPrice
+                                        .toString() ??
+                                    '';
+                                productDetailsController.variationsku.value =
+                                    productDetailsController
+                                            .initialVariationModel
+                                            .value
+                                            .data?[index]
+                                            .sku
+                                            .toString() ??
+                                        '';
+                                productDetailsController.variationsStock.value =
+                                    productDetailsController
+                                            .initialVariationModel
+                                            .value
+                                            .data?[index]
+                                            .stock!
+                                            .toInt() ??
+                                        0;
+                              } else {
+                                productDetailsController
+                                    .variationProductId.value = '';
+                                productDetailsController
+                                    .variationProductPrice.value = '';
+                                productDetailsController
+                                    .variationProductCurrencyPrice.value = '';
+                                productDetailsController
+                                    .variationProductOldPrice.value = '';
+                                productDetailsController
+                                    .variationProductOldCurrencyPrice
+                                    .value = '';
+                                productDetailsController.variationsku.value =
+                                    '';
+                                productDetailsController.variationsStock.value =
+                                    -1;
+                              }
+
+                              if (productDetailsController.initialVariationModel
+                                      .value.data?[index].sku ==
+                                  null) {
+                                await productDetailsController
+                                    .fetchChildrenVariation1(
+                                        initialVariationId:
+                                            productDetailsController
+                                                .initialVariationModel
+                                                .value
+                                                .data![index]
+                                                .id
+                                                .toString());
+                              }
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 8.w),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: productDetailsController
+                                              .selectedIndex1.value ==
+                                          index
+                                      ? AppColor.primaryColor
+                                      : AppColor.cartColor,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 12.5.w, right: 12.5.w),
+                                  child: Center(
+                                    child: CustomText(
+                                      text: productDetailsController
                                               .initialVariationModel
                                               .value
                                               .data?[index]
-                                              .sku
-                                              .toString() ??
-                                          '';
-                                  productDetailsController.variationsStock
-                                      .value = productDetailsController
-                                          .initialVariationModel
-                                          .value
-                                          .data?[index]
-                                          .stock!
-                                          .toInt() ??
-                                      0;
-                                } else {
-                                  productDetailsController
-                                      .variationProductId.value = '';
-                                  productDetailsController
-                                      .variationProductPrice.value = '';
-                                  productDetailsController
-                                      .variationProductCurrencyPrice.value = '';
-                                  productDetailsController
-                                      .variationProductOldPrice.value = '';
-                                  productDetailsController
-                                      .variationProductOldCurrencyPrice
-                                      .value = '';
-                                  productDetailsController.variationsku.value =
-                                      '';
-                                  productDetailsController
-                                      .variationsStock.value = -1;
-                                }
-
-                                if (productDetailsController
-                                        .initialVariationModel
-                                        .value
-                                        .data?[index]
-                                        .sku ==
-                                    null) {
-                                  await productDetailsController
-                                      .fetchChildrenVariation1(
-                                          initialVariationId:
-                                              productDetailsController
-                                                  .initialVariationModel
-                                                  .value
-                                                  .data![index]
-                                                  .id
-                                                  .toString());
-                                }
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 8.w),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: productDetailsController
-                                                .selectedIndex1.value ==
-                                            index
-                                        ? AppColor.primaryColor
-                                        : AppColor.cartColor,
-                                    borderRadius: BorderRadius.circular(20.r),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 12.5.w, right: 12.5.w),
-                                    child: Center(
-                                      child: CustomText(
-                                        text: productDetailsController
-                                                .initialVariationModel
-                                                .value
-                                                .data?[index]
-                                                .productAttributeOptionName ??
-                                            '',
-                                        color: productDetailsController
-                                                    .selectedIndex1.value ==
-                                                index
-                                            ? Colors.white
-                                            : Colors.black,
-                                        size: 12.sp,
-                                        weight: FontWeight.w500,
-                                      ),
+                                              .productAttributeOptionName ??
+                                          '',
+                                      color: productDetailsController
+                                                  .selectedIndex1.value ==
+                                              index
+                                          ? Colors.white
+                                          : Colors.black,
+                                      size: 12.sp,
+                                      weight: FontWeight.w500,
                                     ),
                                   ),
                                 ),
                               ),
-                            );
-                          }),
+                            ),
+                          );
+                        },
+                      ),
                     )
                   : SizedBox(),
               productDetailsController.initialVariationModel.value.data !=
