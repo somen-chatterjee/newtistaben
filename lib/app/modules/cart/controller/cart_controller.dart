@@ -6,6 +6,7 @@ import 'package:shopperz/app/database/cart_db_helper.dart';
 import 'package:shopperz/app/modules/auth/controller/auth_controler.dart';
 import 'package:shopperz/app/modules/cart/model/product_model.dart';
 import 'package:shopperz/app/modules/shipping/controller/show_address_controller.dart';
+import 'package:shopperz/data/remote_services/remote_services.dart';
 import 'package:shopperz/main.dart';
 import '../../../../config/theme/app_color.dart';
 import '../../../../widgets/custom_snackbar.dart';
@@ -163,6 +164,7 @@ class CartController extends GetxController {
     }
 
     await dbHelper.insertCartItem(cartItem);
+    RemoteServices().saveCartProducts(cartList: cartItems);
   }
 
   void decrementItem(CartModel cartItem) async{
@@ -177,6 +179,7 @@ class CartController extends GetxController {
     }
 
     await dbHelper.insertCartItem(cartItem);
+    RemoteServices().saveCartProducts(cartList: cartItems);
   }
 
   int getQuantityForProduct(ProductModel product) {

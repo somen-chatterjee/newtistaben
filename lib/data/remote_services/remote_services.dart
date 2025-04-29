@@ -665,6 +665,7 @@ class RemoteServices {
           : AppServer.getHttpHeadersWithToken(),
       body: requestBody,
     );
+    log('sam saveCartProducts ${jsonEncode(response)}');
     if (response.statusCode == 200) {
       final data = response.data;
       categoryWiseProductController.variationsMap = data["data"]["variations"];

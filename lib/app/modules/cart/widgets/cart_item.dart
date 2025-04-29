@@ -3,32 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:shopperz/utils/svg_icon.dart';
 import 'package:shopperz/widgets/textwidget.dart';
 
 import '../../../../config/theme/app_color.dart';
 
 class CartWidget extends StatefulWidget {
- const CartWidget(
-      {super.key,
-      this.title,
-      this.color,
-      this.size,
-      this.sku,
-      this.increment,
-      this.decrement,
-      required this.quantity,
-      this.productImage,
-      this.currentPrice,
-      this.discountPrice,
-      this.remove,
-      required this.isOffer,
-      this.stock,
-      this.moq,
-      this.incrementValue,
-      this.decrementIconvalue = 1,
-      this.finalVariation,
-      });
+  const CartWidget({
+    super.key,
+    this.title,
+    this.color,
+    this.size,
+    this.sku,
+    this.increment,
+    this.decrement,
+    required this.quantity,
+    this.productImage,
+    this.currentPrice,
+    this.discountPrice,
+    this.remove,
+    required this.isOffer,
+    this.stock,
+    this.moq,
+    this.incrementValue,
+    this.decrementIconvalue = 1,
+    this.finalVariation,
+  });
 
   final String? productImage;
   final String? title;
@@ -74,6 +75,18 @@ class _CartWidgetState extends State<CartWidget> {
                         image: imageProvider, fit: BoxFit.cover),
                   ),
                 ),
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    height: double.infinity,
+                    width: 92.w,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 width: 12.w,
@@ -95,7 +108,8 @@ class _CartWidgetState extends State<CartWidget> {
                       height: 6.h,
                     ),
                     TextWidget(
-                      text: '${widget.finalVariation} ${(widget.sku ?? '').isNotEmpty ? '(${widget.sku})' : ''}',
+                      text:
+                          '${widget.finalVariation} ${(widget.sku ?? '').isNotEmpty ? '(${widget.sku})' : ''}',
                       color: AppColor.textColor,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
@@ -106,20 +120,22 @@ class _CartWidgetState extends State<CartWidget> {
                     Row(
                       children: [
                         TextWidget(
-                              text: widget.currentPrice,
-                              color: AppColor.textColor,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          text: widget.currentPrice,
+                          color: AppColor.textColor,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                         SizedBox(
                           width: 8.w,
                         ),
-                        widget.isOffer == true ? TextWidget(
+                        widget.isOffer == true
+                            ? TextWidget(
                                 text: widget.discountPrice ?? '0',
                                 color: AppColor.quantityError,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
-                                decoration: TextDecoration.lineThrough): const SizedBox(),
+                                decoration: TextDecoration.lineThrough)
+                            : const SizedBox(),
                       ],
                     ),
                     SizedBox(
@@ -145,11 +161,12 @@ class _CartWidgetState extends State<CartWidget> {
                                   InkWell(
                                     onTap: widget.decrement,
                                     child: SvgPicture.asset(
-                                        (widget.incrementValue ?? 0) <= (widget.moq ?? 2)
-                                            ? SvgIcon.cart1
-                                            : SvgIcon.cart3,
-                                        height: 20.h,
-                                        width: 20.w,
+                                      (widget.incrementValue ?? 0) <=
+                                              (widget.moq ?? 2)
+                                          ? SvgIcon.cart1
+                                          : SvgIcon.cart3,
+                                      height: 20.h,
+                                      width: 20.w,
                                     ),
                                   ),
                                   TextWidget(
@@ -160,9 +177,15 @@ class _CartWidgetState extends State<CartWidget> {
                                   ),
                                   InkWell(
                                     onTap: widget.increment,
-                                    child: SvgPicture.asset(widget.stock! > widget.incrementValue!.toInt() ? SvgIcon.cart2 : SvgIcon.cart1,
-                                        height: 20.h, width: 20.w),
-                                  )
+                                    child: SvgPicture.asset(
+                                        widget.stock! >
+                                                widget.incrementValue!.toInt()
+                                            ? SvgIcon.cart2
+                                            : SvgIcon.cart1,
+                                        height: 20.h,
+                                        width: 20.w,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
