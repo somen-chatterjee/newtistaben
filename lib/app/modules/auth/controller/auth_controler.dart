@@ -322,6 +322,11 @@ class AuthController extends GetxController {
             "SUCCESS".tr,
             jsonDecode(response.body)["message"].toString().tr,
             AppColor.success);
+        final token = jsonDecode(response.body)["token"];
+        box.write('justToken', token);
+        box.write("token", 'Bearer $token');
+        box.write("isLogedIn", true);
+        Get.offAll(() => const NavBarView());
       } else {
         isLoading(false);
         customSnackbar("ERROR".tr,

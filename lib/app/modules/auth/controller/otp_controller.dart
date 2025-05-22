@@ -31,15 +31,16 @@ class OTPController extends GetxController {
 
       if (resonse.statusCode == 200) {
         isLoading(false);
-        authController.registrationWithEmail(
-            name: authController.nameController.text,
-            email: email,
-            password: authController.passController.text);
+        await authController.registrationWithEmail(
+          name: authController.nameController.text,
+          email: email,
+          password: authController.passController.text,
+        );
 
-        final token = jsonDecode(resonse.body)["token"];
-        box.write("token", 'Bearer $token');
-        box.write("isLogedIn", true);
-        Get.offAll(() => const NavBarView());
+        // final token = jsonDecode(resonse.body)["token"];
+        // box.write("token", 'Bearer $token');
+        // box.write("isLogedIn", true);
+        // Get.offAll(() => const NavBarView());
       } else {
         isLoading(false);
         customSnackbar("ERROR".tr,
