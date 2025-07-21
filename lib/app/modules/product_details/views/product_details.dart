@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -76,6 +77,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final authController = Get.put(AuthController());
   final categoryWiseProductController =
       Get.put(CategoryWiseProductController());
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   int quantity = 1;
 
@@ -84,6 +86,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     cartController.numOfItems.value = 1;
     initialCallMethod();
     authController.getSetting();
+    logData();
     super.initState();
   }
 
@@ -142,6 +145,37 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
     super.didChangeDependencies();
   }
+
+  void logData() async {
+    try {
+      await analytics.logEvent(
+        name: 'product_details',
+        parameters: <String, Object>{
+          'id': widget.productModel?.id.toString() ??
+              widget.categoryWiseProduct?.id.toString() ??
+              widget.allProductModel?.id.toString() ??
+              widget.favoriteItem?.id.toString() ??
+              widget.relatedProduct?.id.toString() ??
+              widget.product?.id.toString() ??
+              widget.individualProduct?.id.toString() ??
+              widget.data?.id.toString() ??
+              "0",
+          'name': widget.productModel?.name ??
+              widget.categoryWiseProduct?.name ??
+              widget.allProductModel?.name ??
+              widget.favoriteItem?.name ??
+              widget.relatedProduct?.name ??
+              widget.product?.name ??
+              widget.individualProduct?.name ??
+              widget.data?.name ??
+              "",
+        },
+      );
+    } catch (e) {
+      debugPrint('Error logging event: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

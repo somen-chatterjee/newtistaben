@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,6 +44,9 @@ class SubCategoryWiseProductScreen extends StatefulWidget {
 
 class _SubCategoryWiseProductScreenState
     extends State<SubCategoryWiseProductScreen> {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+  FirebaseAnalyticsObserver(analytics: analytics);
   final subCategoryFilterController = Get.put(SubCategoryFilterController());
   final productSearchController = Get.put(ProductSearchController());
   final cateWiseProductController = Get.put(SubCategoryWiseProductController());
@@ -54,6 +58,7 @@ class _SubCategoryWiseProductScreenState
         categorySlug:
             widget.categoryTreeModel?.slug ?? widget.categoryModel?.slug ?? "");
 
+    logData();
     super.initState();
   }
 
@@ -62,6 +67,20 @@ class _SubCategoryWiseProductScreenState
     subCategoryFilterController.resetFilter();
     cateWiseProductController.resetState();
     super.dispose();
+  }
+
+  void logData() async {
+    try {
+      await analytics.logEvent(
+        name: 'category_wise_product_screen',
+        parameters: <String, Object>{
+          'id': widget.categoryModel?.id ?? 0,
+          'name': widget.categoryModel?.name ?? '',
+        },
+      );
+    } catch (e) {
+      debugPrint('Error logging event: $e');
+    }
   }
 
   @override

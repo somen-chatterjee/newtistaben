@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -61,6 +63,9 @@ class MyApp extends StatelessWidget {
       builder: ((context, child) => GetMaterialApp(
             title: '',
             debugShowCheckedModeBanner: false,
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+            ],
             translations: Languages(),
             locale: langValue,
             theme: ThemeData(useMaterial3: false),
